@@ -3,4 +3,7 @@ Entry for 2016 A Game by Its Cover Game Jam - https://itch.io/jam/a-game-by-its-
 Cartridge Inspiration - http://famicase.com/16/index.html
 
 Created using HTML, JS, and PIXI.js
-Run using Firefox
+Run using Firefox.
+
+Tutorial used:
+http://www.yeahbutisitflash.com/?p=5226
