@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Game Title</title>
+		<title>The Brave Little Puppy</title>
 		
 		<script src="pixi.js-master/bin/pixi.js"></script>
 		<script src="Main.js""></script>
@@ -9,12 +9,46 @@
 	
 	<body onload="init();">
 		<div align="center">
-			<canvas id="game-canvas" width="800" height="600"></canvas>
+			<canvas id="game-canvas" width="500" height="500"></canvas>
 		</div>
 	
 		<script>
 			function init() {
-				main = new Main();
+				//main = new Main();
+				
+				var renderer = PIXI.autoDetectRenderer(800, 600,{backgroundColor : 0x1099bb});
+				document.body.appendChild(renderer.view);
+
+				// create the root of the scene graph
+				var stage = new PIXI.Container();
+
+				// create a texture from an image path
+				var texture = PIXI.Texture.fromImage('resources/puppytemp.png');
+
+				// create a new Sprite using the texture
+				var bunny = new PIXI.Sprite(texture);
+
+				// center the sprite's anchor point
+				bunny.anchor.x = 0.5;
+				bunny.anchor.y = 0.5;
+
+				// move the sprite to the center of the screen
+				bunny.position.x = 200;
+				bunny.position.y = 150;
+
+				stage.addChild(bunny);
+
+				// start animating
+				animate();
+				function animate() {
+					requestAnimationFrame(animate);
+
+					// just for fun, let's rotate mr rabbit a little
+					bunny.rotation += 0.1;
+
+					// render the container
+					renderer.render(stage);
+				}		
 			}
 		</script>
 	</body>
