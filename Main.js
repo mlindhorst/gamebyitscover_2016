@@ -6,8 +6,9 @@ function Main() {
 	this.renderer = PIXI.autoDetectRenderer(
 		500,
 		500,
-		{backgroundColor : 0x1099bb}
+		{view:document.getElementById("game-canvas")}
 	);	
+	this.renderer.backgroundColor = 0x1099bb;
 	renderer = this.renderer;
 	document.body.appendChild(this.renderer.view);
 	this.stage = new PIXI.Container();
