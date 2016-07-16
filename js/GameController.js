@@ -24,17 +24,13 @@ GameController.prototype.setupBG = function() {
 };
 
 GameController.prototype.setupPuppy = function() {
-	var texture = PIXI.Texture.fromImage("resources/Puppy Stuff/Dogsmall.png");
-	var puppy = new PIXI.Sprite(texture);
+	var texture = PIXI.Sprite.fromFrame("resources/Puppy Stuff/Dogsmall.png");
+	this.puppy = new PuppySprite(texture);
 	
-	// This puts the anchor at the bottom left-hand corner of the PNG.
-	puppy.anchor.x = 0.0;
-	puppy.anchor.y = 1.0;
+	this.puppy.sprite.position.x = 10;
+	this.puppy.sprite.position.y = 400;
 
-	puppy.position.x = 10;
-	puppy.position.y = 495;
-
-	this.stage.addChild(puppy);
+	this.stage.addChild(this.puppy.sprite);
 };
 
 // TODO: Consolidate these methods for both x and y?
