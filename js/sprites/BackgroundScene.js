@@ -1,14 +1,17 @@
-sWidth = 7400;
+// TODO: Change per level.
+sWidth = 7210;
 sHeight = 1500;
 
-function BackgroundScene(texture, width, height, startX, startY, deltax) {
+function BackgroundScene(texture, width, height, startX, startY, deltax, deltay) {
 	PIXI.Sprite.call(this, texture, width, height);
 
 	this.position.x = startX;
 	this.position.y = startY;
 
 	this.viewportX = 0;
+	this.viewportY = 0;
 	this.deltax = deltax;
+	this.deltay = deltay;
 	
 	this.speed = 5;
 	this.width = width;
@@ -19,19 +22,25 @@ BackgroundScene.constructor = BackgroundScene;
 BackgroundScene.prototype = Object.create(PIXI.Sprite.prototype);
 
 BackgroundScene.prototype.setViewportX = function(newViewportX) {
-	var distanceTravelled = newViewportX - this.viewportX;
+	var distanceTravelledX = newViewportX - this.viewportX;
 	this.viewportX = newViewportX;
-	this.position.x -= (distanceTravelled * this.deltax);
+	this.position.x -= (distanceTravelledX * this.deltax);
 };
 
-BackgroundScene.prototype.moveObject = function() {
-	if(this.isOffScreen())
-		this.speed *= -1;
-	this.position.x += this.speed;
+BackgroundScene.prototype.setViewportY = function(newViewportY) {
+	var distanceTravelledY = newViewportY - this.viewportY;
+	this.viewportY = newViewportY;
+	this.position.y -= (distanceTravelledY * this.deltay);
 };
 
 BackgroundScene.prototype.isOffScreen = function() {
+	var offScreen = false;
 	if(this.position.x + this.width > sWidth || this.position.x < 0) {
-		return true;
+		offScreen = true;
 	}	
+	if(this.position.y + this.height > sHeight || this.position.y < 0) {
+		offScreen = true;
+	}
+	
+	return offScreen;
 };

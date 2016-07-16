@@ -1,6 +1,7 @@
 function GameController(stage) {	
 	this.stage = stage;	
 	this.viewportX = 0;
+	this.viewportY = 0;
 	
 	// TODO: Move these methods to LevelController.
 	this.setupBG();
@@ -15,6 +16,7 @@ GameController.prototype.setupBG = function() {
 		bgTexture.baseTexture.height,
 		0,
 		0,
+		0.09,
 		0.09
 	);
 	
@@ -35,6 +37,7 @@ GameController.prototype.setupPuppy = function() {
 	this.stage.addChild(puppy);
 };
 
+// TODO: Consolidate these methods for both x and y?
 GameController.prototype.setViewportX = function(viewportX) {
 	this.viewportX = viewportX;
 	this.bg.setViewportX(viewportX);
@@ -47,4 +50,18 @@ GameController.prototype.getViewportX = function() {
 GameController.prototype.moveViewportXBy = function(currTime, units) {	
 	var newViewportX = this.viewportX + units;
 	this.setViewportX(newViewportX);
+};
+
+GameController.prototype.setViewportY = function(viewportY) {
+	this.viewportY = viewportY;
+	this.bg.setViewportY(viewportY);
+};
+
+GameController.prototype.getViewportY = function() {
+	return this.viewportY;
+};
+
+GameController.prototype.moveViewportYBy = function(currTime, units) {	
+	var newViewportY = this.viewportY + units;
+	this.setViewportY(newViewportY);
 };
