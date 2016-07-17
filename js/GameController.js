@@ -44,7 +44,8 @@ GameController.prototype.getViewportX = function() {
 };
 
 GameController.prototype.moveViewportXBy = function(currTime, units) {	
-	var newViewportX = this.viewportX + units;
+	var newViewportX = this.viewportX + units;	
+	this.puppy.update(vx, vy);
 	this.setViewportX(newViewportX);
 };
 

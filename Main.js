@@ -3,6 +3,8 @@ playing = true;
 
 var stage;
 var renderer;
+var vx = 0;
+var vy = 0;
 
 Main.SCROLL_SPEED = 5;
 
@@ -66,18 +68,23 @@ Main.prototype.spriteSheetLoaded = function() {
 
 function Jump() {
 	console.log("jump");
+	// TODO: Change the rate of change to achieve the 200 px single jump.
+	vy = -1;
 }
 
 function MoveDown() {
 	console.log("down");
+	vy = 1;
 }
 
 function MoveLeft() {
 	console.log("left");
+	vx = -1;
 }
 
 function MoveRight() {
 	console.log("right");
+	vx = 1;
 }
 
 function ShootLaser(){

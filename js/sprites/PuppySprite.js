@@ -6,7 +6,7 @@ function PuppySprite(sprite) {
 	this.health = 1000;
 }
 
-PuppySprite.prototype.update = function(now, vx, vy) {
+PuppySprite.prototype.update = function(vx, vy) {
 	this.sprite.position.x += vx * this.speed;
 	this.sprite.position.y += vy * this.speed;
 }
