@@ -20,12 +20,12 @@ function Main() {
 	this.stage = new PIXI.Container();
 	stage = this.stage;
 	
-	// Keep this in here? Or move to GameController?
-	this.loadSpriteSheet();
+	var loadingText = new PIXI.Text('Loading...',{font : '24px Arial', fill : 0x000000, align : 'center'});
+	this.stage.addChild(loadingText);
+	renderer.render(stage);
 	
-	// TODO: Setup key events. In different key event class?
+	this.loadSpriteSheet();
 	this.keyEventListenerLoaded();
-	// TODO: Call gamecontroller to start setting up stuff and load level controller.
 }
 
 Main.prototype.animate = function() {
@@ -45,6 +45,7 @@ Main.prototype.loadSpriteSheet = function() {
 	// Puppy
 	loader.add('puppy', "resources/Puppy Stuff/Dogsmall.png");
 	loader.add('bone', "resources/Puppy Stuff/Bone.png");
+	loader.add('boneWithGlow', "resources/Puppy Stuff/BoneWithGlow.png");
 	
 	// Level 1 - Factory	
 	loader.add('facilitybg', "resources/Levels/Facility/FacilityBG.png");
@@ -60,7 +61,6 @@ Main.prototype.keyEventListenerLoaded = function() {
 	this.keyEventListener = new KeyEventListener( Jump, MoveDown, MoveLeft, MoveRight, ShootLaser, PerformSpecialMove );
 };
 
-// TODO: Fix this. spriteSheetLoaded requires local variables because when it's called, its parent (accessed by the "this" keyword) is the PIXI.loader, which messes everything up.
 Main.prototype.spriteSheetLoaded = function() {
 	this.gameController = new GameController(stage);	
 	requestAnimationFrame(Main.prototype.animate.bind(this));
