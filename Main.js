@@ -22,6 +22,7 @@ function Main() {
 	this.loadSpriteSheet();
 	
 	// TODO: Setup key events. In different key event class?
+	this.keyEventListenerLoaded();
 	// TODO: Call gamecontroller to start setting up stuff and load level controller.
 }
 
@@ -52,8 +53,37 @@ Main.prototype.loadSpriteSheet = function() {
 	loader.load();
 };
 
+// Currently uses callbacks for key events. Do we need to differentiate between key up and key down events?
+Main.prototype.keyEventListenerLoaded = function() {
+	this.keyEventListener = new KeyEventListener( Jump, MoveDown, MoveLeft, MoveRight, ShootLaser, PerformSpecialMove );
+};
+
 // TODO: Fix this. spriteSheetLoaded requires local variables because when it's called, its parent (accessed by the "this" keyword) is the PIXI.loader, which messes everything up.
 Main.prototype.spriteSheetLoaded = function() {
 	this.gameController = new GameController(stage);	
 	requestAnimationFrame(Main.prototype.animate.bind(this));
 };
+
+function Jump() {
+	console.log("jump");
+}
+
+function MoveDown() {
+	console.log("down");
+}
+
+function MoveLeft() {
+	console.log("left");
+}
+
+function MoveRight() {
+	console.log("right");
+}
+
+function ShootLaser(){
+	console.log("laser");
+}
+
+function PerformSpecialMove(){
+	console.log("special");
+}
