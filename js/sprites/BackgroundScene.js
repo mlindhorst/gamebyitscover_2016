@@ -1,7 +1,3 @@
-// TODO: Change per level.
-sWidth = 7210;
-sHeight = 1500;
-
 function BackgroundScene(texture, width, height, startX, startY, deltax, deltay) {
 	PIXI.Sprite.call(this, texture, width, height);
 
@@ -14,8 +10,8 @@ function BackgroundScene(texture, width, height, startX, startY, deltax, deltay)
 	this.deltay = deltay;
 	
 	this.speed = 5;
-	this.width = width;
-	this.height = height;
+	this.width = texture.baseTexture.width;
+	this.height = texture.baseTexture.height;
 }
 
 BackgroundScene.constructor = BackgroundScene;

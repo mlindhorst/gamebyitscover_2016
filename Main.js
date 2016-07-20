@@ -33,8 +33,9 @@ Main.prototype.animate = function() {
 		var now = new Date().getTime();		
 		this.gameController.moveViewportXBy(now, Main.SCROLL_SPEED);
 		this.gameController.moveViewportYBy(now, 2);
+		
 	}
-	
+	this.gameController.checkCollisions();
 	renderer.render(stage);
 	requestAnimationFrame(Main.prototype.animate.bind(this));
 };
