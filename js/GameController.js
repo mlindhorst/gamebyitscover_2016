@@ -4,6 +4,7 @@ function GameController(stage) {
 	this.viewportY = 0;
 	
 	this.levelController = new LevelController(stage);
+	this.keyEventListener = new KeyEventListener(this.levelController.puppy);
 }
 
 // TODO: Consolidate these methods for both x and y?
@@ -18,7 +19,6 @@ GameController.prototype.getViewportX = function() {
 
 GameController.prototype.moveViewportXBy = function(currTime, units) {	
 	var newViewportX = this.viewportX + units;	
-	this.levelController.puppy.update(vx, vy);
 	this.setViewportX(newViewportX);
 };
 
@@ -36,6 +36,7 @@ GameController.prototype.moveViewportYBy = function(currTime, units) {
 	this.setViewportY(newViewportY);
 };
 
-GameController.prototype.checkCollisions = function() {
-	this.levelController.checkCollision();
+GameController.prototype.update = function(dt) {
+	this.levelController.checkCollision(dt);
+	this.levelController.puppy.update(vx, vy);
 };

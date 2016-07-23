@@ -6,6 +6,9 @@ var renderer;
 var vx = 0;
 var vy = 0;
 
+var fps  = 60,
+    step = 1/fps;
+	
 Main.SCROLL_SPEED = 5;
 
 function Main() {
@@ -29,17 +32,20 @@ function Main() {
 }
 
 Main.prototype.animate = function() {
+
 	if(playing) {
 		var now = new Date().getTime();		
-		this.gameController.moveViewportXBy(now, Main.SCROLL_SPEED);
-		this.gameController.moveViewportYBy(now, 2);
-		
+		//this.gameController.moveViewportXBy(now, Main.SCROLL_SPEED);
+		//this.gameController.moveViewportYBy(now, 2);		
 	}
-	this.gameController.checkCollisions();
+	this.gameController.update(step);		
+	
 	renderer.render(stage);
 	requestAnimationFrame(Main.prototype.animate.bind(this));
 };
 
+
+  
 Main.prototype.loadSpriteSheet = function() {
 	loader = PIXI.loader;
 	
@@ -59,7 +65,8 @@ Main.prototype.loadSpriteSheet = function() {
 
 // Currently uses callbacks for key events. Do we need to differentiate between key up and key down events?
 Main.prototype.keyEventListenerLoaded = function() {
-	this.keyEventListener = new KeyEventListener( Jump, MoveDown, MoveLeft, MoveRight, ShootLaser, PerformSpecialMove );
+	//this.keyEventListener = new KeyEventListener(gameController.levelController.puppy);
+	//this.keyEventListener = new KeyEventListener( Jump, MoveDown, MoveLeft, MoveRight, ShootLaser, PerformSpecialMove );
 };
 
 Main.prototype.spriteSheetLoaded = function() {
