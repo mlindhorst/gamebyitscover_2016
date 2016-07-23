@@ -17,14 +17,21 @@ function Main() {
 		500,
 		{view:document.getElementById("game-canvas")}
 	);	
-	this.renderer.backgroundColor = 0x1099bb;
+	this.renderer.backgroundColor = 0xdd0000;
 	renderer = this.renderer;
 	document.body.appendChild(this.renderer.view);
 	this.stage = new PIXI.Container();
 	stage = this.stage;
 	
-	var loadingText = new PIXI.Text('Loading...',{font : '24px Arial', fill : 0x000000, align : 'center'});
-	this.stage.addChild(loadingText);
+	var description = 'The Brave Little Puppy is the story of a cyborg puppy who escapes from an animal testing facility. He\'s on a journey to find his long-lost owner and rid the world of iCorp\s abominations.\r\n \r\n' 
+	+ 'How to play:\r\n'
+	+ '- left & right keys make puppy move\r\n'
+	+ '- up key makes puppy jump\r\n'
+	+ '- space activates puppy\'s laser eyes\r\n'
+	+ '- \'e\' key makes puppy do special power\r\n \r\n \r\n'
+	+ 'Love, \r\n Bunnies Are Always Adorable';
+	var descriptionText = new PIXI.Text(description,{font : '24px Courier', fill : 0x000000, align : 'center', wordWrap : 'true', wordWrapWidth : '500'});
+	this.stage.addChild(descriptionText);
 	renderer.render(stage);
 	
 	this.loadSpriteSheet();

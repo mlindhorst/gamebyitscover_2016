@@ -1,5 +1,9 @@
 function FactoryLevel() {
-	var bgTexture = PIXI.Texture.fromImage("resources/Levels/Facility/FacilityBG.png");
+	sWidth = 7210;
+	sHeight = 1500;
+	
+	this.bgFile = "resources/Levels/Facility/FacilityBG.png";
+	var bgTexture = PIXI.Texture.fromImage(this.bgFile);	
 	this.bg = new BackgroundScene(
 		bgTexture,
 		bgTexture.baseTexture.width,
@@ -10,9 +14,18 @@ function FactoryLevel() {
 		0.09
 	);
 	
-	var fanBladeTexture = PIXI.Texture.fromImage("resources/Levels/Facility/Fan_Blades.png");
+	this.backgroundElements = [['facilityfanblades', "resources/Levels/Facility/Fan_Blades.png"],
+							   ['facilityfancover', "resources/Levels/Facility/Fan_Cover.png"]];
 	
-	var fanCover = PIXI.Texture.fromImage("resources/Levels/Facility/Fan_Cover.png");	
-	
-	var puppyBone = PIXI.Texture.fromImage("resources/Puppy Stuff/Bone.png");
+	this.startFloorPiece = new PIXI.Graphics();
+	this.startFloorPiece.lineStyle(1, 0xFF0000);	
+	this.startFloorPiece.drawRect(0, 0, 1520, 10);
+	this.startFloorPiece.position.y = 493;
+	this.bg.addChild(this.startFloorPiece);
+	//var puppy = character;
+	// create collision squares (collidable)
+	//this.environmentBoxes =
+	//this.explodableBoxes	
 }
+
+FactoryLevel.constructor = FactoryLevel;
