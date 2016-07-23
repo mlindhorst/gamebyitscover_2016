@@ -38,5 +38,5 @@ GameController.prototype.moveViewportYBy = function(currTime, units) {
 
 GameController.prototype.update = function(dt) {
 	this.levelController.checkCollision(dt);
-	this.levelController.puppy.update(vx, vy);
+	this.levelController.puppy.update(dt);
 };

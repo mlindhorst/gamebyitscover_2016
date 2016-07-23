@@ -28,7 +28,6 @@ function Main() {
 	renderer.render(stage);
 	
 	this.loadSpriteSheet();
-	this.keyEventListenerLoaded();
 }
 
 Main.prototype.animate = function() {
@@ -63,42 +62,7 @@ Main.prototype.loadSpriteSheet = function() {
 	loader.load();
 };
 
-// Currently uses callbacks for key events. Do we need to differentiate between key up and key down events?
-Main.prototype.keyEventListenerLoaded = function() {
-	//this.keyEventListener = new KeyEventListener(gameController.levelController.puppy);
-	//this.keyEventListener = new KeyEventListener( Jump, MoveDown, MoveLeft, MoveRight, ShootLaser, PerformSpecialMove );
-};
-
 Main.prototype.spriteSheetLoaded = function() {
 	this.gameController = new GameController(stage);	
 	requestAnimationFrame(Main.prototype.animate.bind(this));
 };
-
-function Jump() {
-	console.log("jump");
-	// TODO: Change the rate of change to achieve the 200 px single jump.
-	vy = -1;
-}
-
-function MoveDown() {
-	console.log("down");
-	vy = 1;
-}
-
-function MoveLeft() {
-	console.log("left");
-	vx = -1;
-}
-
-function MoveRight() {
-	console.log("right");
-	vx = 1;
-}
-
-function ShootLaser(){
-	console.log("laser");
-}
-
-function PerformSpecialMove(){
-	console.log("special");
-}
