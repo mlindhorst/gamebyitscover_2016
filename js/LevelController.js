@@ -6,7 +6,7 @@ var TILE = 30,
 	
 function LevelController(stage) {	
 	this.stage = stage;
-	this.levels = [new FactoryLevel()];
+	this.levels = [new MountainLevel()];
 	
 	this.setupBG(0);
 	this.setupPuppy();	
@@ -24,7 +24,7 @@ LevelController.prototype.setupPuppy = function() {
 	
 	this.puppy.ddx = 0;
 	this.puppy.sprite.position.x = 10;
-	this.puppy.sprite.position.y = 300;	
+	this.puppy.sprite.position.y = 1315;	
 	
 	this.bg.addChild(this.puppy.sprite);		
 
@@ -32,21 +32,29 @@ LevelController.prototype.setupPuppy = function() {
   
 isIntersecting = function(r1, r2) {
 
-	return !(r2.x > (r1.x + r1.width) || 
-
-           (r2.x + r2.width) < r1.x || 
-
-           r2.y > (r1.y + r1.height) ||
-
-           (r2.y + r2.height) < r1.y);
+	return r1.x < r2.x + r2.width &&
+		r1.x + r1.width > r2.x &&
+		r1.y < r2.y + r2.height &&
+		r1.height + r1.y > r2.y;
 
 };
 
 LevelController.prototype.checkCollision = function(dt) {
-	if(isIntersecting(this.puppy.sprite, this.currentLevel.startFloorPiece)) {
-		this.puppy.sprite.y = this.puppy.sprite.y;
-		this.puppy.velY = 0;
-		this.puppy.falling = false;
-		this.puppy.jumping = false;
-	}	
+	var environmentCollidables = this.currentLevel.environmentCollidables;
+	
+	for(var i = 0; i < environmentCollidables.length; i++) {
+		var collidable = environmentCollidables[i];
+		if(isIntersecting(this.puppy.sprite, collidable)) {
+			if(this.puppy.dy != 0) {
+				this.puppy.sprite.position.y = this.puppy.sprite.position.y;
+				this.puppy.velY = 0;
+				this.puppy.falling = false;
+				this.puppy.jumping = false;
+			}
+			if(this.puppy.sprite.position.x < collidable.x) {
+				this.puppy.sprite.position.x = this.puppy.sprite.position.x;
+				this.puppy.velX = 0;
+			}
+		}	
+	};
 };

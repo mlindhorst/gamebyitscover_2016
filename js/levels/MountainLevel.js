@@ -1,5 +1,5 @@
 function MountainLevel() {
-	var bgTexture = PIXI.Texture.fromImage("resources/Levels/Facility/MountainsBG_01.png");	
+	var bgTexture = PIXI.Texture.fromImage("resources/Levels/Mountains/MountainsBG_01.png");	
 	this.bg = new BackgroundScene(
 		bgTexture,
 		bgTexture.baseTexture.width,
@@ -10,7 +10,7 @@ function MountainLevel() {
 		0.09
 	);
 	
-	var fgTexture = PIXI.Texture.fromImage("resources/Levels/Facility/MountainsBG_02.png");
+	var fgTexture = PIXI.Texture.fromImage("resources/Levels/Mountains/MountainsBG_02.png");
 	this.fg = new BackgroundScene(
 		fgTexture,
 		fgTexture.baseTexture.width,
@@ -20,6 +20,39 @@ function MountainLevel() {
 		0.09,
 		0.09
 	);
+	this.bg.addChild(this.fg);
+	
+	function createRectCollidable(x, y, width, height, bg) {	
+		var collidable = new PIXI.Graphics();
+		collidable.isEllipse = false;
+		collidable.lineStyle(1, 0xFF0000);	
+		collidable.drawRect(0, 0, width, height);
+		collidable.position.x = x;
+		collidable.position.y = y;
+		bg.addChild(collidable);
+		return collidable;
+	};
+	
+	function createEllipseCollidable(x, y, width, height, bg) {	
+		var collidable = new PIXI.Graphics
+		collidable.isEllipse = true;
+		collidable.lineStyle(1, 0xFF0000);	
+		collidable.drawEllipse(0, 0, width, height);
+		collidable.position.x = x;
+		collidable.position.y = y;
+		bg.addChild(collidable);
+		return collidable;
+	};
+	
+	this.environmentCollidables = [
+		// beginning ground
+		createRectCollidable(0,1495,1520, 10, this.bg),
+		// cliff left edge
+		createRectCollidable(1535,1000,10, 500, this.bg),
+		createRectCollidable(870, 1410, 90, 80, this.bg)
+		];
+	
+	
 	
 	var fallingrock_1 = PIXI.Texture.fromImage("resources/Levels/Mountains/fallingrock_01.png");
 	var fallingrock_2 = PIXI.Texture.fromImage("resources/Levels/Mountains/fallingrock_02.png");
