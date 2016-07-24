@@ -7,6 +7,7 @@ var renderer;
 var vx = 0;
 var vy = 0;
 
+var lastUpdate = 0;
 var fps  = 60,
     step = 1/fps;
 	
@@ -40,14 +41,18 @@ function Main() {
 
 Main.prototype.animate = function() {
 
-	if(playing) {
-		var now = new Date().getTime();		
+	var now = new Date().getTime();
+	if(playing) {	
 		//this.gameController.moveViewportXBy(now, Main.SCROLL_SPEED);
 		this.gameController.setViewportY(12000);	
 		this.gameController.setViewportX(5500);		
 	}
-	this.gameController.update(step);		
 	
+	if(lastUpdate == 0 || now - lastUpdate > step) {
+		this.gameController.update(step, now);
+		lastUpdate = now;
+	}
+			
 	renderer.render(stage);
 	requestAnimationFrame(Main.prototype.animate.bind(this));
 };
@@ -59,6 +64,11 @@ Main.prototype.loadSpriteSheet = function() {
 	
 	// Puppy
 	loader.add('puppy', "resources/Puppy Stuff/Dogsmall.png");
+	loader.add('puppyWalk1', "resources/Puppy Stuff/Walk Cycle/DogWalkCycle_01.png");
+	loader.add('puppyWalk2', "resources/Puppy Stuff/Walk Cycle/DogWalkCycle_02.png");
+	loader.add('puppyWalk3', "resources/Puppy Stuff/Walk Cycle/DogWalkCycle_03.png");
+	loader.add('puppyWalk4', "resources/Puppy Stuff/Walk Cycle/DogWalkCycle_04.png");
+	loader.add('puppyWalk5', "resources/Puppy Stuff/Walk Cycle/DogWalkCycle_05.png");
 	loader.add('bone', "resources/Puppy Stuff/Bone.png");
 	loader.add('boneWithGlow', "resources/Puppy Stuff/BoneWithGlow.png");
 	

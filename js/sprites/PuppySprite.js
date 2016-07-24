@@ -6,10 +6,18 @@ var TILE  = 30,
 	ACCEL = 1/2,
 	FRICTION = 1/6,
 	IMPULSE = 500;
+	WALK_FRAMES = 5;
 	
 	
 function PuppySprite(sprite) {
-	this.puppyTexture = PIXI.Texture.fromFrame("resources/Puppy Stuff/Dogsmall.png");
+	this.puppyTexture = PIXI.Texture.fromFrame("resources/Puppy Stuff/Walk Cycle/DogWalkCycle_01.png");
+	this.walkFrames = [ 
+		PIXI.Texture.fromFrame("resources/Puppy Stuff/Walk Cycle/DogWalkCycle_01.png"),
+		PIXI.Texture.fromFrame("resources/Puppy Stuff/Walk Cycle/DogWalkCycle_02.png"),
+		PIXI.Texture.fromFrame("resources/Puppy Stuff/Walk Cycle/DogWalkCycle_03.png"),
+		PIXI.Texture.fromFrame("resources/Puppy Stuff/Walk Cycle/DogWalkCycle_04.png"),
+		PIXI.Texture.fromFrame("resources/Puppy Stuff/Walk Cycle/DogWalkCycle_05.png")
+	];
 	this.sprite = sprite;
 	
 	this.speed = 3;
@@ -32,6 +40,7 @@ function PuppySprite(sprite) {
 	this.impulse = METER * IMPULSE;
 	this.accel = this.maxVelX / ACCEL;
 	this.friction = this.maxVelX / FRICTION;
+	this.frame = 0;
 }
 
 PuppySprite.prototype.bound = function(x, min, max) {
@@ -63,6 +72,16 @@ PuppySprite.prototype.update = function(dt) {
 		this.sprite.position.y = this.sprite.position.y - 5;
 		this.accY = this.accY - this.impulse;
 		this.jumping = true;
+	}
+	
+	//animate
+	if(this.velX != 0) {
+		//puppy is walking
+		this.sprite.texture = this.walkFrames[this.frame];
+		this.frame = (this.frame + 1) % WALK_FRAMES;
+	}
+	else {
+		this.sprite.texture = this.puppyTexture;
 	}
 	
 	/*
