@@ -39,6 +39,7 @@ GameController.prototype.moveViewportYBy = function(currTime, units) {
 	this.setViewportY(newViewportY);
 };
 
+
 GameController.prototype.update = function(dt) {
 	this.levelController.updateLevel();
 	this.levelController.puppy.update(dt);
