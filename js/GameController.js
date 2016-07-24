@@ -1,3 +1,6 @@
+//use debug to run in debug mode (draw collision rectangles, etc...)
+var debug = true;
+
 function GameController(stage) {	
 	this.stage = stage;	
 	this.viewportX = 0;
@@ -37,6 +40,6 @@ GameController.prototype.moveViewportYBy = function(currTime, units) {
 };
 
 GameController.prototype.update = function(dt) {
-	this.levelController.checkCollision(dt);
 	this.levelController.puppy.update(dt);
+	this.levelController.checkCollision(dt);
 };

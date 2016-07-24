@@ -43,7 +43,7 @@ PuppySprite.prototype.update = function(dt) {
         wasright   = this.velX  > 0,
 		friction   = this.friction,
 		accel = this.accel;
-	
+
 	this.accX = 0;
 	this.accY = this.gravity;
 	
@@ -63,7 +63,8 @@ PuppySprite.prototype.update = function(dt) {
 		this.jumping = true;
 	}
 		
-	
+	this.lastX = this.sprite.position.x;
+	this.lastY = this.sprite.position.y;
 	this.sprite.position.x = Math.floor(this.sprite.position.x + (dt * this.velX));
 	this.sprite.position.y = Math.floor(this.sprite.position.y  + (dt * this.velY));
 	this.velY = this.bound(this.velY + (dt * this.accY), -this.maxVelY, this.maxVelY);
@@ -72,6 +73,10 @@ PuppySprite.prototype.update = function(dt) {
 	if ((wasleft  && (this.velX > 0)) ||
         (wasright && (this.velX < 0))) 
 			this.velX = 0; // clamp at zero to prevent friction from making us jiggle side to side
+			
+	if(debug) {
+		console.log("Puppy position: " + this.getX() + ", " + this.getY());
+	}
 }
 
 PuppySprite.prototype.damage = function(damage) {
@@ -80,6 +85,30 @@ PuppySprite.prototype.damage = function(damage) {
 		return 0;
 	}
 	return 1;
+}
+
+PuppySprite.prototype.getX = function() {
+	return this.sprite.position.x;
+}
+
+PuppySprite.prototype.setX = function(x) {
+	this.sprite.position.x = x;
+}
+
+PuppySprite.prototype.getY = function() {
+	return this.sprite.position.y;
+}
+
+PuppySprite.prototype.setY = function(y) {
+	this.sprite.position.y = y;
+}
+
+PuppySprite.prototype.getWidth = function() {
+	return this.sprite.width;
+}
+
+PuppySprite.prototype.getHeight = function() {
+	return this.sprite.height;
 }
 
 PuppySprite.prototype.getCenterX = function() {

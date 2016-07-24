@@ -44,15 +44,49 @@ function MountainLevel() {
 		return collidable;
 	};
 	
+	this.boulderCollisionHandler = function(spriteA, spriteB) {
+		console.log("Rock Collision");
+		//if we get here we know collision has already occurred, now just clip bounds
+		if(spriteA.getY() + spriteA.getHeight() > spriteB.getY() &&
+				spriteA.getY() + spriteA.getHeight() < spriteB.getY()  + spriteB.getHeight()){
+			spriteA.setY(spriteB.getY() - spriteA.getHeight());
+			spriteA.falling = false;
+			spriteA.jumping = false;
+			spriteA.velY = 0;
+		}
+		else if(spriteA.getX() > spriteB.getX() && spriteA.getX() < spriteB.getX() + spriteB.getWidth()) {
+			
+			//upper left collision detected - push to the right
+			spriteA.velX = 0;
+			spriteA.setX(spriteA.lastX);
+		}
+		else if(spriteA.getX() + spriteA.getWidth() > spriteB.getX() && spriteA.getX() + spriteA.getWidth() < spriteB.getX() + spriteB.getWidth()) {
+			//upper right collision detected - push to the left
+			spriteA.velX = 0;
+			spriteA.setX(spriteA.lastX);
+		}
+		
+	}
+	
+	this.groundCollisionHandler = function(spriteA, spriteB) {
+		console.log("Ground Collision");
+		spriteA.setY(spriteB.getY() - spriteA.getHeight());
+		spriteA.falling = false;
+		spriteA.jumping = false;
+		spriteA.velY = 0;
+	}
+	
 	this.environmentCollidables = [
 		// beginning ground
-		createRectCollidable(0,1495,1520, 10, this.bg),
+		new Collidable("ground", 0,1495,1520, 10, this.groundCollisionHandler),
 		// cliff left edge
-		createRectCollidable(1535,1000,10, 500, this.bg),
-		createRectCollidable(870, 1410, 90, 80, this.bg)
+		new Collidable("cliff", 1535,1000,10, 500, this.groundCollisionHandler),
+		new Collidable("boulder", 870, 1410, 90, 80, this.boulderCollisionHandler)
 		];
 	
-	
+	for(var i = 0; i < this.environmentCollidables.length; i++) {
+		this.bg.addChild(this.environmentCollidables[i].graphics);
+	}
 	
 	var fallingrock_1 = PIXI.Texture.fromImage("resources/Levels/Mountains/fallingrock_01.png");
 	var fallingrock_2 = PIXI.Texture.fromImage("resources/Levels/Mountains/fallingrock_02.png");
