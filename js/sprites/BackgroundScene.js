@@ -20,13 +20,13 @@ BackgroundScene.prototype = Object.create(PIXI.Sprite.prototype);
 BackgroundScene.prototype.setViewportX = function(newViewportX) {
 	var distanceTravelledX = newViewportX - this.viewportX;
 	this.viewportX = newViewportX;
-	this.position.x -= (distanceTravelledX * this.deltax);
+	this.position.x -= distanceTravelledX;
 };
 
 BackgroundScene.prototype.setViewportY = function(newViewportY) {
 	var distanceTravelledY = newViewportY - this.viewportY;
 	this.viewportY = newViewportY;
-	this.position.y -= (distanceTravelledY * this.deltay);
+	this.position.y -= distanceTravelledY;
 };
 
 BackgroundScene.prototype.isOffScreen = function() {

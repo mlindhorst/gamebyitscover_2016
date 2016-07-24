@@ -44,8 +44,8 @@ Main.prototype.animate = function() {
 	var now = new Date().getTime();
 	if(playing) {	
 		//this.gameController.moveViewportXBy(now, Main.SCROLL_SPEED);
-		this.gameController.setViewportY(12000);	
-		this.gameController.setViewportX(5500);		
+		this.gameController.setViewportY(1000);	
+		this.gameController.setViewportX(700);		
 	}
 	
 	if(lastUpdate == 0 || now - lastUpdate > step) {

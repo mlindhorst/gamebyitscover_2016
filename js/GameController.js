@@ -44,8 +44,11 @@ GameController.prototype.update = function(dt) {
 	this.levelController.updateLevel();
 	this.levelController.puppy.update(dt);
 	this.levelController.checkCollision(dt);
+	var moveByX = this.levelController.puppy.getX() - this.viewportX;
+	console.log("moving x by " + moveByX);
+	this.moveViewportXBy(dt, moveByX);
 };
 
 GameController.prototype.getClippableObjects = function() {
 	return this.levelController.currentLevel.clippableObjects;
-}
+};
