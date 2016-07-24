@@ -76,7 +76,7 @@ function MountainLevel() {
 		spriteA.velY = 0;
 	}
 	
-	this.environmentCollidables = [
+	this.clippableObjects = [
 		// beginning ground
 		new Collidable("ground", 0,1495,1520, 10, this.groundCollisionHandler),
 		// cliff left edge
@@ -84,8 +84,8 @@ function MountainLevel() {
 		new Collidable("boulder", 870, 1410, 90, 80, this.boulderCollisionHandler)
 		];
 	
-	for(var i = 0; i < this.environmentCollidables.length; i++) {
-		this.bg.addChild(this.environmentCollidables[i].graphics);
+	for(var i = 0; i < this.clippableObjects.length; i++) {
+		this.bg.addChild(this.clippableObjects[i].graphics);
 	}
 	
 	var fallingrock_1 = PIXI.Texture.fromImage("resources/Levels/Mountains/fallingrock_01.png");

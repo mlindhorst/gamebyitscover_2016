@@ -43,3 +43,7 @@ GameController.prototype.update = function(dt) {
 	this.levelController.puppy.update(dt);
 	this.levelController.checkCollision(dt);
 };
+
+GameController.prototype.getClippableObjects = function() {
+	return this.levelController.currentLevel.clippableObjects;
+}

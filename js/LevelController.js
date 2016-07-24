@@ -40,11 +40,11 @@ LevelController.prototype.setupPuppy = function() {
 };*/
 
 LevelController.prototype.checkCollision = function(dt) {
-	var environmentCollidables = this.currentLevel.environmentCollidables;
+	//var environmentCollidables = this.currentLevel.environmentCollidables;
 	
-	for(var i = 0; i < environmentCollidables.length; i++) {
-		var collidable = environmentCollidables[i];
-		doCollision(this.puppy, collidable, collidable.collisionHandler);
+	//for(var i = 0; i < environmentCollidables.length; i++) {
+		//var collidable = environmentCollidables[i];
+		//doCollision(this.puppy, collidable, collidable.collisionHandler);
 		/*if(checkIntersection(this.puppy, collidable)) {
 			if(this.puppy.dy != 0) {
 				this.puppy.sprite.position.y = this.puppy.sprite.position.y;
@@ -56,7 +56,7 @@ LevelController.prototype.checkCollision = function(dt) {
 				//this.puppy.sprite.position.x = this.puppy.sprite.position.x;
 				//this.puppy.velX = 0;
 			}
-		}*/
+		}
 		
-	};
+	}*/
 };

@@ -1,6 +1,7 @@
 interactive = true;
 playing = true;
 
+var gameController;
 var stage;
 var renderer;
 var vx = 0;
@@ -108,6 +109,7 @@ Main.prototype.loadSpriteSheet = function() {
 };
 
 Main.prototype.spriteSheetLoaded = function() {
-	this.gameController = new GameController(stage);	
+	this.gameController = new GameController(stage);
+	gameController = this.gameController;
 	requestAnimationFrame(Main.prototype.animate.bind(this));
 };

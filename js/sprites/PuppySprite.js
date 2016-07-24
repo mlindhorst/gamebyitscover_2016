@@ -43,6 +43,8 @@ PuppySprite.prototype.update = function(dt) {
         wasright   = this.velX  > 0,
 		friction   = this.friction,
 		accel = this.accel;
+		//objects to test for clipping
+		clippables = gameController.getClippableObjects();
 
 	this.accX = 0;
 	this.accY = this.gravity;
@@ -62,11 +64,28 @@ PuppySprite.prototype.update = function(dt) {
 		this.accY = this.accY - this.impulse;
 		this.jumping = true;
 	}
-		
-	this.lastX = this.sprite.position.x;
-	this.lastY = this.sprite.position.y;
+	
+	/*
+	 * Handling collision by x and y separately to
+	 * 	determine direction of clip.
+	 */
+	
+	//move x then clip x
 	this.sprite.position.x = Math.floor(this.sprite.position.x + (dt * this.velX));
+	if(clippables != null) {
+		for(var i = 0; i < clippables.length; i++) {
+			doCollision(this, clippables[i], this.clipByX);
+		}
+	}
+	//move y then clip y
 	this.sprite.position.y = Math.floor(this.sprite.position.y  + (dt * this.velY));
+	this.lastY = this.sprite.position.y;
+	if(clippables != null) {
+		for(var i = 0; i < clippables.length; i++) {
+			doCollision(this, clippables[i], this.clipByY);
+		}
+	}
+	
 	this.velY = this.bound(this.velY + (dt * this.accY), -this.maxVelY, this.maxVelY);
 	this.velX = this.bound(this.velX + (dt * this.accX), -this.maxVelX, this.maxVelX);
 	
@@ -75,7 +94,37 @@ PuppySprite.prototype.update = function(dt) {
 			this.velX = 0; // clamp at zero to prevent friction from making us jiggle side to side
 			
 	if(debug) {
-		console.log("Puppy position: " + this.getX() + ", " + this.getY());
+		//console.log("Puppy position: " + this.getX() + ", " + this.getY());
+	}
+}
+
+PuppySprite.prototype.clipByX = function(puppySprite, collidable) {
+	
+	if(puppySprite.velX > 0) {
+		puppySprite.setX(collidable.getX() - puppySprite.getWidth());
+	}
+	else {
+		puppySprite.setX(collidable.getX() + collidable.getWidth());
+	}
+}
+
+PuppySprite.prototype.clipByY = function(puppySprite, collidable) {
+	//falling through object
+	if(puppySprite.getY() + puppySprite.getHeight() > collidable.getY() && puppySprite.velY > 0) {
+		console.log("fall collision");
+		puppySprite.falling = false;
+		puppySprite.jumping = false;
+		puppySprite.jump = false;
+		puppySprite.velY = 0;
+		puppySprite.setY(collidable.getY() - puppySprite.getHeight());
+	}
+	//hitting object from above
+	else if(puppySprite.getY() < collidable.getY() + collidable.getHeight() && puppySprite.velY < 0) {
+		console.log("jump collision");
+		puppySprite.jumping = false;
+		puppySprite.falling = true;
+		puppySprite.velY = 0;
+		puppySprite.setY(collidable.getY() + collidable.getHeight());
 	}
 }
 
