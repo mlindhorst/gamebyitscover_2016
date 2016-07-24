@@ -29,6 +29,8 @@ function PuppySprite(sprite) {
 	this.graphics.position.x = this.sprite.position.x;
 	this.graphics.position.y = this.sprite.position.y;
 	this.sprite.addChild(this.graphics);
+	this.lastUpdate = new Date().getTime();
+	this.animationRate = 100;
 	
 	this.velX = 0;
 	this.velY = 0;
@@ -76,9 +78,12 @@ PuppySprite.prototype.update = function(dt, now) {
 	
 	//animate
 	if(this.velX != 0) {
-		//puppy is walking
-		this.sprite.texture = this.walkFrames[this.frame];
-		this.frame = (this.frame + 1) % WALK_FRAMES;
+		if(now - this.lastUpdate >= this.animationRate) {
+			//puppy is walking
+			this.sprite.texture = this.walkFrames[this.frame];
+			this.frame = (this.frame + 1) % WALK_FRAMES;
+			this.lastUpdate = now;
+		}
 	}
 	else {
 		this.sprite.texture = this.puppyTexture;
