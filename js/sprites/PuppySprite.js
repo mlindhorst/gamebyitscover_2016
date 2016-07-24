@@ -47,7 +47,7 @@ PuppySprite.prototype.bound = function(x, min, max) {
     return Math.max(min, Math.min(max, x));
   }
   
-PuppySprite.prototype.update = function(dt) {
+PuppySprite.prototype.update = function(dt, now) {
 	var wasleft    = this.velX  < 0,
         wasright   = this.velX  > 0,
 		friction   = this.friction,
