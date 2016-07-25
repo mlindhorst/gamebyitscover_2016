@@ -1,4 +1,4 @@
-function BackgroundScene(texture, width, height, startX, startY, deltax, deltay) {
+function BackgroundScene(texture, width, height, startX, startY) {
 	PIXI.Sprite.call(this, texture, width, height);
 
 	this.position.x = startX;
@@ -6,8 +6,6 @@ function BackgroundScene(texture, width, height, startX, startY, deltax, deltay)
 
 	this.viewportX = 0;
 	this.viewportY = 0;
-	this.deltax = deltax;
-	this.deltay = deltay;
 	
 	this.speed = 5;
 	this.width = texture.baseTexture.width;

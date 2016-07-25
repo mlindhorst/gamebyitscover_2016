@@ -135,7 +135,6 @@ PuppySprite.prototype.clipByX = function(puppySprite, collidable) {
 PuppySprite.prototype.clipByY = function(puppySprite, collidable) {
 	//falling through object
 	if(puppySprite.getY() + puppySprite.getHeight() > collidable.getY() && puppySprite.velY > 0) {
-		console.log("fall collision");
 		puppySprite.falling = false;
 		puppySprite.jumping = false;
 		puppySprite.jump = false;

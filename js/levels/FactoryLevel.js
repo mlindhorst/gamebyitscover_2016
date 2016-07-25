@@ -9,9 +9,7 @@ function FactoryLevel() {
 		bgTexture.baseTexture.width,
 		bgTexture.baseTexture.height,
 		0,
-		0,
-		0.09,
-		0.09
+		0
 	);
 	
 	this.setupFans();
