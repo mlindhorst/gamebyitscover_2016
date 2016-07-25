@@ -18,6 +18,9 @@ function MountainLevel() {
 	);
 	this.bg.addChild(this.fg);
 	
+	this.puppyStartX = 52;
+	this.puppyStartY = 1213;
+	
 	function createRectCollidable(x, y, width, height, bg) {	
 		var collidable = new PIXI.Graphics();
 		collidable.isEllipse = false;
@@ -127,6 +130,10 @@ function MountainLevel() {
 	
 	for(var i = 0; i < this.clippableObjects.length; i++) {
 		this.bg.addChild(this.clippableObjects[i].graphics);
+	}
+	
+	this.updateBackgroundAnimations = function() {
+		
 	}
 	
 	var fallingrock_1 = PIXI.Texture.fromImage("resources/Levels/Mountains/fallingrock_01.png");

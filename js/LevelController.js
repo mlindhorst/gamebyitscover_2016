@@ -23,8 +23,8 @@ LevelController.prototype.setupPuppy = function() {
 	this.puppy = new PuppySprite(texture);
 	
 	this.puppy.ddx = 0;
-	this.puppy.sprite.position.x = 500;
-	this.puppy.sprite.position.y = 1315;	
+	this.puppy.sprite.position.x = this.currentLevel.puppyStartX;
+	this.puppy.sprite.position.y = this.currentLevel.puppyStartY;	
 	
 	this.bg.addChild(this.puppy.sprite);		
 
