@@ -29,6 +29,11 @@ LevelController.prototype.setupPuppy = function() {
 	this.bg.addChild(this.puppy.sprite);		
 
 };
+
+LevelController.prototype.updateLevel = function() {
+	// TODO: Add updateBackgroundAnimations() to all levels for level animation updates?
+	this.currentLevel.updateBackgroundAnimations();	
+};
   
 /*isIntersecting = function(r1, r2) {
 

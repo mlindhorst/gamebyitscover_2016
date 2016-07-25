@@ -14,6 +14,17 @@ function FactoryLevel() {
 		0.09
 	);
 	
+	this.setupFans();
+	
+	this.environmentCollidables = [];
+	
+	this.backgroundElements = [['facilityfanblades', "resources/Levels/Facility/Fan_Blades.png"],
+							   ['facilityfancover', "resources/Levels/Facility/Fan_Cover.png"]];
+}
+
+FactoryLevel.constructor = FactoryLevel;
+
+FactoryLevel.prototype.setupFans = function() {	
 	var fanBladesFile = "resources/Levels/Facility/Fan_Blades.png";
 	this.fanBlades1 = PIXI.Sprite.fromFrame(fanBladesFile);	
 	this.fanBlades1.anchor.x = 0.49;
@@ -44,26 +55,9 @@ function FactoryLevel() {
 	this.bg.addChild(fanCover1);
 	this.bg.addChild(this.fanBlades2);
 	this.bg.addChild(fanCover2);
-	
-	this.environmentCollidables = [];
-	
-	this.backgroundElements = [['facilityfanblades', "resources/Levels/Facility/Fan_Blades.png"],
-							   ['facilityfancover', "resources/Levels/Facility/Fan_Cover.png"]];
-	
-	//this.startFloorPiece = new PIXI.Graphics();
-	//this.startFloorPiece.lineStyle(1, 0xFF0000);	
-	//this.startFloorPiece.drawRect(0, 0, 1520, 10);
-	//.startFloorPiece.position.y = 493;
-	//this.bg.addChild(this.startFloorPiece);
-	//var puppy = character;
-	// create collision squares (collidable)
-	//this.environmentBoxes =
-	//this.explodableBoxes	
-}
+};
 
-FactoryLevel.constructor = FactoryLevel;
-
-FactoryLevel.prototype.update = function() {	
+FactoryLevel.prototype.updateBackgroundAnimations = function() {	
 	this.fanBlades1.rotation += 0.1;
 	this.fanBlades2.rotation -= 0.1;
 };
