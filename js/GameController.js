@@ -6,7 +6,7 @@ var YAXISADJUST = 250;
 function GameController(stage) {	
 	this.stage = stage;	
 	this.viewportX = 0;
-	this.viewportY = 1000;
+	this.viewportY = 0;
 	
 	this.levelController = new LevelController(stage);
 	this.keyEventListener = new KeyEventListener(this.levelController.puppy);
@@ -42,9 +42,9 @@ GameController.prototype.moveViewportYBy = function(currTime, units) {
 };
 
 
-GameController.prototype.update = function(dt) {
+GameController.prototype.update = function(dt, now) {
 	this.levelController.updateLevel();
-	this.levelController.puppy.update(dt);
+	this.levelController.puppy.update(dt, now);
 	this.levelController.checkCollision(dt);
 	var moveByX = this.levelController.puppy.getX() - this.viewportX;
 	var moveByY = this.levelController.puppy.getY() - this.viewportY - YAXISADJUST;
