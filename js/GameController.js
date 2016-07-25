@@ -1,10 +1,12 @@
 //use debug to run in debug mode (draw collision rectangles, etc...)
 var debug = true;
 
+var YAXISADJUST = 250;
+
 function GameController(stage) {	
 	this.stage = stage;	
 	this.viewportX = 0;
-	this.viewportY = 0;
+	this.viewportY = 1000;
 	
 	this.levelController = new LevelController(stage);
 	this.keyEventListener = new KeyEventListener(this.levelController.puppy);
@@ -40,13 +42,17 @@ GameController.prototype.moveViewportYBy = function(currTime, units) {
 };
 
 
-GameController.prototype.update = function(dt, now) {
+GameController.prototype.update = function(dt) {
 	this.levelController.updateLevel();
-	this.levelController.puppy.update(dt, now);
+	this.levelController.puppy.update(dt);
 	this.levelController.checkCollision(dt);
 	var moveByX = this.levelController.puppy.getX() - this.viewportX;
+	var moveByY = this.levelController.puppy.getY() - this.viewportY - YAXISADJUST;
+
 	console.log("moving x by " + moveByX);
+	console.log("moving y by " + moveByY);
 	this.moveViewportXBy(dt, moveByX);
+	this.moveViewportYBy(dt, moveByY);
 };
 
 GameController.prototype.getClippableObjects = function() {
