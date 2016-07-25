@@ -43,6 +43,7 @@ Main.prototype.animate = function() {
 
 	var now = new Date().getTime();
 	if(playing) {	
+		
 		//this.gameController.moveViewportXBy(now, Main.SCROLL_SPEED);
 		this.gameController.setViewportY(1000);	
 		this.gameController.setViewportX(700);		
@@ -122,4 +123,5 @@ Main.prototype.spriteSheetLoaded = function() {
 	this.gameController = new GameController(stage);
 	gameController = this.gameController;
 	requestAnimationFrame(Main.prototype.animate.bind(this));
+	renderer.backgroundColor = 0x000000;
 };

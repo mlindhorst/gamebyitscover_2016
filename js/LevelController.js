@@ -12,10 +12,20 @@ function LevelController(stage) {
 	this.setupPuppy();	
 }
 
+LevelController.prototype.resetLevel = function() {
+	this.stage.removeChild(this.bg);
+	this.bg.removeChild(this.puppy.sprite);
+	this.currentLevel.clearLevel();
+	
+	this.setupBG(0);
+	this.setupPuppy();
+}
+
 LevelController.prototype.setupBG = function(levelNumber) {
 	this.currentLevel = this.levels[levelNumber]
 	this.bg = this.currentLevel.bg;
 	this.stage.addChild(this.bg);	
+	this.currentLevel.loadLevel();
 };
 
 LevelController.prototype.setupPuppy = function() {

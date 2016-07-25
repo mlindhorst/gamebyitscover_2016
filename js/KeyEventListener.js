@@ -4,21 +4,23 @@ var leftArrow = 37;
 var rightArrow = 39;
 var space = 32;
 var e = 69;
+var p = 80;
 
-function KeyEventListener( player ){
-	Listen(player);
+function KeyEventListener( levelController ){
+	Listen(levelController);
 };
 
-function Listen( player ) {
-	document.addEventListener('keydown', function(ev) {return onkey(ev, ev.keyCode, true, player); }, false);
-	document.addEventListener('keyup',   function(ev) { return onkey(ev, ev.keyCode, false, player); }, false);
+function Listen( levelController ) {
+	document.addEventListener('keydown', function(ev) {return onkey(ev, ev.keyCode, true, levelController); }, false);
+	document.addEventListener('keyup',   function(ev) { return onkey(ev, ev.keyCode, false, levelController); }, false);
 };
 
-function onkey(ev, key, down, player) {
+function onkey(ev, key, down, levelController) {
     switch(key) {
-      case leftArrow:  player.left  = down; ev.preventDefault(); return false;
-      case rightArrow: player.right = down; ev.preventDefault(); return false;
-      case upArrow: player.jump  = down; ev.preventDefault(); return false;
+      case leftArrow:  levelController.puppy.left  = down; ev.preventDefault(); return false;
+      case rightArrow: levelController.puppy.right = down; ev.preventDefault(); return false;
+      case upArrow: levelController.puppy.jump  = down; ev.preventDefault(); return false;
+	  case p: levelController.resetLevel(); ev.preventDefault(); return false;
     }
   }
   

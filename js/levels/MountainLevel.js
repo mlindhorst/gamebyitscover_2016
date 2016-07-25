@@ -16,33 +16,17 @@ function MountainLevel() {
 		0,
 		0
 	);
-	this.bg.addChild(this.fg);
+	
 	
 	this.puppyStartX = 52;
 	this.puppyStartY = 1213;
 	
-	function createRectCollidable(x, y, width, height, bg) {	
-		var collidable = new PIXI.Graphics();
-		collidable.isEllipse = false;
-		collidable.lineStyle(1, 0xFF0000);	
-		collidable.drawRect(0, 0, width, height);
-		collidable.position.x = x;
-		collidable.position.y = y;
-		bg.addChild(collidable);
-		return collidable;
-	};
-	
-	function createEllipseCollidable(x, y, width, height, bg) {	
-		var collidable = new PIXI.Graphics
-		collidable.isEllipse = true;
-		collidable.lineStyle(1, 0xFF0000);	
-		collidable.drawEllipse(0, 0, width, height);
-		collidable.position.x = x;
-		collidable.position.y = y;
-		bg.addChild(collidable);
-		return collidable;
-	};
-	
+	this.loadLevel = function() {
+		this.bg.addChild(this.fg);
+		for(var i = 0; i < this.clippableObjects.length; i++) {
+			this.bg.addChild(this.clippableObjects[i].graphics);
+		}
+	}
 	this.boulderCollisionHandler = function(spriteA, spriteB) {
 		console.log("Rock Collision");
 		//if we get here we know collision has already occurred, now just clip bounds
@@ -77,7 +61,7 @@ function MountainLevel() {
 	
 	this.clippableObjects = [
 		// level beginning edge
-		new Collidable("cliff",   -10, 900,    10, 600, this.groundCollisionHandler),
+		new Collidable("cliff",   -10, 900,    10,2500, this.groundCollisionHandler),
 		// beginning ground
 		new Collidable("ground",    0, 1495, 1520,  10, this.groundCollisionHandler),		
 		// small boulder
@@ -125,15 +109,22 @@ function MountainLevel() {
 		// bottom end ground
 		new Collidable("ground", 1832, 2610, 2000, 300, this.groundCollisionHandler),
 		// level end edge
-		new Collidable("cliff",  3950, 900,    10,1000, this.groundCollisionHandler)
+		new Collidable("cliff",  3950, 900,    10,2500, this.groundCollisionHandler),
+		// bottom edge
+		new Collidable("cliff",     0,3000,  2500,  10, this.groundCollisionHandler)
 		];
 	
-	for(var i = 0; i < this.clippableObjects.length; i++) {
-		this.bg.addChild(this.clippableObjects[i].graphics);
-	}
+	
 	
 	this.updateBackgroundAnimations = function() {
 		
+	}
+	
+	this.clearLevel = function() {
+		this.bg.removeChild(this.fg);
+		for(var i = 0; i < this.clippableObjects.length; i++) {
+			this.bg.removeChild(this.clippableObjects[i].graphics);
+		}
 	}
 	
 	var fallingrock_1 = PIXI.Texture.fromImage("resources/Levels/Mountains/fallingrock_01.png");

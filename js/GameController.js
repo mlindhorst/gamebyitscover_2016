@@ -10,7 +10,7 @@ function GameController(stage) {
 	this.viewportY = 0;
 	
 	this.levelController = new LevelController(stage);
-	this.keyEventListener = new KeyEventListener(this.levelController.puppy);
+	this.keyEventListener = new KeyEventListener(this.levelController);
 }
 
 // TODO: Consolidate these methods for both x and y?
