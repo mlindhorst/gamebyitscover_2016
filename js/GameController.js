@@ -2,6 +2,7 @@
 var debug = true;
 
 var YAXISADJUST = 250;
+var XAXISADJUST = -100;
 
 function GameController(stage) {	
 	this.stage = stage;	
@@ -41,12 +42,11 @@ GameController.prototype.moveViewportYBy = function(currTime, units) {
 	this.setViewportY(newViewportY);
 };
 
-
 GameController.prototype.update = function(dt, now) {
 	this.levelController.updateLevel();
 	this.levelController.puppy.update(dt, now);
 	this.levelController.checkCollision(dt);
-	var moveByX = this.levelController.puppy.getX() - this.viewportX;
+	var moveByX = this.levelController.puppy.getX() - this.viewportX + XAXISADJUST;
 	var moveByY = this.levelController.puppy.getY() - this.viewportY - YAXISADJUST;
 
 	console.log("moving x by " + moveByX);
