@@ -13,11 +13,55 @@ function FactoryLevel() {
 	);
 	
 	this.setupFans();
+		
+	this.puppyStartX = 410;
+	this.puppyStartY = 10;
 	
-	this.environmentCollidables = [];
+	this.planeCollisionHandler = function(spriteA, spriteB) {
+		console.log("Ground Collision");
+		spriteA.setY(spriteB.getY() - spriteA.getHeight());
+		spriteA.falling = false;
+		spriteA.jumping = false;
+		spriteA.velY = 0;
+	}	
 	
-	this.backgroundElements = [['facilityfanblades', "resources/Levels/Facility/Fan_Blades.png"],
-							   ['facilityfancover', "resources/Levels/Facility/Fan_Cover.png"]];
+	this.clippableObjects = [
+		// Left
+		new Collidable("edge", -10, 0, 10, 1500, this.planeCollisionHandler),
+		// Right
+		new Collidable("edge", 7210, 0, 10, 1500, this.planeCollisionHandler),
+		// Top
+		new Collidable("edge", 0, -40, 7210, 10, this.planeCollisionHandler),
+		// Bottom
+		new Collidable("edge", 0, 1500, 7210, 10, this.planeCollisionHandler),
+		// Vent Floors
+		new Collidable("floor", 793, 100, 607, 10, this.planeCollisionHandler),
+		new Collidable("floor", 1600, 100, 2900, 10, this.planeCollisionHandler),
+		new Collidable("floor", 4700, 100, 335, 10, this.planeCollisionHandler),
+		// Vent Floors
+		new Collidable("wall", 5035, -40, 10, 140, this.planeCollisionHandler),
+		// First Floors
+		new Collidable("floor", 0, 495, 1505, 10, this.planeCollisionHandler),
+		new Collidable("floor", 1718, 495, 200, 505, this.planeCollisionHandler),
+		new Collidable("floor", 4130, 495, 2200, 10, this.planeCollisionHandler),
+		new Collidable("floor", 6545, 495, 665, 100, this.planeCollisionHandler),
+		// First Floor Walls		
+		new Collidable("wall", 782, 100, 30, 400, this.planeCollisionHandler),
+		new Collidable("wall", 1820, 100, 2315, 900, this.planeCollisionHandler),
+		// First Floor Stairs
+		new Collidable("floor", 1648, 565, 100, 435, this.planeCollisionHandler),
+		new Collidable("floor", 1577, 638, 100, 365, this.planeCollisionHandler),		
+		new Collidable("floor", 1508, 710, 100, 295, this.planeCollisionHandler),
+		new Collidable("floor", 1435, 780, 100, 225, this.planeCollisionHandler),
+		new Collidable("floor", 1365, 850, 100, 155, this.planeCollisionHandler),		
+		new Collidable("floor", 1295, 925, 100, 80, this.planeCollisionHandler),
+		// Second Floors
+		new Collidable("floor", 310, 995, 979, 10, this.planeCollisionHandler),
+	];
+	
+	for(var i = 0; i < this.clippableObjects.length; i++) {
+		this.bg.addChild(this.clippableObjects[i].graphics);
+	}
 }
 
 FactoryLevel.constructor = FactoryLevel;

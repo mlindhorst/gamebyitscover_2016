@@ -1,11 +1,11 @@
 var TILE  = 30,
 	METER = TILE,
-	GRAVITY = 9.8,
+	GRAVITY = 9.8 * 6,
 	MAXDX = 15,
 	MAXDY = 60,
 	ACCEL = 1/2,
 	FRICTION = 1/6,
-	IMPULSE = 500;
+	IMPULSE = 2500;
 	WALK_FRAMES = 5;
 	
 	
