@@ -40,9 +40,9 @@ GameController.prototype.moveViewportYBy = function(currTime, units) {
 };
 
 
-GameController.prototype.update = function(dt) {
+GameController.prototype.update = function(dt, now) {
 	this.levelController.updateLevel();
-	this.levelController.puppy.update(dt);
+	this.levelController.puppy.update(dt, now);
 	this.levelController.checkCollision(dt);
 	var moveByX = this.levelController.puppy.getX() - this.viewportX;
 	console.log("moving x by " + moveByX);
