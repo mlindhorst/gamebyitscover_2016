@@ -49,8 +49,6 @@ GameController.prototype.update = function(dt, now) {
 	var moveByX = this.levelController.puppy.getX() - this.viewportX + XAXISADJUST;
 	var moveByY = this.levelController.puppy.getY() - this.viewportY - YAXISADJUST;
 
-	console.log("moving x by " + moveByX);
-	console.log("moving y by " + moveByY);
 	this.moveViewportXBy(dt, moveByX);
 	this.moveViewportYBy(dt, moveByY);
 };
