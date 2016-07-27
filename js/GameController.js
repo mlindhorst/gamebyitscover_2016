@@ -1,6 +1,8 @@
 //use debug to run in debug mode (draw collision rectangles, etc...)
 var debug = true;
 
+var CANVAS_WIDTH = 500;
+var CANVAS_HEIGHT = 500;
 var YAXISADJUST = 250;
 var XAXISADJUST = -100;
 
@@ -43,11 +45,10 @@ GameController.prototype.moveViewportYBy = function(currTime, units) {
 };
 
 GameController.prototype.update = function(dt, now) {
-	this.levelController.updateLevel();
-	this.levelController.puppy.update(dt, now);
+	this.levelController.updateLevel(dt, now);
 	this.levelController.checkCollision(dt);
-	var moveByX = this.levelController.puppy.getX() - this.viewportX + XAXISADJUST;
-	var moveByY = this.levelController.puppy.getY() - this.viewportY - YAXISADJUST;
+	var moveByX = this.levelController.currentLevel.puppy.getX() - this.viewportX + XAXISADJUST;
+	var moveByY = this.levelController.currentLevel.puppy.getY() - this.viewportY - YAXISADJUST;
 
 	this.moveViewportXBy(dt, moveByX);
 	this.moveViewportYBy(dt, moveByY);

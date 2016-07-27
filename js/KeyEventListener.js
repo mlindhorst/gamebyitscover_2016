@@ -17,9 +17,9 @@ function Listen( levelController ) {
 
 function onkey(ev, key, down, levelController) {
     switch(key) {
-      case leftArrow:  levelController.puppy.left  = down; ev.preventDefault(); return false;
-      case rightArrow: levelController.puppy.right = down; ev.preventDefault(); return false;
-      case upArrow: levelController.puppy.jump  = down; ev.preventDefault(); return false;
+      case leftArrow:  levelController.currentLevel.puppy.left  = down; ev.preventDefault(); return false;
+      case rightArrow: levelController.currentLevel.puppy.right = down; ev.preventDefault(); return false;
+      case upArrow: levelController.currentLevel.puppy.jump  = down; ev.preventDefault(); return false;
 	  case p: levelController.resetLevel(); ev.preventDefault(); return false;
     }
   }

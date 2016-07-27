@@ -102,6 +102,9 @@ Main.prototype.loadSpriteSheet = function() {
 	loader.add('bhtree_rope2', "resources/Levels/Mountains/Boulderholder_treerope_02.png");
 	
 	// Level 3 - Sky
+	loader.add('skybg', 'resources/Levels/Sky/AirBG_Sky.png');
+	loader.add('jetpack_1', 'resources/Levels/Sky/DogJetPack_01.png');
+	loader.add('jetpack_2', 'resources/Levels/Sky/DogJetPack_02.png');
 	
 	// Level 4 - Water
 	loader.add('waterbg', "resources/Levels/Water/WaterBG_Water.png");

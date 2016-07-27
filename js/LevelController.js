@@ -6,19 +6,22 @@ var TILE = 30,
 	
 function LevelController(stage) {	
 	this.stage = stage;
-	this.levels = [new MountainLevel()];
+	//TODO: if we instantiate all levels here we instantiate everything at once
+	// we may want to instantiate only one level at a time
+	var texture = PIXI.Sprite.fromFrame("resources/Puppy Stuff/Dogsmall.png");
+	var puppy = new PuppySprite(texture);
+	this.levels = [new MountainLevel(puppy)];
 	
 	this.setupBG(0);
-	this.setupPuppy();	
 }
 
 LevelController.prototype.resetLevel = function() {
 	this.stage.removeChild(this.bg);
-	this.bg.removeChild(this.puppy.sprite);
+	this.bg.removeChild(this.currentLevel.puppy.sprite);
 	this.currentLevel.clearLevel();
 	
 	this.setupBG(0);
-	this.setupPuppy();
+	this.currentLevel.setupPuppy();
 }
 
 LevelController.prototype.setupBG = function(levelNumber) {
@@ -28,20 +31,9 @@ LevelController.prototype.setupBG = function(levelNumber) {
 	this.currentLevel.loadLevel();
 };
 
-LevelController.prototype.setupPuppy = function() {
-	var texture = PIXI.Sprite.fromFrame("resources/Puppy Stuff/Dogsmall.png");
-	this.puppy = new PuppySprite(texture);
-	
-	this.puppy.ddx = 0;
-	this.puppy.sprite.position.x = this.currentLevel.puppyStartX;
-	this.puppy.sprite.position.y = this.currentLevel.puppyStartY;	
-	
-	this.bg.addChild(this.puppy.sprite);		
-
-};
-
-LevelController.prototype.updateLevel = function() {
+LevelController.prototype.updateLevel = function(dt, now) {
 	// TODO: Add updateBackgroundAnimations() to all levels for level animation updates?
+	this.currentLevel.update(dt, now)
 	this.currentLevel.updateBackgroundAnimations();	
 };
   

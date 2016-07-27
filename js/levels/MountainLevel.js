@@ -1,4 +1,4 @@
-function MountainLevel() {
+function MountainLevel(puppy) {
 	var bgTexture = PIXI.Texture.fromImage("resources/Levels/Mountains/MountainsBG_01.png");	
 	this.bg = new BackgroundScene(
 		bgTexture,
@@ -20,6 +20,19 @@ function MountainLevel() {
 	
 	this.puppyStartX = 52;
 	this.puppyStartY = 1213;
+	
+	this.setupPuppy = function() {
+		
+		this.puppy = puppy;
+		this.puppy.ddx = 0;
+		this.puppy.sprite.position.x = this.puppyStartX;
+		this.puppy.sprite.position.y = this.puppyStartY;	
+		
+		this.bg.addChild(this.puppy.sprite);		
+
+	};
+	
+	this.setupPuppy();
 	
 	this.loadLevel = function() {
 		this.bg.addChild(this.fg);
@@ -115,7 +128,9 @@ function MountainLevel() {
 		];
 	
 	
-	
+	this.update = function(dt, now) {
+		this.puppy.update(dt, now);
+	}
 	this.updateBackgroundAnimations = function() {
 		
 	}
