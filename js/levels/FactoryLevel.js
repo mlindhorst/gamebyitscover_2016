@@ -47,12 +47,12 @@ function FactoryLevel(puppy) {
 		// Top
 		new Collidable("edge", 0, -40, 7210, 10, this.planeCollisionHandler),
 		// Bottom
-		new Collidable("edge", 0, 1500, 7210, 10, this.planeCollisionHandler),
+		new Collidable("edge", 0, 1495, 7210, 10, this.planeCollisionHandler),
 		// Vent Floors
 		new Collidable("floor", 793, 100, 607, 10, this.planeCollisionHandler),
 		new Collidable("floor", 1600, 100, 2900, 10, this.planeCollisionHandler),
 		new Collidable("floor", 4700, 100, 335, 10, this.planeCollisionHandler),
-		// Vent Floors
+		// Vent Wall
 		new Collidable("wall", 5035, -40, 10, 140, this.planeCollisionHandler),
 		// First Floors
 		new Collidable("floor", 0, 495, 1505, 10, this.planeCollisionHandler),
@@ -62,7 +62,7 @@ function FactoryLevel(puppy) {
 		// First Floor Walls		
 		new Collidable("wall", 782, 100, 30, 400, this.planeCollisionHandler),
 		new Collidable("wall", 1820, 100, 2315, 900, this.planeCollisionHandler),
-		// First Floor Stairs
+		// First Stairs
 		new Collidable("floor", 1648, 565, 100, 435, this.planeCollisionHandler),
 		new Collidable("floor", 1577, 638, 100, 365, this.planeCollisionHandler),		
 		new Collidable("floor", 1508, 710, 100, 295, this.planeCollisionHandler),
@@ -70,7 +70,35 @@ function FactoryLevel(puppy) {
 		new Collidable("floor", 1365, 850, 100, 155, this.planeCollisionHandler),		
 		new Collidable("floor", 1295, 925, 100, 80, this.planeCollisionHandler),
 		// Second Floors
-		new Collidable("floor", 310, 995, 979, 10, this.planeCollisionHandler),
+		new Collidable("floor", 313, 995, 979, 10, this.planeCollisionHandler),
+		new Collidable("floor", 4348, 995, 552, 10, this.planeCollisionHandler),
+		new Collidable("floor", 5100, 995, 2110, 10, this.planeCollisionHandler),
+		// Second Stairs
+		new Collidable("floor", 0, 995, 70, 435, this.planeCollisionHandler),
+		new Collidable("floor", 100, 1064, 70, 365, this.planeCollisionHandler),		
+		new Collidable("floor", 172, 1135, 70, 295, this.planeCollisionHandler),
+		new Collidable("floor", 243, 1208, 70, 225, this.planeCollisionHandler),
+		new Collidable("floor", 313, 1280, 70, 155, this.planeCollisionHandler),		
+		new Collidable("floor", 384, 1352, 70, 80, this.planeCollisionHandler),
+		new Collidable("floor", 456, 1423, 70, 80, this.planeCollisionHandler),
+		// Third Floor Walls		
+		new Collidable("wall", 1807, 1125, 30, 375, this.planeCollisionHandler),
+		new Collidable("wall", 4347, 995, 110, 505, this.planeCollisionHandler),
+		// Third Stairs
+		new Collidable("floor", 4277, 1064, 70, 435, this.planeCollisionHandler),		
+		new Collidable("floor", 4205, 1135, 70, 295, this.planeCollisionHandler),
+		new Collidable("floor", 4134, 1208, 70, 225, this.planeCollisionHandler),
+		new Collidable("floor", 4063, 1280, 70, 155, this.planeCollisionHandler),		
+		new Collidable("floor", 3992, 1352, 70, 80, this.planeCollisionHandler),
+		new Collidable("floor", 3922, 1423, 70, 80, this.planeCollisionHandler),
+		// Fourth Stairs
+		new Collidable("floor", 6475, 565, 100, 435, this.planeCollisionHandler),
+		new Collidable("floor", 6403, 638, 100, 365, this.planeCollisionHandler),		
+		new Collidable("floor", 6332, 710, 100, 295, this.planeCollisionHandler),
+		new Collidable("floor", 6262, 780, 100, 225, this.planeCollisionHandler),
+		new Collidable("floor", 6190, 850, 100, 155, this.planeCollisionHandler),		
+		new Collidable("floor", 6120, 925, 100, 80, this.planeCollisionHandler),
+		
 	];
 	
 	this.loadLevel = function() {
