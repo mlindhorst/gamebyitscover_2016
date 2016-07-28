@@ -21,7 +21,7 @@ function SkyLevel(puppy) {
 		
 		this.bg.addChild(this.puppy.sprite);
 		this.puppy.setupJetPack();
-		this.bg.addChild(this.puppy.jetPackSprite);
+
 	};
 	
 	this.setupPuppy();

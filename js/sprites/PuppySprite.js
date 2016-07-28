@@ -7,7 +7,9 @@ var TILE  = 30,
 	FRICTION = 1/6,
 	IMPULSE = 2500;
 	WALK_FRAMES = 5;
-	MAX_UP_THRUST = -9.8 * 6;
+	FLY_FRAMES = 2;
+	MAX_UP_THRUST = -9.8 * 7;
+	MIN_UP_THRUST = -9.8 * 5;
 	
 	
 function PuppySprite(sprite) {
@@ -18,6 +20,16 @@ function PuppySprite(sprite) {
 		PIXI.Texture.fromFrame("resources/Puppy Stuff/Walk Cycle/DogWalkCycle_03.png"),
 		PIXI.Texture.fromFrame("resources/Puppy Stuff/Walk Cycle/DogWalkCycle_04.png"),
 		PIXI.Texture.fromFrame("resources/Puppy Stuff/Walk Cycle/DogWalkCycle_05.png")
+	];
+	
+	this.flyingFrames = [
+		PIXI.Texture.fromFrame("resources/Puppy Stuff/Swim Cycle/DogSwimCycle_03.png"),
+		PIXI.Texture.fromFrame("resources/Puppy Stuff/Swim Cycle/DogSwimCycle_04.png")
+	]
+	
+	this.jetPackFrames = [
+		PIXI.Texture.fromFrame("resources/Puppy Stuff/DogJetPack_01.png"),
+		PIXI.Texture.fromFrame("resources/Puppy Stuff/DogJetPack_02.png")
 	];
 	this.sprite = sprite;
 	
@@ -40,6 +52,7 @@ function PuppySprite(sprite) {
 	this.accY = this.gravity;
 	this.maxVelX = METER * 15;
 	this.maxVelY = METER * 60;
+	this.maxFlyVelY = METER * 15;
 	this.impulse = METER * IMPULSE;
 	this.accel = this.maxVelX / ACCEL;
 	this.friction = this.maxVelX / FRICTION;
@@ -68,8 +81,14 @@ PuppySprite.prototype.setBehavior = function(behavior) {
 	}
 }
 
-PuppySprite.prototype.setupJetPack = function(behavior) {
-	this.jetPackSprite = PIXI.Sprite.fromFrame('resources/Levels/Sky/DogJetPack_01.png');
+PuppySprite.prototype.setupJetPack = function() {
+	this.jetPackSprite = PIXI.Sprite.fromFrame('resources/Puppy Stuff/DogJetPack_02.png');
+	
+	this.jetPackSprite.position.y = 70;
+	this.jetPackSprite.position.x = 70;
+	this.jetPackSprite.anchor.x = 0.7;
+	this.jetPackSprite.anchor.y = 0.5;
+	this.jetPackSprite.rotation = -Math.PI / 2;
 	this.sprite.addChild(this.jetPackSprite);
 }
 
@@ -85,8 +104,33 @@ PuppySprite.prototype.flyingBehavior = function(dt, now) {
 		//objects to test for clipping
 		clippables = gameController.getClippableObjects();
 
-	//calculate upwards thrust
-	var upThrust = MAX_UP_THRUST * METER;
+		
+	if(this.velX != 0 || this.jump) {
+		this.jetPackSprite.texture = this.jetPackFrames[0];
+		this.doFlyAnimation(now);
+	}
+	else {
+		this.jetPackSprite.texture = this.jetPackFrames[1];
+	}
+		
+	if(this.velX > 0 && this.jump) {
+		this.jetPackSprite.rotation = -Math.PI / 4;
+	}
+	else if(this.velX > 0) {
+		this.jetPackSprite.rotation = 0;
+	}
+	else if(this.velX < 0) {
+		this.jetPackSprite.rotation = -Math.PI * 3 / 4;
+	}
+	else {
+		this.jetPackSprite.rotation = -Math.PI / 2;
+	}
+		
+	var upThrust = MIN_UP_THRUST * METER;
+	if(this.jump) {
+		//calculate upwards thrust
+		upThrust = MAX_UP_THRUST * METER;
+	}
 		
 	this.accX = 0;
 	this.accY = this.gravity + upThrust;
@@ -122,7 +166,7 @@ PuppySprite.prototype.flyingBehavior = function(dt, now) {
 		}
 	}
 	
-	this.velY = this.bound(this.velY + (dt * this.accY), -this.maxVelY, this.maxVelY);
+	this.velY = this.bound(this.velY + (dt * this.accY), -this.maxFlyVelY, this.maxFlyVelY);
 	this.velX = this.bound(this.velX + (dt * this.accX), -this.maxVelX, this.maxVelX);
 	
 	if ((wasleft  && (this.velX > 0)) ||
@@ -193,6 +237,14 @@ PuppySprite.prototype.defaultBehavior = function(dt, now) {
 			
 	if(debug) {
 		//console.log("Puppy position: " + this.getX() + ", " + this.getY());
+	}
+}
+
+PuppySprite.prototype.doFlyAnimation = function(now) {
+	if(now - this.lastUpdate >= this.animationRate * 2) {
+		this.frame = (this.frame + 1) % FLY_FRAMES;
+		this.sprite.texture = this.flyingFrames[this.frame];
+		this.lastUpdate = now;
 	}
 }
 

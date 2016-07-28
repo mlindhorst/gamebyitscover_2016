@@ -15,8 +15,8 @@ Main.SCROLL_SPEED = 5;
 
 function Main() {
 	this.renderer = PIXI.autoDetectRenderer(
-		500,
-		500,
+		800,
+		600,
 		{view:document.getElementById("game-canvas")}
 	);	
 	this.renderer.backgroundColor = 0xdd0000;
@@ -70,6 +70,11 @@ Main.prototype.loadSpriteSheet = function() {
 	loader.add('puppyWalk3', "resources/Puppy Stuff/Walk Cycle/DogWalkCycle_03.png");
 	loader.add('puppyWalk4', "resources/Puppy Stuff/Walk Cycle/DogWalkCycle_04.png");
 	loader.add('puppyWalk5', "resources/Puppy Stuff/Walk Cycle/DogWalkCycle_05.png");
+	loader.add('puppySwim1', "resources/Puppy Stuff/Swim Cycle/DogSwimCycle_01.png");
+	loader.add('puppySwim2', "resources/Puppy Stuff/Swim Cycle/DogSwimCycle_02.png");
+	loader.add('puppySwim3', "resources/Puppy Stuff/Swim Cycle/DogSwimCycle_03.png");
+	loader.add('puppySwim4', "resources/Puppy Stuff/Swim Cycle/DogSwimCycle_04.png");
+	loader.add('puppySwim5', "resources/Puppy Stuff/Swim Cycle/DogSwimCycle_05.png");
 	loader.add('bone', "resources/Puppy Stuff/Bone.png");
 	loader.add('boneWithGlow', "resources/Puppy Stuff/BoneWithGlow.png");
 	
@@ -103,8 +108,8 @@ Main.prototype.loadSpriteSheet = function() {
 	
 	// Level 3 - Sky
 	loader.add('skybg', 'resources/Levels/Sky/AirBG_Sky.png');
-	loader.add('jetpack_1', 'resources/Levels/Sky/DogJetPack_01.png');
-	loader.add('jetpack_2', 'resources/Levels/Sky/DogJetPack_02.png');
+	loader.add('jetpack_1', 'resources/Puppy Stuff/DogJetPack_01.png');
+	loader.add('jetpack_2', 'resources/Puppy Stuff/DogJetPack_02.png');
 	
 	// Level 4 - Water
 	loader.add('waterbg', "resources/Levels/Water/WaterBG_Water.png");
