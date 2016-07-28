@@ -103,8 +103,7 @@ PuppySprite.prototype.flyingBehavior = function(dt, now) {
 		accel = this.accel;
 		//objects to test for clipping
 		clippables = gameController.getClippableObjects();
-
-		
+	
 	if(this.velX != 0 || this.jump) {
 		this.jetPackSprite.texture = this.jetPackFrames[0];
 		this.doFlyAnimation(now);
@@ -157,12 +156,37 @@ PuppySprite.prototype.flyingBehavior = function(dt, now) {
 			doCollision(this, clippables[i], this.clipByX);
 		}
 	}
+	if(this.sprite.position.x < 0) {
+		this.sprite.position.x = 0;
+		if(this.accX < 0) {
+			this.accX = 0;
+		}
+	}
+	else if(this.sprite.position.x > screenWidth - this.sprite.width) {
+		this.sprite.position.x = screenWidth - this.sprite.width;
+		if(this.accX > 0) {
+			this.accX = 0;
+		}
+	}
+	
 	//move y then clip y
 	this.sprite.position.y = Math.floor(this.sprite.position.y  + (dt * this.velY));
 	this.lastY = this.sprite.position.y;
 	if(clippables != null) {
 		for(var i = 0; i < clippables.length; i++) {
 			doCollision(this, clippables[i], this.clipByY);
+		}
+	}
+	if(this.sprite.position.y < 0) {
+		this.sprite.position.y = 0;
+		if(this.accY < 0) {
+			this.accY = 0;
+		}
+	}
+	else if(this.sprite.position.y > screenHeight - this.sprite.height) {
+		this.sprite.position.y = screenHeight - this.sprite.height;
+		if(this.accY > 0) {
+			this.accY = 0;
 		}
 	}
 	

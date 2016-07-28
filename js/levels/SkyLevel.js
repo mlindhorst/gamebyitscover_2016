@@ -26,7 +26,16 @@ function SkyLevel(puppy) {
 	
 	this.setupPuppy();
 	
+	this.cloudSprites = [
+		new CloudSprite(PIXI.Sprite.fromFrame("resources/Levels/Mountains/Cloud_01.png"), -200, 1),
+		new CloudSprite(PIXI.Sprite.fromFrame("resources/Levels/Mountains/Cloud_02.png"), 400, 1),
+		new CloudSprite(PIXI.Sprite.fromFrame("resources/Levels/Mountains/Cloud_03.png"), 200, 1)
+	];
+	
 	this.loadLevel = function() {
+		for(var i = 0; i < this.cloudSprites.length; i++) {
+			this.bg.addChild(this.cloudSprites[i].sprite);
+		}
 		
 	}
 	
@@ -40,5 +49,8 @@ function SkyLevel(puppy) {
 	
 	this.update = function(dt, now) {
 		this.puppy.update(dt, now);
+		for(var i = 0; i < this.cloudSprites.length; i++) {
+			this.cloudSprites[i].update(dt, now);
+		}
 	}
 }
