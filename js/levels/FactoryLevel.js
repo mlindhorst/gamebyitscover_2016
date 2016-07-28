@@ -1,7 +1,5 @@
 function FactoryLevel(puppy) {
-	sWidth = 7210;
-	sHeight = 1500;
-	
+	// Setup background
 	this.bgFile = "resources/Levels/Facility/FacilityBG.png";
 	var bgTexture = PIXI.Texture.fromImage(this.bgFile);	
 	this.bg = new BackgroundScene(
@@ -13,32 +11,15 @@ function FactoryLevel(puppy) {
 	);
 	
 	this.setupFans();
-		
+	
+	// Setup puppy
+	this.puppy = puppy;
 	this.puppyStartX = 410;
 	this.puppyStartY = 10;
 	
-	this.setupPuppy = function() {
-
-		this.puppy = puppy;
-		this.puppy.ddx = 0;
-		this.puppy.sprite.position.x = this.puppyStartX;
-		this.puppy.sprite.position.y = this.puppyStartY;	
-		
-		this.bg.addChild(this.puppy.sprite);		
-
-	};
-	
 	this.setupPuppy();
 	
-	this.planeCollisionHandler = function(spriteA, spriteB) {
-		console.log("Ground Collision");
-		spriteA.setY(spriteB.getY() - spriteA.getHeight());
-		spriteA.falling = false;
-		spriteA.jumping = false;
-		spriteA.velY = 0;
-	}
-	
-	
+	// Setup collidable terrain
 	this.clippableObjects = [
 		// Left
 		new Collidable("edge", -10, 0, 10, 1500, this.planeCollisionHandler),
@@ -100,23 +81,6 @@ function FactoryLevel(puppy) {
 		new Collidable("floor", 6120, 925, 100, 80, this.planeCollisionHandler),
 		
 	];
-	
-	this.loadLevel = function() {
-		for(var i = 0; i < this.clippableObjects.length; i++) {
-			this.bg.addChild(this.clippableObjects[i].graphics);
-		}
-	}
-	
-	this.update = function(dt, now) {
-		this.puppy.update(dt, now);
-	}
-
-	this.clearLevel = function() {
-		this.bg.removeChild(this.fg);
-		for(var i = 0; i < this.clippableObjects.length; i++) {
-			this.bg.removeChild(this.clippableObjects[i].graphics);
-		}
-	}
 }
 
 FactoryLevel.constructor = FactoryLevel;
@@ -154,7 +118,39 @@ FactoryLevel.prototype.setupFans = function() {
 	this.bg.addChild(fanCover2);
 };
 
+FactoryLevel.prototype.setupPuppy = function() {
+	this.puppy.ddx = 0;
+	this.puppy.sprite.position.x = this.puppyStartX;
+	this.puppy.sprite.position.y = this.puppyStartY;	
+	
+	this.bg.addChild(this.puppy.sprite);
+};
+
+FactoryLevel.prototype.update = function(dt, now) {
+	this.puppy.update(dt, now);
+};
+
+FactoryLevel.prototype.loadLevel = function() {
+	for(var i = 0; i < this.clippableObjects.length; i++) {
+		this.bg.addChild(this.clippableObjects[i].graphics);
+	}
+};
+
+FactoryLevel.prototype.clearLevel = function() {
+	for(var i = 0; i < this.clippableObjects.length; i++) {
+		this.bg.removeChild(this.clippableObjects[i].graphics);
+	}
+};
+
 FactoryLevel.prototype.updateBackgroundAnimations = function() {	
 	this.fanBlades1.rotation += 0.1;
 	this.fanBlades2.rotation -= 0.1;
+};
+
+FactoryLevel.prototype.planeCollisionHandler = function(spriteA, spriteB) {
+	console.log("Ground Collision");
+	spriteA.setY(spriteB.getY() - spriteA.getHeight());
+	spriteA.falling = false;
+	spriteA.jumping = false;
+	spriteA.velY = 0;
 };
