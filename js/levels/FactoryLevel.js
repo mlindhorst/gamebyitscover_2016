@@ -1,4 +1,4 @@
-function FactoryLevel() {
+function FactoryLevel(puppy) {
 	sWidth = 7210;
 	sHeight = 1500;
 	
@@ -17,13 +17,27 @@ function FactoryLevel() {
 	this.puppyStartX = 410;
 	this.puppyStartY = 10;
 	
+	this.setupPuppy = function() {
+
+		this.puppy = puppy;
+		this.puppy.ddx = 0;
+		this.puppy.sprite.position.x = this.puppyStartX;
+		this.puppy.sprite.position.y = this.puppyStartY;	
+		
+		this.bg.addChild(this.puppy.sprite);		
+
+	};
+	
+	this.setupPuppy();
+	
 	this.planeCollisionHandler = function(spriteA, spriteB) {
 		console.log("Ground Collision");
 		spriteA.setY(spriteB.getY() - spriteA.getHeight());
 		spriteA.falling = false;
 		spriteA.jumping = false;
 		spriteA.velY = 0;
-	}	
+	}
+	
 	
 	this.clippableObjects = [
 		// Left
@@ -59,8 +73,21 @@ function FactoryLevel() {
 		new Collidable("floor", 310, 995, 979, 10, this.planeCollisionHandler),
 	];
 	
-	for(var i = 0; i < this.clippableObjects.length; i++) {
-		this.bg.addChild(this.clippableObjects[i].graphics);
+	this.loadLevel = function() {
+		for(var i = 0; i < this.clippableObjects.length; i++) {
+			this.bg.addChild(this.clippableObjects[i].graphics);
+		}
+	}
+	
+	this.update = function(dt, now) {
+		this.puppy.update(dt, now);
+	}
+
+	this.clearLevel = function() {
+		this.bg.removeChild(this.fg);
+		for(var i = 0; i < this.clippableObjects.length; i++) {
+			this.bg.removeChild(this.clippableObjects[i].graphics);
+		}
 	}
 }
 
