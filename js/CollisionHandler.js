@@ -3,9 +3,10 @@
  * Sprite A and B are the sprites to check collision, and collisionHandler is the function that handles the collision
  * collisionHandler must take the parameters spriteA and spriteB, and it should know how the handle the collision between objects.
  */
-function doCollision(spriteA, spriteB, collisionHandler) {
+function doCollision(spriteA, spriteB) {
 	if(checkIntersection(spriteA, spriteB)) {
-		collisionHandler(spriteA, spriteB);
+		spriteA.collisionHandler(spriteA, spriteB);
+		spriteB.collisionHandler(spriteA, spriteB);
 		return true;
 	}
 	return false;

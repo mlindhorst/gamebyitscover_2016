@@ -153,7 +153,8 @@ PuppySprite.prototype.flyingBehavior = function(dt, now) {
 	this.sprite.position.x = Math.floor(this.sprite.position.x + (dt * this.velX));
 	if(clippables != null) {
 		for(var i = 0; i < clippables.length; i++) {
-			doCollision(this, clippables[i], this.clipByX);
+			this.collisionHandler = this.clipByX;
+			doCollision(this, clippables[i]);
 		}
 	}
 	if(this.sprite.position.x < 0) {
@@ -174,7 +175,8 @@ PuppySprite.prototype.flyingBehavior = function(dt, now) {
 	this.lastY = this.sprite.position.y;
 	if(clippables != null) {
 		for(var i = 0; i < clippables.length; i++) {
-			doCollision(this, clippables[i], this.clipByY);
+			this.collisionHandler = this.clipByY;
+			doCollision(this, clippables[i]);
 		}
 	}
 	if(this.sprite.position.y < 0) {
@@ -240,7 +242,8 @@ PuppySprite.prototype.defaultBehavior = function(dt, now) {
 	this.sprite.position.x = Math.floor(this.sprite.position.x + (dt * this.velX));
 	if(clippables != null) {
 		for(var i = 0; i < clippables.length; i++) {
-			doCollision(this, clippables[i], this.clipByX);
+			this.collisionHandler = this.clipByX;
+			doCollision(this, clippables[i]);
 		}
 	}
 	//move y then clip y
@@ -248,6 +251,7 @@ PuppySprite.prototype.defaultBehavior = function(dt, now) {
 	this.lastY = this.sprite.position.y;
 	if(clippables != null) {
 		for(var i = 0; i < clippables.length; i++) {
+			this.collisionHandler = this.clipByY;
 			doCollision(this, clippables[i], this.clipByY);
 		}
 	}
@@ -301,6 +305,7 @@ PuppySprite.prototype.clipByX = function(puppySprite, collidable) {
 	}
 }
 
+PuppySprite.prototype.collisionHandler = function(puppySprite, collidable) {}
 PuppySprite.prototype.clipByY = function(puppySprite, collidable) {
 	//falling through object
 	if(puppySprite.getY() + puppySprite.getHeight() > collidable.getY() && puppySprite.velY > 0) {

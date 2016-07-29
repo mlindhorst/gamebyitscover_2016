@@ -40,36 +40,12 @@ function MountainLevel(puppy) {
 			this.bg.addChild(this.clippableObjects[i].graphics);
 		}
 	}
-	this.boulderCollisionHandler = function(spriteA, spriteB) {
+	this.boulderCollisionHandler = function(spriteA, spriteB) {		
 		console.log("Rock Collision");
-		//if we get here we know collision has already occurred, now just clip bounds
-		if(spriteA.getY() + spriteA.getHeight() > spriteB.getY() &&
-				spriteA.getY() + spriteA.getHeight() < spriteB.getY()  + spriteB.getHeight()){
-			spriteA.setY(spriteB.getY() - spriteA.getHeight());
-			spriteA.falling = false;
-			spriteA.jumping = false;
-			spriteA.velY = 0;
-		}
-		else if(spriteA.getX() > spriteB.getX() && spriteA.getX() < spriteB.getX() + spriteB.getWidth()) {
-			
-			//upper left collision detected - push to the right
-			spriteA.velX = 0;
-			spriteA.setX(spriteA.lastX);
-		}
-		else if(spriteA.getX() + spriteA.getWidth() > spriteB.getX() && spriteA.getX() + spriteA.getWidth() < spriteB.getX() + spriteB.getWidth()) {
-			//upper right collision detected - push to the left
-			spriteA.velX = 0;
-			spriteA.setX(spriteA.lastX);
-		}
-		
 	}
 	
 	this.groundCollisionHandler = function(spriteA, spriteB) {
 		console.log("Ground Collision");
-		spriteA.setY(spriteB.getY() - spriteA.getHeight());
-		spriteA.falling = false;
-		spriteA.jumping = false;
-		spriteA.velY = 0;
 	}
 	
 	this.clippableObjects = [
@@ -122,7 +98,7 @@ function MountainLevel(puppy) {
 		// bottom end ground
 		new Collidable("ground", 1832, 2610, 2000, 300, this.groundCollisionHandler),
 		// level end edge
-		new Collidable("cliff",  3950, 900,    10,2500, this.groundCollisionHandler),
+		new Collidable("cliff",  3950, 400,    10,3000, this.groundCollisionHandler),
 		// bottom edge
 		new Collidable("cliff",     0,3000,  2500,  10, this.groundCollisionHandler)
 		];
