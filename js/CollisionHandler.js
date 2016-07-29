@@ -24,3 +24,13 @@ function checkIntersection(spriteA, spriteB) {
 	
 	
 }
+
+function isOffScreen(sprite) {
+	if(sprite.position.x < -sprite.width || sprite.position.x > screenWidth) {
+		return true;
+	}
+	if(sprite.position.y < -sprite.height || sprite.position.y > screenHeight) {
+		return true;
+	}
+	return false;
+}

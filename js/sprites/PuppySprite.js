@@ -291,10 +291,6 @@ PuppySprite.prototype.doWalkingAnimation = function(now) {
 	}
 }
 
-PuppySprite.prototype.doClipping = function() {
-	
-}
-
 PuppySprite.prototype.clipByX = function(puppySprite, collidable) {
 	
 	if(puppySprite.velX > 0) {

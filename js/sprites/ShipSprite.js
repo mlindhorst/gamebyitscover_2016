@@ -12,13 +12,26 @@ function ShipSprite(bowSprite, midSprites, aftSprite) {
 	this.shipContainer.position.y = screenHeight;
 }
 
-ShipSprite.prototype.update = function(now, dt) {
+ShipSprite.prototype.update = function(dt, now) {
 	
 	if(this.shipContainer.position.y > MAX_SHIP_HEIGHT) {
 		this.shipContainer.position.y -= 1;
 	}
 	this.shipContainer.position.x += 1;
-	console.log("Ship position: " + this.shipContainer.position.x + ", " + this.shipContainer.position.y);
+	
+	if(this.shipContainer.position.x > screenWidth) {
+		this.shipContainer.position.x = -this.width;
+		this.shipContainer.position.y = screenHeight;
+	}
+	
+	//update midShipSprites
+	for(var i = 0; i < this.midSprites.length; i++) {
+		this.midSprites[i].update(dt, now);
+	}
+	
+	if(debug) {
+		//console.log("Ship position: " + this.shipContainer.position.x + ", " + this.shipContainer.position.y);
+	}
 }
 
 ShipSprite.prototype.setupContainer = function(bowSprite, midSprites, aftSprite) {
