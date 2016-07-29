@@ -1,4 +1,4 @@
-function WaterLevel() {
+function WaterLevel(puppy) {
 	var bgTexture = PIXI.Texture.fromImage("resources/Levels/Water/WaterBG_Water.png");
 	this.bg = new BackgroundScene(
 		bgTexture,
@@ -21,6 +21,12 @@ function WaterLevel() {
 		0.09
 	);
 	this.bg.addChild(this.fg);
+	
+	this.puppy = puppy;
+	this.puppyStartX = 260;
+	this.puppyStartY = 2755;
+	
+	this.setupPuppy();
 	
 	var barrel = PIXI.Texture.fromImage("resources/Levels/Water/Barrel.png");
 	var bubble_1 = PIXI.Texture.fromImage("resources/Levels/Water/Bubble_01.png");
@@ -91,4 +97,32 @@ function WaterLevel() {
 		}
 	};
 }
+	
+WaterLevel.prototype.setupPuppy = function() {
+	this.puppy.ddx = 0;
+	this.puppy.sprite.position.x = this.puppyStartX;
+	this.puppy.sprite.position.y = this.puppyStartY;	
+	
+	this.bg.addChild(this.puppy.sprite);
+};
 
+WaterLevel.prototype.update = function(dt, now) {
+	this.puppy.update(dt, now);
+};
+
+WaterLevel.prototype.loadLevel = function() {
+	for(var i = 0; i < this.clippableObjects.length; i++) {
+		this.bg.addChild(this.clippableObjects[i].graphics);
+	}
+};
+
+WaterLevel.prototype.clearLevel = function() {
+	for(var i = 0; i < this.clippableObjects.length; i++) {
+		this.bg.removeChild(this.clippableObjects[i].graphics);
+	}
+};
+
+WaterLevel.prototype.updateBackgroundAnimations = function() {	
+	this.fanBlades1.rotation += 0.1;
+	this.fanBlades2.rotation -= 0.1;
+};
