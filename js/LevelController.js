@@ -9,11 +9,25 @@ function LevelController(stage) {
 	//TODO: if we instantiate all levels here we instantiate everything at once
 	// we may want to instantiate only one level at a time
 	var texture = PIXI.Sprite.fromFrame("resources/Puppy Stuff/Dogsmall.png");
-	var puppy = new PuppySprite(texture);
-	this.levels = [new MountainLevel(puppy)];
+	this.puppy = new PuppySprite(texture);
 	
-	this.setupBG(0);
+	this.setupBG(new MountainLevel(this.puppy, this));
 }
+
+LevelController.prototype.nextLevelCollisionHandler = function(levelname){
+	if(levelname == "FactoryLevel"){
+		this.setupBG(new MountainLevel(this.puppy, this));
+	}
+	else if(levelname == "MountainLevel"){
+		this.setupBG(new SkyLevel(this.puppy, this));
+	}
+	else if(levelname == "SkyLevel"){
+		this.setupBG(new WaterLevel(this.puppy, this));
+	}
+	else if(levelname == "WaterLevel"){
+		console.log("city level");	
+	}
+};
 
 LevelController.prototype.resetLevel = function() {
 	this.stage.removeChild(this.bg);
@@ -24,8 +38,8 @@ LevelController.prototype.resetLevel = function() {
 	this.currentLevel.setupPuppy();
 }
 
-LevelController.prototype.setupBG = function(levelNumber) {
-	this.currentLevel = this.levels[levelNumber]
+LevelController.prototype.setupBG = function(level) {
+	this.currentLevel = level;
 	this.bg = this.currentLevel.bg;
 	this.stage.addChild(this.bg);	
 	this.currentLevel.loadLevel();

@@ -1,4 +1,4 @@
-function FactoryLevel(puppy) {
+function FactoryLevel(puppy, LevelController) {
 	// Setup background
 	this.bgFile = "resources/Levels/Facility/FacilityBG.png";
 	var bgTexture = PIXI.Texture.fromImage(this.bgFile);	

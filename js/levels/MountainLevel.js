@@ -1,4 +1,4 @@
-function MountainLevel(puppy) {
+function MountainLevel(puppy, LevelController) {
 	var bgTexture = PIXI.Texture.fromImage("resources/Levels/Mountains/MountainsBG_01.png");	
 	this.bg = new BackgroundScene(
 		bgTexture,
@@ -100,7 +100,8 @@ function MountainLevel(puppy) {
 		// level end edge
 		new Collidable("cliff",  3950, 400,    10,3000, this.groundCollisionHandler),
 		// bottom edge
-		new Collidable("cliff",     0,3000,  2500,  10, this.groundCollisionHandler)
+		new Collidable("cliff",     0,3000,  2500,  10, this.groundCollisionHandler),
+		new Collidable("end", 3900, 2105, 90, 495, function() {LevelController.nextLevelCollisionHandler.apply(LevelController, ["MountainLevel"])})
 		];
 	
 	

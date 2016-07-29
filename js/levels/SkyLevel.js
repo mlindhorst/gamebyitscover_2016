@@ -1,6 +1,6 @@
 var SHIP1_SECTION_COUNT = 10;
 
-function SkyLevel(puppy) {
+function SkyLevel(puppy, LevelController) {
 	
 	this.clippableObjects = [];
 	
