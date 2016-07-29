@@ -75,6 +75,8 @@ SkyLevel.prototype.loadLevel = function() {
 	}
 	for(var i = 0; i < this.shipSprites.length; i++) {
 		this.bg.addChild(this.shipSprites[i].shipContainer);
+		this.clippableObjects.push(this.shipSprites[i].bowCollider);
+		this.clippableObjects.push(this.shipSprites[i].bowCollider2);
 	}
 	moveViewPort = false;
 }

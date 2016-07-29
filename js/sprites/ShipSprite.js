@@ -4,10 +4,16 @@ var AFT_OFFSET = 306;
 
 function ShipSprite(bowSprite, midSprites, aftSprite) {
 	this.width = 0;
+	
+	this.bowCollider = null;
+	this.bowCollder2 = null;
+	this.aftCollider = null;
+	
 	this.shipContainer = this.setupContainer(bowSprite, midSprites, aftSprite);
 	this.bowSprite = bowSprite;
 	this.midSprites = midSprites;
 	this.aftSprite = aftSprite;
+	
 	this.shipContainer.position.x = -this.width;
 	this.shipContainer.position.y = screenHeight;
 }
@@ -34,6 +40,10 @@ ShipSprite.prototype.update = function(dt, now) {
 	}
 }
 
+ShipSprite.prototype.onCollision = function(spriteA, spriteB) {
+	console.log("IS THERE ANYBODY OUT THERE?");
+}
+
 ShipSprite.prototype.setupContainer = function(bowSprite, midSprites, aftSprite) {
 	var container = new PIXI.Container();
 	var xPos = 0;
@@ -48,7 +58,12 @@ ShipSprite.prototype.setupContainer = function(bowSprite, midSprites, aftSprite)
 		midSprites[i].midShipContainer.position.y = MID_SHIP_OFFSET - 61;
 		xPos += midSprites[i].midShipContainer.width;
 	}
+
 	container.addChild(bowSprite);
+	this.bowCollider = new ShipCollider(xPos, 330, bowSprite.width * .65, bowSprite.height, this.onCollision);
+	container.addChild(this.bowCollider.graphics);
+	this.bowCollider2 = new ShipCollider(xPos + 465, 255, 328, 68, this.onCollision);
+	container.addChild(this.bowCollider2.graphics);
 	bowSprite.position.x = xPos;
 	xPos += bowSprite.width;
 	this.width = xPos;
