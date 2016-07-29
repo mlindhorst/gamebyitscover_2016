@@ -78,9 +78,11 @@ function FactoryLevel(puppy) {
 		new Collidable("floor", 6332, 710, 100, 295, this.planeCollisionHandler),
 		new Collidable("floor", 6262, 780, 100, 225, this.planeCollisionHandler),
 		new Collidable("floor", 6190, 850, 100, 155, this.planeCollisionHandler),		
-		new Collidable("floor", 6120, 925, 100, 80, this.planeCollisionHandler),
-		
+		new Collidable("floor", 6120, 925, 100, 80, this.planeCollisionHandler)		
 	];
+	
+	this.enemy = new RatSprite(200, 200);
+	this.bg.addChild(this.enemy.sprite);
 }
 
 FactoryLevel.constructor = FactoryLevel;
@@ -128,6 +130,7 @@ FactoryLevel.prototype.setupPuppy = function() {
 
 FactoryLevel.prototype.update = function(dt, now) {
 	this.puppy.update(dt, now);
+	this.enemy.update(dt, now)
 };
 
 FactoryLevel.prototype.loadLevel = function() {
