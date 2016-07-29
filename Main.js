@@ -6,6 +6,8 @@ var stage;
 var renderer;
 var vx = 0;
 var vy = 0;
+var screenWidth = 800;
+var screenHeight = 600;
 
 var lastUpdate = 0;
 var fps  = 60,
@@ -15,8 +17,8 @@ Main.SCROLL_SPEED = 5;
 
 function Main() {
 	this.renderer = PIXI.autoDetectRenderer(
-		800,
-		600,
+		screenWidth,
+		screenHeight,
 		{view:document.getElementById("game-canvas")}
 	);	
 	this.renderer.backgroundColor = 0xdd0000;
@@ -110,6 +112,9 @@ Main.prototype.loadSpriteSheet = function() {
 	loader.add('skybg', 'resources/Levels/Sky/AirBG_Sky.png');
 	loader.add('jetpack_1', 'resources/Puppy Stuff/DogJetPack_01.png');
 	loader.add('jetpack_2', 'resources/Puppy Stuff/DogJetPack_02.png');
+	loader.add('shipBack', 'resources/Levels/Sky/Ship_Back.png');
+	loader.add('shipFront', 'resources/Levels/Sky/Ship_Front.png');
+	loader.add('shipMid', 'resources/Levels/Sky/Ship_Mid.png');
 	
 	// Level 4 - Water
 	loader.add('waterbg', "resources/Levels/Water/WaterBG_Water.png");
