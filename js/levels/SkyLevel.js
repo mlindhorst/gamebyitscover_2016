@@ -1,4 +1,9 @@
+var SHIP1_SECTION_COUNT = 10;
+
 function SkyLevel(puppy) {
+	
+	this.clippableObjects = [];
+	
 	var bgTexture = PIXI.Texture.fromImage("resources/Levels/Sky/AirBG_Sky.png");
 	this.bg = new BackgroundScene(
 		bgTexture,
@@ -31,16 +36,36 @@ function SkyLevel(puppy) {
 		new CloudSprite(PIXI.Sprite.fromFrame("resources/Levels/Mountains/Cloud_02.png"), 400, 1),
 		new CloudSprite(PIXI.Sprite.fromFrame("resources/Levels/Mountains/Cloud_03.png"), 200, 1)
 	];
+		
+	var midSections = [];
+	for(var i = 0; i < SHIP1_SECTION_COUNT; i++) {
+		var section = new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON);
+		midSections.push(section);
+		this.clippableObjects.push(section);
+	}
+	
+	this.shipSprites = [
+		new ShipSprite(
+			PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Front.png'),
+			midSections,
+			PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Back.png')
+		)
+	];
+	
 	
 	this.loadLevel = function() {
 		for(var i = 0; i < this.cloudSprites.length; i++) {
 			this.bg.addChild(this.cloudSprites[i].sprite);
 		}
-		
+		for(var i = 0; i < this.shipSprites.length; i++) {
+			this.bg.addChild(this.shipSprites[i].shipContainer);
+		}
+		moveViewPort = false;
 	}
 	
 	this.clearLevel = function() {
 		
+		moveViewPort = true;
 	}
 	
 	this.updateBackgroundAnimations = function() {
@@ -51,6 +76,9 @@ function SkyLevel(puppy) {
 		this.puppy.update(dt, now);
 		for(var i = 0; i < this.cloudSprites.length; i++) {
 			this.cloudSprites[i].update(dt, now);
+		}
+		for(var i = 0; i < this.shipSprites.length; i++) {
+			this.shipSprites[i].update(dt, now);
 		}
 	}
 }

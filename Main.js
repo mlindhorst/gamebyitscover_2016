@@ -47,8 +47,8 @@ Main.prototype.animate = function() {
 	if(playing) {	
 		
 		//this.gameController.moveViewportXBy(now, Main.SCROLL_SPEED);
-		this.gameController.setViewportY(1000);	
-		this.gameController.setViewportX(700);		
+		this.gameController.setViewportY(0);	
+		this.gameController.setViewportX(0);		
 	}
 	
 	if(lastUpdate == 0 || now - lastUpdate > step) {
@@ -113,8 +113,18 @@ Main.prototype.loadSpriteSheet = function() {
 	loader.add('jetpack_1', 'resources/Puppy Stuff/DogJetPack_01.png');
 	loader.add('jetpack_2', 'resources/Puppy Stuff/DogJetPack_02.png');
 	loader.add('shipBack', 'resources/Levels/Sky/Ship_Back.png');
-	loader.add('shipFront', 'resources/Levels/Sky/Ship_Front.png');
 	loader.add('shipMid', 'resources/Levels/Sky/Ship_Mid.png');
+	loader.add('shipFront', 'resources/Levels/Sky/Ship_Front.png');
+	loader.add('cannonBall', 'resources/Levels/Sky/CannonBall.png');
+	loader.add('engineFire1', 'resources/Levels/Sky/EngineFire_01.png');
+	loader.add('engineFire2', 'resources/Levels/Sky/EngineFire_02.png');
+	loader.add('exhaustFire1', 'resources/Levels/Sky/ExhaustFire_01.png');
+	loader.add('exhaustFire2', 'resources/Levels/Sky/ExhaustFire_02.png');
+	loader.add('cannon', 'resources/Levels/Sky/Ship_Cannon.png');
+	loader.add('smokeStack', 'resources/Levels/Sky/Ship_SmokeStack.png');
+	loader.add('vent', 'resources/Levels/Sky/Ship_Vent.png');
+	loader.add('ventSmoke1', 'resources/Levels/Sky/Smoke_01.png');
+	loader.add('ventSmoke2', 'resources/Levels/Sky/Smoke_02.png');
 	
 	// Level 4 - Water
 	loader.add('waterbg', "resources/Levels/Water/WaterBG_Water.png");
