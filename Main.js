@@ -34,7 +34,7 @@ function Main() {
 	+ '- space activates puppy\'s laser eyes\r\n'
 	+ '- \'e\' key makes puppy do special power\r\n \r\n \r\n'
 	+ 'Love, \r\n Bunnies Are Always Adorable';
-	var descriptionText = new PIXI.Text(description,{font : '24px Courier', fill : 0x000000, align : 'center', wordWrap : 'true', wordWrapWidth : '500'});
+	var descriptionText = new PIXI.Text(description,{font : '24px Courier', fill : 0x000000, align : 'center', wordWrap : 'true', wordWrapWidth : '800'});
 	this.stage.addChild(descriptionText);
 	renderer.render(stage);
 	
@@ -79,6 +79,12 @@ Main.prototype.loadSpriteSheet = function() {
 	loader.add('puppySwim5', "resources/Puppy Stuff/Swim Cycle/DogSwimCycle_05.png");
 	loader.add('bone', "resources/Puppy Stuff/Bone.png");
 	loader.add('boneWithGlow', "resources/Puppy Stuff/BoneWithGlow.png");
+	
+	// Enemies
+	loader.add('rat1', "resources/Enemies/RatWalkCycle/RatWalkCycle_01.png");
+	loader.add('rat2', "resources/Enemies/RatWalkCycle/RatWalkCycle_02.png");
+	loader.add('rat3', "resources/Enemies/RatWalkCycle/RatWalkCycle_03.png");
+	loader.add('rat4', "resources/Enemies/RatWalkCycle/RatWalkCycle_04.png");
 	
 	// Level 1 - Factory	
 	loader.add('facilitybg', "resources/Levels/Facility/FacilityBG.png");
