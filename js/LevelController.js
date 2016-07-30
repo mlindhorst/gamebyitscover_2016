@@ -95,8 +95,7 @@ LevelController.prototype.updateLevel = function(dt, now) {
 		}
 	}
 	
-	this.currentLevel.update(dt, now)
-	this.currentLevel.updateBackgroundAnimations();	
+	this.currentLevel.update(dt, now);
 };
   
 /*isIntersecting = function(r1, r2) {

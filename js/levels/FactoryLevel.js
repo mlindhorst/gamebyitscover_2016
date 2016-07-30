@@ -55,7 +55,7 @@ function FactoryLevel(puppy, LevelController) {
 		new Collidable("floor", 4348, 995, 552, 10, this.planeCollisionHandler),
 		new Collidable("floor", 5100, 995, 2110, 10, this.planeCollisionHandler),
 		// Second Stairs
-		new Collidable("floor", 0, 995, 70, 435, this.planeCollisionHandler),
+		new Collidable("floor", 0, 995, 100, 435, this.planeCollisionHandler),
 		new Collidable("floor", 100, 1064, 70, 365, this.planeCollisionHandler),		
 		new Collidable("floor", 172, 1135, 70, 295, this.planeCollisionHandler),
 		new Collidable("floor", 243, 1208, 70, 225, this.planeCollisionHandler),
@@ -78,11 +78,10 @@ function FactoryLevel(puppy, LevelController) {
 		new Collidable("floor", 6332, 710, 100, 295, this.planeCollisionHandler),
 		new Collidable("floor", 6262, 780, 100, 225, this.planeCollisionHandler),
 		new Collidable("floor", 6190, 850, 100, 155, this.planeCollisionHandler),		
-		new Collidable("floor", 6120, 925, 100, 80, this.planeCollisionHandler)		
+		new Collidable("floor", 6120, 925, 100, 80, this.planeCollisionHandler),
+		// Transition
+		new Collidable("end", 7205, 1000, 10, 500, function() {LevelController.nextLevelCollisionHandler.apply(LevelController, ["FactoryLevel"])})	
 	];
-	
-	this.enemy = new RatSprite(200, 200);
-	this.bg.addChild(this.enemy.sprite);
 }
 
 FactoryLevel.constructor = FactoryLevel;
@@ -130,7 +129,7 @@ FactoryLevel.prototype.setupPuppy = function() {
 
 FactoryLevel.prototype.update = function(dt, now) {
 	this.puppy.update(dt, now);
-	this.enemy.update(dt, now)
+	this.updateBackgroundAnimations();
 };
 
 FactoryLevel.prototype.loadLevel = function() {
@@ -151,9 +150,6 @@ FactoryLevel.prototype.updateBackgroundAnimations = function() {
 };
 
 FactoryLevel.prototype.planeCollisionHandler = function(spriteA, spriteB) {
-	console.log("Ground Collision");
-	spriteA.setY(spriteB.getY() - spriteA.getHeight());
-	spriteA.falling = false;
-	spriteA.jumping = false;
-	spriteA.velY = 0;
+	// TODO: Get rid of this??
+	//console.log("Ground Collision");	
 };
