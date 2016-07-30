@@ -144,6 +144,23 @@ Main.prototype.loadSpriteSheet = function() {
 	loader.add('ooze_1', "resources/Levels/Water/Ooze_01.png");
 	loader.add('ooze_2', "resources/Levels/Water/Ooze_02.png");
 	
+	// Level 5 - City
+	loader.add('citybg1', "resources/Levels/City/CityBG_01.png");
+	loader.add('citybg2', "resources/Levels/City/CityBG_02.png");
+	loader.add('citybg3', "resources/Levels/City/CityBG_03.png");
+	loader.add('citybg4', "resources/Levels/City/CityBG_04.png");
+	loader.add('ferriswheel', "resources/Levels/City/FerrisWheel.png");
+	loader.add('window', "resources/Levels/City/Window.png");
+	loader.add('boy1', "resources/Levels/City/Boy_01.png");
+	loader.add('boy2', "resources/Levels/City/Boy_02.png");
+	loader.add('boy3', "resources/Levels/City/Boy_03.png");
+	// loader.add('girl1', "resources/Levels/City/Girl_01.png");
+	// loader.add('girl2', "resources/Levels/City/Girl_02.png");
+	// loader.add('girl3', "resources/Levels/City/Girl_03.png");
+	// loader.add('guard1', "resources/Levels/City/Guard_01.png");
+	// loader.add('guard2', "resources/Levels/City/Guard_02.png");
+	// loader.add('guard3', "resources/Levels/City/Guard_03.png");
+	
 	loader.once('complete', this.spriteSheetLoaded);
 	loader.load();
 };

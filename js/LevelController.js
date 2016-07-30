@@ -35,7 +35,7 @@ LevelController.prototype.nextLevelCollisionHandler = function(levelname){
 		this.setupBG(new WaterLevel(this.puppy, this));
 	}
 	else if(levelname == "WaterLevel"){
-		console.log("city level");	
+		this.setupBG(new CityLevel(this.puppy, this));
 	}
 };
 
