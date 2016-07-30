@@ -2,7 +2,8 @@ var TILE = 30,
 	METER = TILE,
 	GRAVITY = METER * 9.8,
 	MAXDX = METER * 20,
-	MAXDY = METER * 60;
+	MAXDY = METER * 60,
+	MAX_LAZERS = 25;
 	
 function LevelController(stage) {	
 	this.stage = stage;
@@ -10,10 +11,19 @@ function LevelController(stage) {
 	// we may want to instantiate only one level at a time
 	var texture = PIXI.Sprite.fromFrame("resources/Puppy Stuff/Dogsmall.png");
 	this.puppy = new PuppySprite(texture);
+	this.lazerBeamSpritePool = new LazerBeamSpritePool();
+	this.onScreenLazerBeams = [];
+	this.setUpLazerBeams();
 	
 	this.setupBG(new MountainLevel(this.puppy, this));
 }
 
+LevelController.prototype.setUpLazerBeams = function() {
+	for(var i = 0; i < MAX_LAZERS; i++) {
+		this.onScreenLazerBeams.push(new LazerBeam());
+	}
+}
+	
 LevelController.prototype.nextLevelCollisionHandler = function(levelname){
 	if(levelname == "FactoryLevel"){
 		this.setupBG(new MountainLevel(this.puppy, this));
@@ -47,6 +57,37 @@ LevelController.prototype.setupBG = function(level) {
 
 LevelController.prototype.updateLevel = function(dt, now) {
 	// TODO: Add updateBackgroundAnimations() to all levels for level animation updates?
+	if(this.shootLazers)
+	{
+		for(var i = 0; i < this.onScreenLazerBeams.length; i++)
+		{
+			if(this.onScreenLazerBeams[i].graphics == null)
+			{
+				var currentLazer = this.onScreenLazerBeams[i];
+				var sprite = this.lazerBeamSpritePool.borrowLazerBeams();				
+				currentLazer.setStartPosition(this.puppy.sprite.position.x + this.puppy.sprite.width - 20, 
+										   this.puppy.sprite.position.y + (this.puppy.sprite.height / 2)-20, sprite);
+				
+				this.currentLevel.bg.addChild(currentLazer.graphics);
+				break;
+			}
+		}
+		
+	}
+	
+	for(var i = 0; i < this.onScreenLazerBeams.length; i++)
+	{
+		var currentLazer = this.onScreenLazerBeams[i];
+		currentLazer.update();
+		if(currentLazer.removeLazer) {				
+			currentLazer.removeLazer = false;				
+			this.currentLevel.bg.removeChild(currentLazer.graphics);
+			this.lazerBeamSpritePool.returnLazerBeams(currentLazer.sprite);
+			this.onScreenLazerBeams[i].sprite = null;
+			this.onScreenLazerBeams[i].graphics = null;
+		}
+	}
+	
 	this.currentLevel.update(dt, now)
 	this.currentLevel.updateBackgroundAnimations();	
 };
