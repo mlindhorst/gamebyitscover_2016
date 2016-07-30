@@ -49,11 +49,18 @@ LevelController.prototype.resetLevel = function() {
 }
 
 LevelController.prototype.setupBG = function(level) {
+	this.clearStage();
 	this.currentLevel = level;
 	this.bg = this.currentLevel.bg;
 	this.stage.addChild(this.bg);	
 	this.currentLevel.loadLevel();
 };
+
+LevelController.prototype.clearStage = function() {
+	for (var i = stage.children.length - 1; i >= 0; i--) {	
+	stage.removeChild(stage.children[i]);
+	}
+}
 
 LevelController.prototype.updateLevel = function(dt, now) {
 	// TODO: Add updateBackgroundAnimations() to all levels for level animation updates?
