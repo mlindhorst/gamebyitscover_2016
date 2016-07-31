@@ -12,6 +12,14 @@ function doCollision(spriteA, spriteB) {
 	return false;
 }
 
+function doCollisionWithHandler(spriteA, spriteB, collisionHandler) {
+	if(checkIntersection(spriteA, spriteB)) {
+		collisionHandler(spriteA, spriteB);
+		return true;
+	}
+	return false;
+}
+
 /*
  * internal function checks intersection of the two sprites.
  */ 

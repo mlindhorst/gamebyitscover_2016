@@ -19,26 +19,26 @@ function CityLevel(puppy, LevelController) {
 		0
 	);
 	this.bg.addChild(this.bg2);
-	// this.bgFile = "resources/Levels/City/CityBG_01.png";
-	// var bg3Texture = PIXI.Texture.fromImage(this.bgFile);
-	// this.bg3 = new BackgroundScene(
-		// bg3Texture,
-		// bg3Texture.baseTexture.width,
-		// bg3Texture.baseTexture.height,
-		// 0,
-		// 0
-	// );
-	// this.bg.addChild(this.bg3);
-	// this.bgFile = "resources/Levels/City/CityBG_01.png";
-	// var bg4Texture = PIXI.Texture.fromImage(this.bgFile);
-	// this.bg4 = new BackgroundScene(
-		// bg4Texture,
-		// bg4Texture.baseTexture.width,
-		// bg4Texture.baseTexture.height,
-		// 0,
-		// 0
-	// );
-	// this.bg.addChild(this.bg4);
+	this.bgFile = "resources/Levels/City/CityBG_03.png";
+	var bg3Texture = PIXI.Texture.fromImage(this.bgFile);
+	this.bg3 = new BackgroundScene(
+		bg3Texture,
+		bg3Texture.baseTexture.width,
+		bg3Texture.baseTexture.height,
+		6000,
+		0
+	);
+	this.bg.addChild(this.bg3);
+	this.bgFile = "resources/Levels/City/CityBG_04.png";
+	var bg4Texture = PIXI.Texture.fromImage(this.bgFile);
+	this.bg4 = new BackgroundScene(
+		bg4Texture,
+		bg4Texture.baseTexture.width,
+		bg4Texture.baseTexture.height,
+		9008,
+		0
+	);
+	this.bg.addChild(this.bg4);
 	
 	this.setupFerrisWheel();
 	
@@ -60,7 +60,7 @@ function CityLevel(puppy, LevelController) {
 		// // Bottom
 		// new Collidable("edge", 0, 6000, 12000, 10, this.planeCollisionHandler),
 		// Ground
-		new Collidable("floor", 142, 4000, 6000, 10, this.planeCollisionHandler)
+		new Collidable("floor", 142, 4000, 12000, 10, this.planeCollisionHandler)
 		];
 };
 

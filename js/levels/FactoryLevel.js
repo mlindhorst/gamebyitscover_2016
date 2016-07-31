@@ -19,6 +19,12 @@ function FactoryLevel(puppy, LevelController) {
 	
 	this.setupPuppy();
 	
+	// Setup puppy treats
+	this.treats = [
+		new PuppyTreat(4880, 30, LevelController),
+		new PuppyTreat(4500, 1430, LevelController)	
+	];
+	
 	// Setup collidable terrain
 	this.clippableObjects = [
 		// Left
@@ -130,11 +136,23 @@ FactoryLevel.prototype.setupPuppy = function() {
 FactoryLevel.prototype.update = function(dt, now) {
 	this.puppy.update(dt, now);
 	this.updateBackgroundAnimations();
+	
+	for(var i = 0; i < this.treats.length; i++) {
+		if(doCollisionWithHandler(this.puppy, this.treats[i], this.treats[i].collisionHandler)){
+			this.bg.removeChild(this.treats[i].graphics);
+			this.bg.removeChild(this.treats[i].sprite);
+			this.treats.splice(i, 1);
+		}
+	}
 };
 
 FactoryLevel.prototype.loadLevel = function() {
 	for(var i = 0; i < this.clippableObjects.length; i++) {
 		this.bg.addChild(this.clippableObjects[i].graphics);
+	}
+	for(var i = 0; i < this.treats.length; i++) {
+		this.bg.addChild(this.treats[i].sprite);
+		this.bg.addChild(this.treats[i].graphics);
 	}
 };
 

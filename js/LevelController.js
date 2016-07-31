@@ -4,6 +4,7 @@ var TILE = 30,
 	MAXDX = METER * 20,
 	MAXDY = METER * 60,
 	MAX_LAZERS = 25;
+	TREATS = 3;
 	
 function LevelController(stage) {	
 	this.stage = stage;
@@ -121,4 +122,8 @@ LevelController.prototype.checkCollision = function(dt) {
 		}
 		
 	}*/
+};
+
+LevelController.prototype.addTreat = function() {
+	TREATS += 1;
 };
