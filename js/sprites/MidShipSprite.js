@@ -101,7 +101,7 @@ MidShipSprite.prototype.setupContainer = function(sprite, type) {
 MidShipSprite.prototype.setupCannon = function(container, sprite) {
 	var yPos = 0;
 	
-	this.cannon = PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Cannon.png');
+	this.cannon = PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_cannon.png');
 	container.addChild(this.cannon);
 	this.cannon.position.x = (sprite.width - this.cannon.width) / 2 + (this.cannon.width / 2);
 	this.cannon.position.y = yPos + this.cannon.height * .75;

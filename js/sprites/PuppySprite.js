@@ -10,6 +10,8 @@ var TILE  = 30,
 	FLY_FRAMES = 2;
 	MAX_UP_THRUST = -9.8 * 7;
 	MIN_UP_THRUST = -9.8 * 5;
+	PUPPY_X_OFFSET = 30;
+	PUPPY_Y_OFFSET = 40;
 	
 	
 function PuppySprite(sprite) {
@@ -38,9 +40,7 @@ function PuppySprite(sprite) {
 	
 	this.graphics = new PIXI.Graphics();
 	this.graphics.lineStyle(1, 0xFF0000);	
-	this.graphics.drawRect(0, 0, this.sprite.width, this.sprite.height);
-	this.graphics.position.x = this.sprite.position.x;
-	this.graphics.position.y = this.sprite.position.y;
+	this.graphics.drawRect(PUPPY_X_OFFSET, PUPPY_Y_OFFSET, this.getWidth(), this.getHeight());
 	this.sprite.addChild(this.graphics);
 	this.lastUpdate = new Date().getTime();
 	this.animationRate = 100;
@@ -344,27 +344,27 @@ PuppySprite.prototype.damage = function(damage) {
 }
 
 PuppySprite.prototype.getX = function() {
-	return this.sprite.position.x;
+	return this.sprite.position.x + PUPPY_X_OFFSET;
 }
 
 PuppySprite.prototype.setX = function(x) {
-	this.sprite.position.x = x;
+	this.sprite.position.x = x - PUPPY_X_OFFSET;
 }
 
 PuppySprite.prototype.getY = function() {
-	return this.sprite.position.y;
+	return this.sprite.position.y + PUPPY_Y_OFFSET;
 }
 
 PuppySprite.prototype.setY = function(y) {
-	this.sprite.position.y = y;
+	this.sprite.position.y = y - PUPPY_Y_OFFSET ;
 }
 
 PuppySprite.prototype.getWidth = function() {
-	return this.sprite.width;
+	return this.sprite.width - 45;
 }
 
 PuppySprite.prototype.getHeight = function() {
-	return this.sprite.height;
+	return this.sprite.height - PUPPY_Y_OFFSET - 3;
 }
 
 PuppySprite.prototype.getCenterX = function() {
