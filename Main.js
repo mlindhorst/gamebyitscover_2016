@@ -134,7 +134,7 @@ Main.prototype.loadSpriteSheet = function() {
 	loader.add('engineFire2', 'resources/Levels/Sky/EngineFire_02.png');
 	loader.add('exhaustFire1', 'resources/Levels/Sky/ExhaustFire_01.png');
 	loader.add('exhaustFire2', 'resources/Levels/Sky/ExhaustFire_02.png');
-	loader.add('cannon', 'resources/Levels/Sky/Ship_Cannon.png');
+	loader.add('cannon', 'resources/Levels/Sky/Ship_cannon.png');
 	loader.add('smokeStack', 'resources/Levels/Sky/Ship_SmokeStack.png');
 	loader.add('vent', 'resources/Levels/Sky/Ship_Vent.png');
 	loader.add('ventSmoke1', 'resources/Levels/Sky/Smoke_01.png');
@@ -151,6 +151,12 @@ Main.prototype.loadSpriteSheet = function() {
 	loader.add('fish_3', "resources/Levels/Water/Fish_03.png");
 	loader.add('ooze_1', "resources/Levels/Water/Ooze_01.png");
 	loader.add('ooze_2', "resources/Levels/Water/Ooze_02.png");
+	loader.add('octopus_1', "resources/Enemies/Octopus/OctopusCycle_01.png");
+	loader.add('octopus_2', "resources/Enemies/Octopus/OctopusCycle_02.png");
+	loader.add('octopus_3', "resources/Enemies/Octopus/OctopusCycle_03.png");
+	loader.add('octopus_4', "resources/Enemies/Octopus/OctopusCycle_04.png");
+	loader.add('octopus_5', "resources/Enemies/Octopus/OctopusCycle_05.png");
+	loader.add('octopus_6', "resources/Enemies/Octopus/OctopusCycle_06.png");
 	
 	// Level 5 - City
 	loader.add('citybg1', "resources/Levels/City/CityBG_01.png");

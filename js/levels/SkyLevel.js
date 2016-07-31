@@ -1,7 +1,8 @@
 var SHIP1_SECTION_COUNT = 10;
 var MAX_CANNON_BALLS = 10;
 var MAX_BIRDS = 10;
-var BIRD_SPEED = 1000;
+var BIRD_SPEED = 3000;
+var SHIP_INTERVAL_SPEED = 1000;
 
 function SkyLevel(puppy, LevelController) {
 	
@@ -41,12 +42,20 @@ function SkyLevel(puppy, LevelController) {
 		new CloudSprite(PIXI.Sprite.fromFrame("resources/Levels/Mountains/Cloud_03.png"), 200, 1)
 	];
 		
-	var midSections = [];
-	for(var i = 0; i < SHIP1_SECTION_COUNT; i++) {
-		var section = new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), i % 3 + 1);
-		midSections.push(section);
-		this.clippableObjects.push(section);
-	}
+	var midSections = [
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.NONE),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.SMOKE_STACK),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.VENT),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.SMOKE_STACK),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.NONE),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.VENT),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.NONE),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON)
+	];
 	
 	this.shipSprites = [
 		new ShipSprite(
@@ -55,7 +64,13 @@ function SkyLevel(puppy, LevelController) {
 			PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Back.png')
 		)
 	];
-	this.activeShip = 0;
+	this.activeShip = -1;
+	this.lastShipDestroyed = new Date().getTime();
+	
+	this.endLevelCollider = new Collidable("end", 0, 0, 800, 600, function() {
+			gameController.levelController.currentLevel.clearLevel();
+			LevelController.nextLevelCollisionHandler.apply(LevelController, ["SkyLevel"]);
+		});
 }
 
 SkyLevel.prototype.addCannonBall = function(xPos, yPos, xVel, yVel) {
@@ -83,33 +98,64 @@ SkyLevel.prototype.loadLevel = function() {
 	for(var i = 0; i < this.cloudSprites.length; i++) {
 		this.bg.addChild(this.cloudSprites[i].sprite);
 	}
-	for(var i = 0; i < this.shipSprites.length; i++) {
-		this.bg.addChild(this.shipSprites[i].shipContainer);
-		this.clippableObjects.push(this.shipSprites[i].bowCollider);
-		this.clippableObjects.push(this.shipSprites[i].bowCollider2);
-		this.clippableObjects.push(this.shipSprites[i].aftCollider);
-		this.clippableObjects.push(this.shipSprites[i].aftCollider2);
-		for(var j = 0; j < this.shipSprites[i].midSprites.length; j++) {
-			var midSprite = this.shipSprites[i].midSprites[j];
-			if(midSprite.type == MidShipSprite.SMOKE_STACK) {
-				this.clippableObjects.push(midSprite.smokeStack.smokeStackCollider);
-			}
-		}
-	}
 	moveViewPort = false;
 }
 
+SkyLevel.prototype.setupShip = function() {
+	var activeShip = this.shipSprites[this.activeShip];
+	console.log(this.activeShip);
+	this.bg.addChild(activeShip.shipContainer);
+	this.clippableObjects.push(activeShip.bowCollider);
+	this.clippableObjects.push(activeShip.bowCollider2);
+	this.clippableObjects.push(activeShip.aftCollider);
+	this.clippableObjects.push(activeShip.aftCollider2);
+	for(var j = 0; j < activeShip.midSprites.length; j++) {
+		var midSprite = activeShip.midSprites[j];
+		this.clippableObjects.push(midSprite);
+		if(midSprite.type == MidShipSprite.SMOKE_STACK) {
+			this.clippableObjects.push(midSprite.smokeStack.smokeStackCollider);
+		}
+	}
+}
+
+SkyLevel.prototype.destroyShip = function() {
+	//remove objects from stage
+	this.bg.removeChild(this.shipSprites[this.activeShip].shipContainer);
+	//reset clippable objects
+	this.clippableObjects = [];
+	//release the ship
+	this.shipSprites[this.activeShip] = null;
+	//start ship destroyed timer
+	this.lastShipDestroyed = new Date().getTime();
+}
+
 SkyLevel.prototype.update = function(dt, now) {
+	
 	this.puppy.update(dt, now);
 	for(var i = 0; i < this.cloudSprites.length; i++) {
 		this.cloudSprites[i].update(dt, now);
 	}
-	this.shipSprites[this.activeShip].update(dt, now);
-	this.cannonBallPool.update(dt, now);
 	
+	if(this.activeShip >= 0 && this.shipSprites[this.activeShip] != null) {
+		if(this.shipSprites[this.activeShip].destroy) {
+			this.destroyShip();
+		}
+		else {
+			this.shipSprites[this.activeShip].update(dt, now);
+		}
+	}
+	else if(now - this.lastShipDestroyed > SHIP_INTERVAL_SPEED && this.activeShip < this.shipSprites.length - 1) {
+		this.activeShip++;
+		this.setupShip();
+	}
+	else if(now - this.lastShipDestroyed > SHIP_INTERVAL_SPEED && this.activeShip >= this.shipSprites.length - 1) {
+		doCollision(this.puppy, this.endLevelCollider, this.endLevelCollider.handleCollision);
+	}
+	
+	this.cannonBallPool.update(dt, now);
 	if(now - this.lastBird > BIRD_SPEED) {
 		var bird = this.birdPool.borrow();
-		bird.setup(screenWidth, 300);
+		bird.setup(screenWidth, this.puppy.getY());
 		this.bg.addChild(bird.sprite);
 		this.lastBird = now;
 	}
@@ -130,19 +176,23 @@ SkyLevel.prototype.doCollision = function() {
 	for(var i = 0; i < activeBirds.length; i++) {
 		doCollisionWithHandler(activeBirds[i], this.puppy, activeBirds[i].handleCollision);
 	}
-	var shipSections = this.shipSprites[this.activeShip].midSprites;
-	for(var i = 0; i < shipSections.length; i++) {
-		if(shipSections[i].type == MidShipSprite.SMOKE_STACK) {
-			doCollisionWithHandler(shipSections[i].smokeStack.smokeCollider, this.puppy, shipSections[i].smokeStack.onSmokeCollision);
-		}
-		else if(shipSections[i].type == MidShipSprite.VENT) {
-			doCollisionWithHandler(shipSections[i].vent1, this.puppy, shipSections[i].vent1.handleCollision);
-			doCollisionWithHandler(shipSections[i].vent2, this.puppy, shipSections[i].vent2.handleCollision);
+	if(this.shipSprites[this.activeShip]) {
+		var shipSections = this.shipSprites[this.activeShip].midSprites;
+		for(var i = 0; i < shipSections.length; i++) {
+			if(shipSections[i].type == MidShipSprite.SMOKE_STACK) {
+				doCollisionWithHandler(shipSections[i].smokeStack.smokeCollider, this.puppy, shipSections[i].smokeStack.onSmokeCollision);
+			}
+			else if(shipSections[i].type == MidShipSprite.VENT) {
+				doCollisionWithHandler(shipSections[i].vent1, this.puppy, shipSections[i].vent1.handleCollision);
+				doCollisionWithHandler(shipSections[i].vent2, this.puppy, shipSections[i].vent2.handleCollision);
+			}
 		}
 	}
 }
 
 SkyLevel.prototype.clearLevel = function() {
+	this.puppy.setBehavior(PuppySprite.DEFAULT_BEHAVIOR);
+	this.puppy.removeJetPack();
 	moveViewPort = true;
 }
 

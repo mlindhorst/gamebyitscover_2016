@@ -94,7 +94,9 @@ MidShipSprite.prototype.setupContainer = function(sprite, type) {
 		case MidShipSprite.VENT:
 			return this.setupVent(container, sprite);
 		default:
-			return null;
+			sprite.position.y = 61;
+			container.addChild(sprite);
+			return container;
 	}
 }
 

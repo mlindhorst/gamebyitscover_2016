@@ -3,8 +3,8 @@ function BirdSprite() {
 	this.flameSprite = PIXI.Sprite.fromFrame("resources/Enemies/Bird/BirdFire_01.png");
 	this.sprite.addChild(this.flameSprite);
 	
-	this.flameSprite.position.x = this.sprite.width;
-	this.flameSprite.position.y = (this.sprite.height - this.flameSprite.height) / 2;
+	this.flameSprite.position.x = this.sprite.width - 18;
+	this.flameSprite.position.y = (this.sprite.height - this.flameSprite.height) / 2 - 1;
 	
 	if(debug) {
 		this.graphics = new PIXI.Graphics();
@@ -62,7 +62,7 @@ BirdSprite.prototype.update = function(dt, now) {
 }
 
 BirdSprite.prototype.handleCollision = function(spriteA, spriteB) {
-	console.log("IT'S RANING BIRDS");
+	spriteB.damage(spriteB);
 }
 
 BirdSprite.prototype.getX = function() {
