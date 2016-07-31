@@ -156,7 +156,6 @@ Main.prototype.loadSpriteSheet = function() {
 	loader.add('citybg1', "resources/Levels/City/CityBG_01.png");
 	loader.add('citybg2', "resources/Levels/City/CityBG_02.png");
 	loader.add('citybg3', "resources/Levels/City/CityBG_03.png");
-	loader.add('citybg4', "resources/Levels/City/CityBG_04.png");
 	loader.add('ferriswheel', "resources/Levels/City/FerrisWheel.png");
 	loader.add('window', "resources/Levels/City/Window.png");
 	loader.add('boy1', "resources/Levels/City/Boy_01.png");
