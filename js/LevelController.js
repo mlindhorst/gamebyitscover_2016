@@ -101,6 +101,7 @@ LevelController.prototype.updateLevel = function(dt, now) {
 										   this.puppy.sprite.position.y + (this.puppy.sprite.height / 2)-20, sprite);
 				
 				this.currentLevel.bg.addChild(currentLazer.graphics);
+				this.shootLazers = false;
 				break;
 			}
 		}
