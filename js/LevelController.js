@@ -16,7 +16,7 @@ function LevelController(stage) {
 	this.onScreenLazerBeams = [];
 	this.setUpLazerBeams();
 	
-	this.setupBG(new FactoryLevel(this.puppy, this));	
+	this.setupBG(new SkyLevel(this.puppy, this));	
 }
 
 LevelController.prototype.setUpLazerBeams = function() {

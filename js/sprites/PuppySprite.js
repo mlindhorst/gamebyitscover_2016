@@ -299,12 +299,20 @@ PuppySprite.prototype.collisionHandler = function(puppySprite, collidable) {}
 
 PuppySprite.prototype.clipByX = function(puppySprite, collidable) {
 	
-	if(puppySprite.velX > 0) {
-		puppySprite.setX(collidable.getX() - puppySprite.getWidth());
-	}
-	else {
+	if(collidable.getX() - puppySprite.getX() < 0) {
 		puppySprite.setX(collidable.getX() + collidable.getWidth());
 	}
+	else {
+		puppySprite.setX(collidable.getX() - puppySprite.getWidth());
+	}
+	
+	/*
+	if(puppySprite.velX > 0) {
+		
+	}
+	else {
+		
+	}*/
 }
 
 

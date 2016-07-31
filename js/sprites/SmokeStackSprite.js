@@ -19,7 +19,7 @@ function SmokeStackSprite() {
 	this.smoke.position.y = 10;
 	
 	this.smokeStackCollider = new Collidable("SmokeStack", this.smokeStack.position.x, this.smokeStack.position.y, this.smokeStack.width, this.smokeStack.height, this.onStackCollision);
-	this.smokeCollider = new Collidable("Smoke", this.smokeStack.position.x, this.smoke.position.y, this.smokeStack.width, this.smoke.height, this.onSmokeCollision)
+	this.smokeCollider = new Collidable(this, this.smokeStack.position.x, this.smoke.position.y, this.smokeStack.width, this.smoke.height, this.onSmokeCollision)
 	this.container.addChild(this.smokeStackCollider.graphics);
 	this.container.addChild(this.smokeCollider.graphics);
 	
@@ -30,7 +30,7 @@ SmokeStackSprite.prototype.onStackCollision = function(smokeStack, puppy) {
 }
 
 SmokeStackSprite.prototype.onSmokeCollision = function(smoke, puppy) {
-	if(this.animationFrame == 0) {
+	if(smoke.type.animationFrame == 0) {
 		console.log("EWW SMOG");
 	}
 }
