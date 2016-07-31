@@ -48,6 +48,8 @@ function MountainLevel(puppy, LevelController) {
 		//console.log("Ground Collision");
 	}
 	
+	
+	
 	this.clippableObjects = [
 		// level beginning edge
 		new Collidable("cliff",   -10, 900,    10,2500, this.groundCollisionHandler),
@@ -101,6 +103,7 @@ function MountainLevel(puppy, LevelController) {
 		new Collidable("cliff",  3950, 400,    10,3000, this.groundCollisionHandler),
 		// bottom edge
 		new Collidable("cliff",     0,3000,  2500,  10, this.groundCollisionHandler),
+		new ExplodableBoulder(344, 900),
 		new Collidable("end", 3900, 2105, 90, 495, function() {LevelController.nextLevelCollisionHandler.apply(LevelController, ["MountainLevel"])})
 		];
 	
@@ -123,7 +126,6 @@ function MountainLevel(puppy, LevelController) {
 	var fallingrock_2 = PIXI.Texture.fromImage("resources/Levels/Mountains/fallingrock_02.png");
 	var fallingrock_3 = PIXI.Texture.fromImage("resources/Levels/Mountains/fallingrock_03.png");	
 	var fallingrock_4 = PIXI.Texture.fromImage("resources/Levels/Mountains/fallingrock_04.png");
-	var largeboulder = PIXI.Texture.fromImage("resources/Levels/Mountains/largeboulder.png");
 	var smoke_1 = PIXI.Texture.fromImage("resources/Levels/Mountains/smokepoof_01.png");
 	var smoke_2 = PIXI.Texture.fromImage("resources/Levels/Mountains/smokepoof_02.png");
 	var cloud_1 = PIXI.Texture.fromImage("resources/Levels/Mountains/Cloud_01.png");

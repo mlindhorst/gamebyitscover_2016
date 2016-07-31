@@ -16,7 +16,7 @@ function LevelController(stage) {
 	this.onScreenLazerBeams = [];
 	this.setUpLazerBeams();
 	
-	this.setupBG(new FactoryLevel(this.puppy, this));	
+	this.setupBG(new MountainLevel(this.puppy, this));	
 }
 
 LevelController.prototype.setUpLazerBeams = function() {
@@ -119,6 +119,17 @@ LevelController.prototype.updateLevel = function(dt, now) {
 			this.onScreenLazerBeams[i].sprite = null;
 			this.onScreenLazerBeams[i].graphics = null;
 		}
+		if(currentLazer.sprite != null) {
+			for(var j = 0; j < this.currentLevel.clippableObjects.length; j++) {
+				var clippable = this.currentLevel.clippableObjects[j];
+				doCollision(clippable, currentLazer.sprite);
+				if(clippable.destroy){
+					console.log("Destroy")
+					this.currentLevel.bg.removeChild(clippable.graphics);
+					this.currentLevel.clippableObjects.splice(j,1);
+				}
+			}
+		}
 	}
 	
 	// Handle treat increase/decrease
@@ -133,7 +144,7 @@ LevelController.prototype.updateLevel = function(dt, now) {
 	if(TREATS <= 0)
 		this.restartGame();
 	
-	this.currentLevel.update(dt, now)
+	this.currentLevel.update(dt, now);
 	this.currentLevel.updateBackgroundAnimations();	
 };
   
