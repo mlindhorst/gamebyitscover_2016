@@ -34,7 +34,7 @@ function Main() {
 	+ '- space activates puppy\'s laser eyes\r\n'
 	+ '- \'e\' key makes puppy do special power\r\n \r\n \r\n'
 	+ 'Love, \r\n Bunnies Are Always Adorable';
-	var descriptionText = new PIXI.Text(description,{font : '24px Courier', fill : 0x000000, align : 'center', wordWrap : 'true', wordWrapWidth : '500'});
+	var descriptionText = new PIXI.Text(description,{font : '24px Courier', fill : 0x000000, align : 'center', wordWrap : 'true', wordWrapWidth : '800'});
 	this.stage.addChild(descriptionText);
 	renderer.render(stage);
 	
@@ -79,6 +79,12 @@ Main.prototype.loadSpriteSheet = function() {
 	loader.add('puppySwim5', "resources/Puppy Stuff/Swim Cycle/DogSwimCycle_05.png");
 	loader.add('bone', "resources/Puppy Stuff/Bone.png");
 	loader.add('boneWithGlow', "resources/Puppy Stuff/BoneWithGlow.png");
+	
+	// Enemies
+	loader.add('rat1', "resources/Enemies/RatWalkCycle/RatWalkCycle_01.png");
+	loader.add('rat2', "resources/Enemies/RatWalkCycle/RatWalkCycle_02.png");
+	loader.add('rat3', "resources/Enemies/RatWalkCycle/RatWalkCycle_03.png");
+	loader.add('rat4', "resources/Enemies/RatWalkCycle/RatWalkCycle_04.png");
 	
 	// Level 1 - Factory	
 	loader.add('facilitybg', "resources/Levels/Facility/FacilityBG.png");
@@ -137,6 +143,23 @@ Main.prototype.loadSpriteSheet = function() {
 	loader.add('fish_3', "resources/Levels/Water/Fish_03.png");
 	loader.add('ooze_1', "resources/Levels/Water/Ooze_01.png");
 	loader.add('ooze_2', "resources/Levels/Water/Ooze_02.png");
+	
+	// Level 5 - City
+	loader.add('citybg1', "resources/Levels/City/CityBG_01.png");
+	loader.add('citybg2', "resources/Levels/City/CityBG_02.png");
+	loader.add('citybg3', "resources/Levels/City/CityBG_03.png");
+	loader.add('citybg4', "resources/Levels/City/CityBG_04.png");
+	loader.add('ferriswheel', "resources/Levels/City/FerrisWheel.png");
+	loader.add('window', "resources/Levels/City/Window.png");
+	loader.add('boy1', "resources/Levels/City/Boy_01.png");
+	loader.add('boy2', "resources/Levels/City/Boy_02.png");
+	loader.add('boy3', "resources/Levels/City/Boy_03.png");
+	// loader.add('girl1', "resources/Levels/City/Girl_01.png");
+	// loader.add('girl2', "resources/Levels/City/Girl_02.png");
+	// loader.add('girl3', "resources/Levels/City/Girl_03.png");
+	// loader.add('guard1', "resources/Levels/City/Guard_01.png");
+	// loader.add('guard2', "resources/Levels/City/Guard_02.png");
+	// loader.add('guard3', "resources/Levels/City/Guard_03.png");
 	
 	loader.once('complete', this.spriteSheetLoaded);
 	loader.load();
