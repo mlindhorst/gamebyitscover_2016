@@ -7,6 +7,10 @@ function LazerBeam() {
 
 LazerBeam.prototype.setStartPosition = function(xPos, yPos, sprite) {
 	this.sprite = sprite;
+	if(sprite == null) {
+		console.log("NULL!")
+		return;
+	}
 	this.graphics = sprite.graphics;
 	this.startX = xPos;
 	this.x = xPos;

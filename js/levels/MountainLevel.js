@@ -41,11 +41,11 @@ function MountainLevel(puppy, LevelController) {
 		}
 	}
 	this.boulderCollisionHandler = function(spriteA, spriteB) {		
-		console.log("Rock Collision");
+		//console.log("Rock Collision");
 	}
 	
 	this.groundCollisionHandler = function(spriteA, spriteB) {
-		console.log("Ground Collision");
+		//console.log("Ground Collision");
 	}
 	
 	this.clippableObjects = [
