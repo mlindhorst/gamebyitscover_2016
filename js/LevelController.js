@@ -16,7 +16,7 @@ function LevelController(stage) {
 	this.onScreenLazerBeams = [];
 	this.setUpLazerBeams();
 	
-	this.setupBG(new MountainLevel(this.puppy, this));	
+	this.setupBG(new FactoryLevel(this.puppy, this));	
 }
 
 LevelController.prototype.setUpLazerBeams = function() {
@@ -181,6 +181,7 @@ LevelController.prototype.checkCollision = function(dt) {
 
 LevelController.prototype.restartGame = function(){
 	TREATS = 3;
+	this.currentLevel.clearLevel();
 	this.clearStage();
 	this.setupBG(new FactoryLevel(this.puppy, this));
 }

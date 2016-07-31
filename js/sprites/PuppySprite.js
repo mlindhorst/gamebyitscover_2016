@@ -13,7 +13,7 @@ var TILE  = 30,
 	MIN_UP_THRUST = -9.8 * 5;
 	PUPPY_X_OFFSET = 30;
 	PUPPY_Y_OFFSET = 40;
-	
+	INVULNERABLE_TIME = 2000;
 	
 function PuppySprite(sprite) {
 	this.puppyTexture = PIXI.Texture.fromFrame("resources/Puppy Stuff/Walk Cycle/DogWalkCycle_01.png");
@@ -47,10 +47,12 @@ function PuppySprite(sprite) {
 	this.speed = 3;
 	this.health = 1000;
 	
-	this.graphics = new PIXI.Graphics();
-	this.graphics.lineStyle(1, 0xFF0000);	
-	this.graphics.drawRect(PUPPY_X_OFFSET, PUPPY_Y_OFFSET, this.getWidth(), this.getHeight());
-	this.sprite.addChild(this.graphics);
+	if(debug) {
+		this.graphics = new PIXI.Graphics();
+		this.graphics.lineStyle(1, 0xFF0000);	
+		this.graphics.drawRect(PUPPY_X_OFFSET, PUPPY_Y_OFFSET, this.getWidth(), this.getHeight());
+		this.sprite.addChild(this.graphics);
+	}
 	this.lastUpdate = new Date().getTime();
 	this.animationRate = 100;
 	
@@ -69,6 +71,9 @@ function PuppySprite(sprite) {
 	this.frame = 0;
 	
 	this.setBehavior(PuppySprite.DEFAULT_BEHAVIOR);
+	this.invulnerable = false;
+	this.lastDamaged = 0;
+	this.lastBlink = 0;
 }
 
 PuppySprite.DEFAULT_BEHAVIOR = 0;
@@ -98,6 +103,8 @@ PuppySprite.prototype.swimmingBehavior = function(dt, now){
 		accel = this.accel;
 		//objects to test for clipping
 		clippables = gameController.getClippableObjects();
+	
+	this.doInvulnerable(now);
 	
 	if(this.velX != 0 || this.jump) {
 		this.doSwimmingAnimation(now);
@@ -181,9 +188,35 @@ PuppySprite.prototype.setupJetPack = function() {
 	this.sprite.addChild(this.jetPackSprite);
 }
 
+PuppySprite.prototype.removeJetPack = function() {
+	this.sprite.removeChild(this.jetPackSprite);
+	this.jetPackSprite = null;
+}
+
 PuppySprite.prototype.bound = function(x, min, max) {
     return Math.max(min, Math.min(max, x));
   }
+  
+PuppySprite.prototype.doInvulnerable = function(now) {
+	if(this.invulnerable) {
+		if(now - this.lastDamaged > INVULNERABLE_TIME) {
+			this.invulnerable = false;
+			this.sprite.alpha = 1;
+		}
+		else {
+			if(now - this.lastBlink > 100) {
+				if(this.sprite.alpha == 1) {
+					this.sprite.alpha = .5;
+					this.lastBlink = now;
+				}
+				else {
+					this.sprite.alpha = 1;
+					this.lastBlink = now;
+				}
+			}
+		}
+	}
+}
   
 PuppySprite.prototype.flyingBehavior = function(dt, now) {
 	var wasleft    = this.velX  < 0,
@@ -192,6 +225,8 @@ PuppySprite.prototype.flyingBehavior = function(dt, now) {
 		accel = this.accel;
 		//objects to test for clipping
 		clippables = gameController.getClippableObjects();
+	
+	this.doInvulnerable(now);
 	
 	if(this.velX != 0 || this.jump) {
 		this.jetPackSprite.texture = this.jetPackFrames[0];
@@ -242,7 +277,7 @@ PuppySprite.prototype.flyingBehavior = function(dt, now) {
 	this.sprite.position.x = Math.floor(this.sprite.position.x + (dt * this.velX));
 	if(clippables != null) {
 		for(var i = 0; i < clippables.length; i++) {
-			this.collisionHandler = this.clipByX;
+			this.collisionHandler = this.flyingClipByX;
 			doCollision(this, clippables[i]);
 		}
 	}
@@ -301,6 +336,8 @@ PuppySprite.prototype.defaultBehavior = function(dt, now) {
 		//objects to test for clipping
 		clippables = gameController.getClippableObjects();
 
+	this.doInvulnerable(now);
+		
 	this.accX = 0;
 	this.accY = this.gravity;
 	
@@ -394,22 +431,24 @@ PuppySprite.prototype.doWalkingAnimation = function(now) {
 
 PuppySprite.prototype.collisionHandler = function(puppySprite, collidable) {}
 
-PuppySprite.prototype.clipByX = function(puppySprite, collidable) {
-	
+
+PuppySprite.prototype.flyingClipByX = function(puppySprite, collidable) {
 	if(collidable.getX() - puppySprite.getX() < 0) {
 		puppySprite.setX(collidable.getX() + collidable.getWidth());
 	}
 	else {
 		puppySprite.setX(collidable.getX() - puppySprite.getWidth());
 	}
+}
+
+PuppySprite.prototype.clipByX = function(puppySprite, collidable) {
 	
-	/*
 	if(puppySprite.velX > 0) {
-		
+		puppySprite.setX(collidable.getX() - puppySprite.getWidth());
 	}
 	else {
-		
-	}*/
+		puppySprite.setX(collidable.getX() + collidable.getWidth());
+	}
 }
 
 
@@ -432,12 +471,15 @@ PuppySprite.prototype.clipByY = function(puppySprite, collidable) {
 	}
 }
 
-PuppySprite.prototype.damage = function(damage) {
-	this.health -= damage;
-	if(this.health < 0) {
-		return 0;
+PuppySprite.prototype.damage = function(puppySprite) {
+	if(!puppySprite.invulnerable) {
+		var now = new Date().getTime();
+		puppySprite.lastDamaged = now;
+		puppySprite.lastBlink = now;
+		puppySprite.sprite.alpha = .5;
+		puppySprite.invulnerable = true;
+		gameController.levelController.removeTreat();
 	}
-	return 1;
 }
 
 PuppySprite.prototype.getX = function() {

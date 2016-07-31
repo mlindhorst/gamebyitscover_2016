@@ -2,9 +2,9 @@ var MAX_SHIP_HEIGHT = 100;
 var MID_SHIP_OFFSET = 431;
 var AFT_OFFSET = 306;
 
-function ShipSprite(bowSprite, midSprites, aftSprite) {
+function ShipSprite(bowSprite, midSprites, aftSprite, onDestroy) {
 	this.width = 0;
-	
+	this.onDestroy = onDestroy;
 	this.bowCollider = null;
 	this.bowCollder2 = null;
 	this.aftCollider = null;
@@ -17,6 +17,7 @@ function ShipSprite(bowSprite, midSprites, aftSprite) {
 	
 	this.shipContainer.position.x = -this.width;
 	this.shipContainer.position.y = screenHeight;
+	this.destroy = false;
 }
 
 ShipSprite.prototype.update = function(dt, now) {
@@ -27,8 +28,7 @@ ShipSprite.prototype.update = function(dt, now) {
 	this.shipContainer.position.x += 1;
 	
 	if(this.shipContainer.position.x > screenWidth) {
-		this.shipContainer.position.x = -this.width;
-		this.shipContainer.position.y = screenHeight;
+		this.destroy = true;
 	}
 	
 	//update midShipSprites
@@ -57,7 +57,7 @@ ShipSprite.prototype.setupContainer = function(bowSprite, midSprites, aftSprite)
 	aftSprite.position.y = AFT_OFFSET;
 	xPos = aftSprite.width;
 	
-	for(var i = 0; i < midSprites.length; i++) {
+	for(var i = midSprites.length - 1; i >= 0; i--) {
 		container.addChild(midSprites[i].midShipContainer);
 		midSprites[i].midShipContainer.position.x = xPos;
 		midSprites[i].midShipContainer.position.y = MID_SHIP_OFFSET - 61;

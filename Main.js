@@ -134,7 +134,7 @@ Main.prototype.loadSpriteSheet = function() {
 	loader.add('engineFire2', 'resources/Levels/Sky/EngineFire_02.png');
 	loader.add('exhaustFire1', 'resources/Levels/Sky/ExhaustFire_01.png');
 	loader.add('exhaustFire2', 'resources/Levels/Sky/ExhaustFire_02.png');
-	loader.add('cannon', 'resources/Levels/Sky/Ship_Cannon.png');
+	loader.add('cannon', 'resources/Levels/Sky/Ship_cannon.png');
 	loader.add('smokeStack', 'resources/Levels/Sky/Ship_SmokeStack.png');
 	loader.add('vent', 'resources/Levels/Sky/Ship_Vent.png');
 	loader.add('ventSmoke1', 'resources/Levels/Sky/Smoke_01.png');
