@@ -29,6 +29,28 @@ CannonBallSprite.prototype.setup = function(xPos, yPos, xVel, yVel) {
 	this.yVel = yVel;
 }
 
+CannonBallSprite.prototype.getX = function() {
+	return this.sprite.x;
+}
+
+CannonBallSprite.prototype.getY = function() {
+	return this.sprite.y;
+}
+
+CannonBallSprite.prototype.getWidth = function() {
+	return this.sprite.width;
+}
+
+CannonBallSprite.prototype.getHeight = function() {
+	return this.sprite.height;
+}
+
+CannonBallSprite.prototype.handleCollision = function(cannonBall, puppySprite) {
+	console.log("cannon ball damage");
+}
+
+
+
 
 
 

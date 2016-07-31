@@ -12,12 +12,25 @@ function Collidable(type, x, y, width, height, collisionHandler) {
 	this.collisionHandler = collisionHandler;
 }
 
+//modified getters for x and y now work for child objects within a sprite as well.
 Collidable.prototype.getX = function() {
-	return this.graphics.position.x;
+	var xPos = this.graphics.position.x;
+	var current = this.graphics;
+	while(current.parent) {
+		current = current.parent;
+		xPos += current.position.x;
+	}
+	return xPos;
 }
 
 Collidable.prototype.getY = function() {
-	return this.graphics.position.y;
+	var yPos = this.graphics.position.y;
+	var current = this.graphics;
+	while(current.parent) {
+		current = current.parent;
+		yPos += current.position.y;
+	}
+	return yPos;
 }
 
 Collidable.prototype.getWidth = function() {

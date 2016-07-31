@@ -1,0 +1,3 @@
+function BirdSprite(yPos) {
+	this.sprite = PIXI.sprite.fromFrame()
+}

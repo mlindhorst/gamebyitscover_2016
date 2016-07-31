@@ -27,6 +27,12 @@ MidShipSprite.prototype.update = function(dt, now) {
 		case MidShipSprite.CANNON:
 			this.updateCannon(dt, now);
 			break;
+		case MidShipSprite.SMOKE_STACK:
+			this.updateSmokeStack(dt, now);
+			break;
+		case MidShipSprite.VENT:
+			this.updateVent(dt, now);
+			break;
 		default:
 			break;
 	}
@@ -65,17 +71,16 @@ MidShipSprite.prototype.updateCannon = function(dt, now) {
 }
 
 MidShipSprite.prototype.updateSmokeStack = function(dt, now) {
-	
+	this.smokeStack.update(dt, now);
 }
 
 MidShipSprite.prototype.updateVent = function(dt, now) {
-	
+	this.vent1.update(dt, now);
+	this.vent2.update(dt, now);
 }
 
 MidShipSprite.prototype.collisionHandler = function(spriteA, spriteB) {
-	if(debug) {
-		console.log("MidShip collision detected");
-	}
+	//do nothing
 }
 
 MidShipSprite.prototype.setupContainer = function(sprite, type) {
@@ -117,11 +122,35 @@ MidShipSprite.prototype.setupCannon = function(container, sprite) {
 }
 
 MidShipSprite.prototype.setupSmokeStack = function(container, sprite) {
-	return null;
+	
+	this.smokeStack = new SmokeStackSprite();
+	var xPos = (sprite.width - this.smokeStack.getWidth()) / 2;
+	this.smokeStack.setup(xPos, 61 - this.smokeStack.getHeight());
+	container.addChild(this.smokeStack.container);
+	sprite.position.y = 61;
+	container.addChild(sprite);
+	return container;
 }
 
 MidShipSprite.prototype.setupVent = function(container, sprite) {
-	return null;
+	
+	this.vent1 = new VentSprite();
+	var xPos = this.vent1.container.width;
+	this.addVent(container, sprite, this.vent1, xPos, 61 - this.vent1.getHeight());
+	this.vent2 = new VentSprite();
+	xPos = sprite.width - this.vent2.container.width;
+	this.addVent(container, sprite, this.vent2, xPos, 61 - this.vent2.getHeight());
+	sprite.position.y = 61;
+	container.addChild(sprite);
+	return container;
+}
+
+MidShipSprite.prototype.addVent = function(container, sprite, vent, xPos, yPos) {
+	
+	vent.setup(xPos, 61 - vent.getHeight());
+	container.addChild(vent.container);
+	sprite.position.y = 61;
+	container.addChild(sprite);
 }
 
 MidShipSprite.prototype.isOnScreen = function() {

@@ -37,7 +37,7 @@ SpritePool.prototype.update = function(dt, now) {
 			//call onRelase - remove from background
 			this.onRelease(this.activeSprites[i]);
 			//release back to the pool
-			console.log("activeSprites: " + this.activeSprites.length);
+			//console.log("activeSprites: " + this.activeSprites.length);
 			this.spriteStack.push(this.activeSprites[i]);
 			//remove sprite from active
 			this.activeSprites.splice(i, 1);

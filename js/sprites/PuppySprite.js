@@ -291,6 +291,12 @@ PuppySprite.prototype.doWalkingAnimation = function(now) {
 	}
 }
 
+/**
+ * Collision Handlers
+ */
+
+PuppySprite.prototype.collisionHandler = function(puppySprite, collidable) {}
+
 PuppySprite.prototype.clipByX = function(puppySprite, collidable) {
 	
 	if(puppySprite.velX > 0) {
@@ -301,7 +307,7 @@ PuppySprite.prototype.clipByX = function(puppySprite, collidable) {
 	}
 }
 
-PuppySprite.prototype.collisionHandler = function(puppySprite, collidable) {}
+
 PuppySprite.prototype.clipByY = function(puppySprite, collidable) {
 	//falling through object
 	if(puppySprite.getY() + puppySprite.getHeight() > collidable.getY() && puppySprite.velY > 0) {

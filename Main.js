@@ -85,6 +85,14 @@ Main.prototype.loadSpriteSheet = function() {
 	loader.add('rat2', "resources/Enemies/RatWalkCycle/RatWalkCycle_02.png");
 	loader.add('rat3', "resources/Enemies/RatWalkCycle/RatWalkCycle_03.png");
 	loader.add('rat4', "resources/Enemies/RatWalkCycle/RatWalkCycle_04.png");
+	loader.add('bird1', "resources/Enemies/Bird/BirdFlyCycle/BirdFlyCycle_01.png");
+	loader.add('bird2', "resources/Enemies/Bird/BirdFlyCycle/BirdFlyCycle_02.png");
+	loader.add('bird3', "resources/Enemies/Bird/BirdFlyCycle/BirdFlyCycle_03.png");
+	loader.add('bird4', "resources/Enemies/Bird/BirdFlyCycle/BirdFlyCycle_04.png");
+	loader.add('bird5', "resources/Enemies/Bird/BirdFlyCycle/BirdFlyCycle_05.png");
+	loader.add('bird6', "resources/Enemies/Bird/BirdFlyCycle/BirdFlyCycle_06.png");
+	loader.add('birdFire1', "resources/Enemies/Bird/BirdFire_01.png");
+	loader.add('birdFire2', "resources/Enemies/Bird/BirdFire_02.png");
 	
 	// Level 1 - Factory	
 	loader.add('facilitybg', "resources/Levels/Facility/FacilityBG.png");
