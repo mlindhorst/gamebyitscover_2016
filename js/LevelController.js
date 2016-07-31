@@ -16,7 +16,7 @@ function LevelController(stage) {
 	this.onScreenLazerBeams = [];
 	this.setUpLazerBeams();
 	
-	this.setupBG(new MountainLevel(this.puppy, this));
+	this.setupBG(new MountainLevel(this.puppy, this));	
 }
 
 LevelController.prototype.setUpLazerBeams = function() {
@@ -54,10 +54,29 @@ LevelController.prototype.setupBG = function(level) {
 	this.bg = this.currentLevel.bg;
 	this.stage.addChild(this.bg);	
 	this.currentLevel.loadLevel();
+	this.setupTreatHUD();
 };
 
+LevelController.prototype.setupTreatHUD = function (){	
+	this.treatSprite = PIXI.Sprite.fromFrame("resources/Puppy Stuff/BoneWithGlow.png");
+	this.treatSprite.position.x = 5;
+	this.treatSprite.position.y = 5;
+	
+	this.previousTreatNumber = 3;
+	var number = "x" + TREATS;
+	this.treatNumber = new PIXI.Text(number,{fill : 0x000000, align : 'center', font : '30px Arial'});
+	this.treatNumber.position.x = 75;
+	this.treatNumber.position.y = 5;
+	this.accent = new PIXI.Text(number,{fill : 0xffffff, align : 'center', font : '30px Arial'});
+	this.accent.position.x = 77;
+	this.accent.position.y = 6;
+	
+	this.stage.addChild(this.treatSprite);
+	this.stage.addChild(this.accent);
+	this.stage.addChild(this.treatNumber);
+}
+
 LevelController.prototype.updateLevel = function(dt, now) {
-	// TODO: Add updateBackgroundAnimations() to all levels for level animation updates?
 	if(this.shootLazers)
 	{
 		for(var i = 0; i < this.onScreenLazerBeams.length; i++)
@@ -87,6 +106,14 @@ LevelController.prototype.updateLevel = function(dt, now) {
 			this.onScreenLazerBeams[i].sprite = null;
 			this.onScreenLazerBeams[i].graphics = null;
 		}
+	}
+	
+	// Handle treat increase/decrease
+	if(TREATS != this.previousTreatNumber)	{
+		this.stage.removeChild(this.treatSprite);
+		this.stage.removeChild(this.accent);
+		this.stage.removeChild(this.treatNumber);
+		this.setupTreatHUD();
 	}
 	
 	this.currentLevel.update(dt, now)
@@ -126,4 +153,8 @@ LevelController.prototype.checkCollision = function(dt) {
 
 LevelController.prototype.addTreat = function() {
 	TREATS += 1;
+};
+
+LevelController.prototype.removeTreat = function() {
+	TREATS -= 1;
 };
