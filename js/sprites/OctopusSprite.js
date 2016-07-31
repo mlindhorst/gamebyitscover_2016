@@ -1,3 +1,6 @@
+var OCTOPUS_FRAMES = 6,
+	X_RANGE = 250;
+
 function OctopusSprite(){
     this.sprite = PIXI.Sprite.fromFrame("resources/Enemies/Octopus/OctopusCycle_01.png");
 	
@@ -8,7 +11,7 @@ function OctopusSprite(){
 		this.sprite.addChild(this.graphics);
 	}
  	
-	this.flyFrames = [
+	this.octopusFrames = [
 		PIXI.Texture.fromFrame("resources/Enemies/Octopus/OctopusCycle_01.png"),
 		PIXI.Texture.fromFrame("resources/Enemies/Octopus/OctopusCycle_02.png"),
 		PIXI.Texture.fromFrame("resources/Enemies/Octopus/OctopusCycle_03.png"),
@@ -20,27 +23,35 @@ function OctopusSprite(){
 	this.damage = 10;
 	this.speed = 5;
 	this.lastUpdate = new Date().getTime();
-	this.lastFlameUpdate = this.lastUpdate;
 	this.animationSpeed = 250;
 	this.frame = 0;
-	this.active = false;
 }
 
 OctopusSprite.prototype.setup = function(xPos, yPos) {
+	this.originalXPos = xPos;
+	this.originalYPos = yPos;
 	this.sprite.position.x = xPos;
 	this.sprite.position.y = yPos;
 };
 
+var moveRight = true;
 OctopusSprite.prototype.update = function(dt, now) {
-	if(now - this.lastUpdate > this.animationSpeed) {
-		this.frame = (this.frame + 1) % 6;
-		this.sprite.texture = this.flyFrames[this.frame];
-		this.lastUpdate = now;
+	if(this.sprite.position.x == (this.originalXPos + X_RANGE)){
+		moveRight = false;
 	}
-	
-	this.sprite.position.x -= this.speed;
-	if(this.sprite.position.x  + this.sprite.width < 0) {
-		this.active = false;
+	else if(this.sprite.position.x == (this.originalXPos - X_RANGE)){
+		moveRight = true;
+	}
+	if( moveRight){
+		this.sprite.position.x++;
+	}
+	else{
+		this.sprite.position.x--;
+	}
+	if(now - this.lastUpdate > this.animationSpeed) {
+		this.frame = (this.frame + 1) % OCTOPUS_FRAMES;
+		this.sprite.texture = this.octopusFrames[this.frame];
+		this.lastUpdate = now;
 	}
 };
 
