@@ -8,6 +8,7 @@ var TILE  = 30,
 	IMPULSE = 2500;
 	WALK_FRAMES = 5;
 	FLY_FRAMES = 2;
+	SWIM_FRAMES = 5;
 	MAX_UP_THRUST = -9.8 * 7;
 	MIN_UP_THRUST = -9.8 * 5;
 	PUPPY_X_OFFSET = 30;
@@ -23,6 +24,14 @@ function PuppySprite(sprite) {
 		PIXI.Texture.fromFrame("resources/Puppy Stuff/Walk Cycle/DogWalkCycle_04.png"),
 		PIXI.Texture.fromFrame("resources/Puppy Stuff/Walk Cycle/DogWalkCycle_05.png")
 	];
+	
+	this.swimFrames = [
+		PIXI.Texture.fromFrame("resources/Puppy Stuff/Swim Cycle/DogSwimCycle_01.png"),
+		PIXI.Texture.fromFrame("resources/Puppy Stuff/Swim Cycle/DogSwimCycle_02.png"),
+		PIXI.Texture.fromFrame("resources/Puppy Stuff/Swim Cycle/DogSwimCycle_03.png"),
+		PIXI.Texture.fromFrame("resources/Puppy Stuff/Swim Cycle/DogSwimCycle_04.png"),
+		PIXI.Texture.fromFrame("resources/Puppy Stuff/Swim Cycle/DogSwimCycle_05.png"),
+		];
 	
 	this.flyingFrames = [
 		PIXI.Texture.fromFrame("resources/Puppy Stuff/Swim Cycle/DogSwimCycle_03.png"),
@@ -52,6 +61,7 @@ function PuppySprite(sprite) {
 	this.accY = this.gravity;
 	this.maxVelX = METER * 15;
 	this.maxVelY = METER * 60;
+	this.maxSwimVelY = METER * 15;
 	this.maxFlyVelY = METER * 15;
 	this.impulse = METER * IMPULSE;
 	this.accel = this.maxVelX / ACCEL;
@@ -74,12 +84,91 @@ PuppySprite.prototype.setBehavior = function(behavior) {
 			this.update = this.flyingBehavior;
 			break;
 		case PuppySprite.SWIMMING:
-			this.update = this.defaultBehavior; //update when swimming behavior is done
+			this.update = this.swimmingBehavior; //update when swimming behavior is done
 			break;
 		default:
 			this.update = this.defaultBehavior;
 	}
 }
+
+PuppySprite.prototype.swimmingBehavior = function(dt, now){
+	var wasleft    = this.velX  < 0,
+        wasright   = this.velX  > 0,
+		friction   = this.friction,
+		accel = this.accel;
+		//objects to test for clipping
+		clippables = gameController.getClippableObjects();
+	
+	if(this.velX != 0 || this.jump) {
+		this.doSwimmingAnimation(now);
+	}
+		
+	var upThrust = MIN_UP_THRUST * METER;
+	if(this.jump) {
+		//calculate upwards thrust
+		upThrust = MAX_UP_THRUST * METER;
+	}
+		
+	this.accX = 0;
+	this.accY = this.gravity + upThrust;
+	
+	if(this.left)
+		this.accX = this.accX - accel; 
+	else if(wasleft)
+		this.accX = this.accX + friction;
+	
+	if(this.right)
+		this.accX = this.accX + accel; 
+	else if(wasright)
+		this.accX = this.accX - friction;
+	
+	/*
+	 * Handling collision by x and y separately to
+	 * 	determine direction of clip.
+	 */
+	
+	//move x then clip x
+	this.sprite.position.x = Math.floor(this.sprite.position.x + (dt * this.velX));
+	if(clippables != null) {
+		for(var i = 0; i < clippables.length; i++) {
+			this.collisionHandler = this.clipByX;
+			doCollision(this, clippables[i]);
+		}
+	}
+	if(this.sprite.position.x < 0) {
+		this.sprite.position.x = 0;
+		if(this.accX < 0) {
+			this.accX = 0;
+		}
+	}
+	
+	//move y then clip y
+	this.sprite.position.y = Math.floor(this.sprite.position.y  + (dt * this.velY));
+	this.lastY = this.sprite.position.y;
+	if(clippables != null) {
+		for(var i = 0; i < clippables.length; i++) {
+			this.collisionHandler = this.clipByY;
+			doCollision(this, clippables[i]);
+		}
+	}
+	if(this.sprite.position.y < 0) {
+		this.sprite.position.y = 0;
+		if(this.accY < 0) {
+			this.accY = 0;
+		}
+	}
+	
+	this.velY = this.bound(this.velY + (dt * this.accY), -this.maxFlyVelY, this.maxFlyVelY);
+	this.velX = this.bound(this.velX + (dt * this.accX), -this.maxVelX, this.maxVelX);
+	
+	if ((wasleft  && (this.velX > 0)) ||
+        (wasright && (this.velX < 0))) 
+			this.velX = 0; // clamp at zero to prevent friction from making us jiggle side to side
+			
+	if(debug) {
+		//console.log("Puppy position: " + this.getX() + ", " + this.getY());
+	}
+};
 
 PuppySprite.prototype.setupJetPack = function() {
 	this.jetPackSprite = PIXI.Sprite.fromFrame('resources/Puppy Stuff/DogJetPack_02.png');
@@ -267,6 +356,14 @@ PuppySprite.prototype.defaultBehavior = function(dt, now) {
 		//console.log("Puppy position: " + this.getX() + ", " + this.getY());
 	}
 }
+
+PuppySprite.prototype.doSwimmingAnimation = function(now){
+	if(now - this.lastUpdate >= this.animationRate * 2) {
+		this.frame = (this.frame + 1) % SWIM_FRAMES;
+		this.sprite.texture = this.swimFrames[this.frame];
+		this.lastUpdate = now;
+	}
+};
 
 PuppySprite.prototype.doFlyAnimation = function(now) {
 	if(now - this.lastUpdate >= this.animationRate * 2) {

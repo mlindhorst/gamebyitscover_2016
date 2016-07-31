@@ -22,6 +22,15 @@ function WaterLevel(puppy, LevelController) {
 	);
 	this.bg.addChild(this.fg);
 	
+	this.octopi = [];
+	
+	for(var i = 0; i < 4; i++) {
+		this.octopi.push(new OctopusSprite());
+	}
+	this.octopiPool = new SpritePool(this.octopi, this.onRelease);
+	
+	this.setupOctopi();
+	
 	this.puppy = puppy;
 	this.puppyStartX = 260;
 	this.puppyStartY = 2755;
@@ -100,11 +109,18 @@ function WaterLevel(puppy, LevelController) {
 		}
 	};
 }
+
+WaterLevel.prototype.setupOctopi = function() {
+	this.octopi[0].sprite.position.x = 935;
+	this.octopi[0].sprite.position.y = 1150;
+	this.fg.addChild(this.octopi[0].sprite);
+};
 	
 WaterLevel.prototype.setupPuppy = function() {
 	this.puppy.ddx = 0;
 	this.puppy.sprite.position.x = this.puppyStartX;
 	this.puppy.sprite.position.y = this.puppyStartY;
+	this.puppy.setBehavior(PuppySprite.SWIMMING);
 	this.fg.addChild(this.puppy.sprite);
 };
 
@@ -123,6 +139,11 @@ WaterLevel.prototype.clearLevel = function() {
 		this.bg.removeChild(this.clippableObjects[i].graphics);
 	}
 };
+
+WaterLevel.prototype.onRelease = function(containerSprite) {
+	//removes the sprite object from the bg
+	gameController.levelController.currentLevel.bg.removeChild(containerSprite.sprite);
+}
 
 WaterLevel.prototype.updateBackgroundAnimations = function() {	
 	this.fanBlades1.rotation += 0.1;
