@@ -16,7 +16,7 @@ function LevelController(stage) {
 	this.onScreenLazerBeams = [];
 	this.setUpLazerBeams();
 	
-	this.setupBG(new MountainLevel(this.puppy, this));	
+	this.setupBG(new FactoryLevel(this.puppy, this));	
 }
 
 LevelController.prototype.setUpLazerBeams = function() {
@@ -45,11 +45,20 @@ LevelController.prototype.resetLevel = function() {
 	this.bg.removeChild(this.currentLevel.puppy.sprite);
 	this.currentLevel.clearLevel();
 	
-	this.setupBG(0);
+	this.setupBG(this.currentLevel);
 	this.currentLevel.setupPuppy();
 }
 
+LevelController.prototype.clearStage = function(){
+	while(this.stage.children.length > 0){   
+		var child = this.stage.getChildAt(0);  
+		this.stage.removeChild(child);
+	}
+}
+
 LevelController.prototype.setupBG = function(level) {
+	if(this.bg != null)
+		this.stage.removeChild(this.currentLevel.bg);
 	this.currentLevel = level;
 	this.bg = this.currentLevel.bg;
 	this.stage.addChild(this.bg);	
@@ -60,7 +69,7 @@ LevelController.prototype.setupBG = function(level) {
 LevelController.prototype.setupTreatHUD = function (){	
 	this.treatSprite = PIXI.Sprite.fromFrame("resources/Puppy Stuff/BoneWithGlow.png");
 	this.treatSprite.position.x = 5;
-	this.treatSprite.position.y = 5;
+	this.treatSprite.position.y = 0;
 	
 	this.previousTreatNumber = 3;
 	var number = "x" + TREATS;
@@ -116,6 +125,10 @@ LevelController.prototype.updateLevel = function(dt, now) {
 		this.setupTreatHUD();
 	}
 	
+	// Handle puppy death D:
+	if(TREATS <= 0)
+		this.restartGame();
+	
 	this.currentLevel.update(dt, now)
 	this.currentLevel.updateBackgroundAnimations();	
 };
@@ -150,6 +163,12 @@ LevelController.prototype.checkCollision = function(dt) {
 		
 	}*/
 };
+
+LevelController.prototype.restartGame = function(){
+	TREATS = 3;
+	this.clearStage();
+	this.setupBG(new FactoryLevel(this.puppy, this));
+}
 
 LevelController.prototype.addTreat = function() {
 	TREATS += 1;
