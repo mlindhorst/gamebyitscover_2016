@@ -3,7 +3,7 @@ var TILE = 30,
 	GRAVITY = METER * 9.8,
 	MAXDX = METER * 20,
 	MAXDY = METER * 60,
-	MAX_LAZERS = 25;
+	MAX_LAZERS = 20;
 	TREATS = 3;
 	
 function LevelController(stage) {	
@@ -96,9 +96,9 @@ LevelController.prototype.updateLevel = function(dt, now) {
 			if(this.onScreenLazerBeams[i].graphics == null)
 			{
 				var currentLazer = this.onScreenLazerBeams[i];
-				var sprite = this.lazerBeamSpritePool.borrowLazerBeams();				
+				var sprite = this.lazerBeamSpritePool.borrowLazerBeams();		
 				currentLazer.setStartPosition(this.puppy.sprite.position.x + this.puppy.sprite.width - 20, 
-										   this.puppy.sprite.position.y + (this.puppy.sprite.height / 2)-20, sprite);
+										   this.puppy.sprite.position.y + (this.puppy.sprite.height / 2) -20, sprite, this.puppy.facingRight);
 				
 				this.currentLevel.bg.addChild(currentLazer.graphics);
 				this.shootLazers = false;
@@ -113,22 +113,24 @@ LevelController.prototype.updateLevel = function(dt, now) {
 		var currentLazer = this.onScreenLazerBeams[i];
 		currentLazer.update();
 		if(currentLazer.removeLazer) {				
-			currentLazer.removeLazer = false;				
-			this.currentLevel.bg.removeChild(currentLazer.graphics);
-			this.lazerBeamSpritePool.returnLazerBeams(currentLazer.sprite);
-			this.onScreenLazerBeams[i].sprite = null;
-			this.onScreenLazerBeams[i].graphics = null;
+			this.removeLazer(currentLazer, i)
 		}
 		if(currentLazer.sprite != null) {
 			for(var j = 0; j < this.currentLevel.clippableObjects.length; j++) {
 				var clippable = this.currentLevel.clippableObjects[j];
 				doCollision(clippable, currentLazer.sprite);
 				if(clippable.destroy){
-					console.log("Destroy")
 					this.currentLevel.bg.removeChild(clippable.graphics);
+					this.currentLevel.bg.removeChild(clippable.sprite);
 					this.currentLevel.clippableObjects.splice(j,1);
 				}
 			}
+		}
+	}
+	
+	if(this.lazerBeamSpritePool.lazerBeams.length  == 0){
+		for(var i = 0; i < this.onScreenLazerBeams.length; i++){
+			this.removeLazer(this.onScreenLazerBeams[i], i)
 		}
 	}
 	
@@ -148,6 +150,14 @@ LevelController.prototype.updateLevel = function(dt, now) {
 	this.currentLevel.updateBackgroundAnimations();	
 };
   
+ LevelController.prototype.removeLazer = function(lazer, i) {
+	lazer.removeLazer = false;				
+	if(lazer.sprite == null) return;
+	this.currentLevel.bg.removeChild(lazer.graphics);
+	this.lazerBeamSpritePool.returnLazerBeams(lazer.sprite);
+	this.onScreenLazerBeams[i].sprite = null;
+	this.onScreenLazerBeams[i].graphics = null;
+ }
 /*isIntersecting = function(r1, r2) {
 
 	return r1.x < r2.x + r2.width &&

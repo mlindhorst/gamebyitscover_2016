@@ -2,12 +2,14 @@ var START_X = 800;
 
 function LazerBeam() {	
 	this.removeLazer = false;
+	this.goRight = true;
 	
 	
 };
 
-LazerBeam.prototype.setStartPosition = function(xPos, yPos, sprite) {
+LazerBeam.prototype.setStartPosition = function(xPos, yPos, sprite, goRight) {
 	this.sprite = sprite;
+	this.goRight = goRight;
 	if(sprite == null) {
 		console.log("NULL!")
 		return;
@@ -22,7 +24,10 @@ LazerBeam.prototype.setStartPosition = function(xPos, yPos, sprite) {
 
 LazerBeam.prototype.update = function(dt, now) {
 	if(this.graphics == null) return;
-	this.graphics.position.x+=10;
+	if(this.goRight)
+		this.graphics.position.x+=10;
+	else
+		this.graphics.position.x-=10;
 	if(this.graphics.position.x > this.startX + 100)
 		this.removeLazer = true;
 };
@@ -52,4 +57,5 @@ LazerBeamSprite.prototype.getHeight = function() {
 }
 
 LazerBeamSprite.prototype.collisionHandler = function(boulder, collidable) {
+	console.log("lazer hit")
 }

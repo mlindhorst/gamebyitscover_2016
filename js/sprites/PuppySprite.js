@@ -16,6 +16,8 @@ var TILE  = 30,
 	INVULNERABLE_TIME = 2000;
 	
 function PuppySprite(sprite) {
+	this.facingRight = true;
+	this.type = "Puppy";
 	this.puppyTexture = PIXI.Texture.fromFrame("resources/Puppy Stuff/Walk Cycle/DogWalkCycle_01.png");
 	this.walkFrames = [ 
 		PIXI.Texture.fromFrame("resources/Puppy Stuff/Walk Cycle/DogWalkCycle_01.png"),
@@ -341,13 +343,17 @@ PuppySprite.prototype.defaultBehavior = function(dt, now) {
 	this.accX = 0;
 	this.accY = this.gravity;
 	
-	if(this.left)
+	if(this.left) {
+		this.facingRight = false;
 		this.accX = this.accX - accel; 
+	}
 	else if(wasleft)
 		this.accX = this.accX + friction;
 	
-	if(this.right)
+	if(this.right){
+		this.facingRight = true;
 		this.accX = this.accX + accel; 
+	}
 	else if(wasright)
 		this.accX = this.accX - friction;
 	

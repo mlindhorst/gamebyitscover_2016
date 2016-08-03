@@ -21,6 +21,7 @@ function MountainLevel(puppy, LevelController) {
 	this.puppyStartX = 52;
 	this.puppyStartY = 1213;
 	
+	this.rat1 = new RatSprite(2530, 1980, 850, "right");
 	this.setupPuppy = function() {
 		
 		this.puppy = puppy;
@@ -36,9 +37,12 @@ function MountainLevel(puppy, LevelController) {
 	
 	this.loadLevel = function() {
 		this.bg.addChild(this.fg);
+		
 		for(var i = 0; i < this.clippableObjects.length; i++) {
 			this.bg.addChild(this.clippableObjects[i].graphics);
 		}
+		this.bg.addChild(this.rat1.sprite);
+		this.bg.addChild(this.rat1.graphics);
 	}
 	this.boulderCollisionHandler = function(spriteA, spriteB) {		
 		//console.log("Rock Collision");
@@ -104,12 +108,14 @@ function MountainLevel(puppy, LevelController) {
 		// bottom edge
 		new Collidable("cliff",     0,3000,  2500,  10, this.groundCollisionHandler),
 		new ExplodableBoulder(344, 900),
+		this.rat1,
 		new Collidable("end", 3900, 2105, 90, 495, function() {LevelController.nextLevelCollisionHandler.apply(LevelController, ["MountainLevel"])})
 		];
 	
 	
 	this.update = function(dt, now) {
 		this.puppy.update(dt, now);
+		this.rat1.update(dt, now);
 	}
 	this.updateBackgroundAnimations = function() {
 		

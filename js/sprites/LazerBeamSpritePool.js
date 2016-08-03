@@ -12,7 +12,7 @@ LazerBeamSpritePool.prototype.returnLazerBeams = function(sprite) {
 
 LazerBeamSpritePool.prototype.createLazerBeams = function() {
 	this.lazerBeams = [];
-	this.addLazerBeam(20, "resources/KB_Laserbullets_Red.png");
+	this.addLazerBeam(20);
 };
 
 LazerBeamSpritePool.prototype.addLazerBeam= function(amount, frameId) {

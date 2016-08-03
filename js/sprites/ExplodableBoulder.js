@@ -30,7 +30,6 @@ ExplodableBoulder.prototype.getHeight = function() {
 
 ExplodableBoulder.prototype.collisionHandler = function(boulder, collidable) {
 	if(collidable.type == "puppyLazer" ){
-		console.log("lazer hit")
 		this.destroy = true;
 	}
 }
