@@ -7,7 +7,7 @@ function OctopusSprite(){
 	if(debug) {
 		this.graphics = new PIXI.Graphics();
 		this.graphics.lineStyle(1, 0xFF0000);	
-		this.graphics.drawRect(10, 25, this.getWidth(), this.getHeight());
+		this.graphics.drawRect(0, 0, this.getWidth(), this.getHeight());
 		this.sprite.addChild(this.graphics);
 	}
  	
@@ -56,21 +56,21 @@ OctopusSprite.prototype.update = function(dt, now) {
 };
 
 OctopusSprite.prototype.handleCollision = function(spriteA, spriteB) {
-	
+	spriteA.damage(spriteA);
 };
 
 OctopusSprite.prototype.getX = function() {
-	return this.sprite.position.x + 10;
+	return this.sprite.position.x;
 };
 
 OctopusSprite.prototype.getY = function() {
-	return this.sprite.position.y + 25;
+	return this.sprite.position.y;
 };
 
 OctopusSprite.prototype.getWidth = function() {
-	return this.sprite.width - 15;
+	return this.sprite.width;
 };
 
 OctopusSprite.prototype.getHeight = function() {
-	return this.sprite.height  - 40;
+	return this.sprite.height;
 };

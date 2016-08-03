@@ -1,4 +1,5 @@
 function WaterLevel(puppy, LevelController) {
+	this.LevelController = LevelController;
 	var bgTexture = PIXI.Texture.fromImage("resources/Levels/Water/WaterBG_Water.png");
 	this.bg = new BackgroundScene(
 		bgTexture,
@@ -22,13 +23,9 @@ function WaterLevel(puppy, LevelController) {
 	);
 	this.bg.addChild(this.fg);
 	
-	this.octopi = [];
-	
-	for(var i = 0; i < 5; i++) {
-		this.octopi.push(new OctopusSprite());
-	}
-	
+	this.setupBarrels();
 	this.setupOctopi();
+	this.setupPuppyTreats();
 	
 	this.puppy = puppy;
 	this.puppyStartX = 260;
@@ -109,15 +106,49 @@ function WaterLevel(puppy, LevelController) {
 	};
 }
 
+WaterLevel.prototype.setupPuppyTreats = function() {
+	this.puppyTreats = [
+			new PuppyTreat(680, 1845, this.LevelController),
+			new PuppyTreat(2185, 1365, this.LevelController),
+			new PuppyTreat(3545, 18305, this.LevelController),
+			new PuppyTreat(64310, 2365, this.LevelController)
+			];
+	for(var i = 0; i < this.puppyTreats.length; i++){
+		this.fg.addChild(this.puppyTreats[i].sprite);
+	}
+};
+
+WaterLevel.prototype.setupBarrels = function() {
+	this.barrels = [
+		new OozingBarrelSprite(1480, 1380),
+		new OozingBarrelSprite(1250, 1875),
+		new OozingBarrelSprite(2400, 1895),
+		new OozingBarrelSprite(2300, 2820),
+		new OozingBarrelSprite(2620, 2820),
+		new OozingBarrelSprite(3070, 2820),
+		new OozingBarrelSprite(4655, 1364),
+		new OozingBarrelSprite(4705, 1885)
+		];
+	
+	for(var j = 0; j < this.barrels.length; j++){
+		this.fg.addChild(this.barrels[j].sprite);
+	}
+};
+
 WaterLevel.prototype.setupOctopi = function() {
+	this.octopi = [];
+	for(var i = 0; i < 5; i++) {
+		this.octopi.push(new OctopusSprite());
+	}
+	
 	this.octopi[0].setup(1870, 1120);
 	this.octopi[1].setup(1920, 2755);
 	this.octopi[2].setup(2870, 2175);
 	this.octopi[3].setup(3060, 1620);
 	this.octopi[4].setup(3845, 2270);
 	
-	for(var i = 0; i < this.octopi.length; i++){
-		this.fg.addChild(this.octopi[i].sprite);
+	for(var j = 0; j < this.octopi.length; j++){
+		this.fg.addChild(this.octopi[j].sprite);
 	}
 };
 	
@@ -133,6 +164,19 @@ WaterLevel.prototype.update = function(dt, now) {
 	this.puppy.update(dt, now);
 	for(var i = 0; i < this.octopi.length; i++){
 		this.octopi[i].update(dt, now);
+		doCollisionWithHandler(this.puppy, this.octopi[i], this.octopi[i].handleCollision);
+	}
+	for(var j = 0; j < this.barrels.length; j++){
+		this.barrels[j].update(dt, now);
+		doCollisionWithHandler(this.puppy, this.barrels[j].oozeSprite, this.barrels[j].oozeSprite.handleCollision);
+	}
+	
+	for(var k = 0; k < this.puppyTreats.length; k++) {
+		if(doCollisionWithHandler(this.puppy, this.puppyTreats[k], this.puppyTreats[k].collisionHandler)){
+			this.fg.removeChild(this.puppyTreats[k].graphics);
+			this.fg.removeChild(this.puppyTreats[k].sprite);
+			this.puppyTreats.splice(k, 1);
+		}
 	}
 };
 
