@@ -24,10 +24,9 @@ function WaterLevel(puppy, LevelController) {
 	
 	this.octopi = [];
 	
-	for(var i = 0; i < 4; i++) {
+	for(var i = 0; i < 5; i++) {
 		this.octopi.push(new OctopusSprite());
 	}
-	this.octopiPool = new SpritePool(this.octopi, this.onRelease);
 	
 	this.setupOctopi();
 	
@@ -53,9 +52,9 @@ function WaterLevel(puppy, LevelController) {
 	
 	this.clippableObjects = [
 	//type, x, y, width, height, collisionHandler
-	new Collidable("leftEdge", 0, 0, 1, 3500, this.environmentCollisionHandler),
-	new Collidable("rightEdge", 6450, 100, 1, 3500, this.environmentCollisionHandler),
-	new Collidable("finish", 6450, 0, 1, 100, this.environmentCollisionHandler),
+	new Collidable("leftEdge", 0, 0, 10, 3500, this.environmentCollisionHandler),
+	new Collidable("rightEdge", 6450, 100, 10, 3500, this.environmentCollisionHandler),
+	new Collidable("finish", 6450, 0, 10, 100, this.environmentCollisionHandler),
 	new Collidable("ground", 0, 2940, 6500, 40, this.environmentCollisionHandler),
 	new Collidable("shipLeftLowerBorder1", 620, 2500, 445, 145, this.environmentCollisionHandler),
 	new Collidable("shipLeftLowerBorder2", 770, 2645, 400, 145, this.environmentCollisionHandler),
@@ -76,14 +75,14 @@ function WaterLevel(puppy, LevelController) {
 	new Collidable("shipInnerBlock3", 3765, 1010, 290, 115, this.environmentCollisionHandler),
 	new Collidable("shipInnerBlock4", 3835, 1415, 200, 565, this.environmentCollisionHandler),
 	new Collidable("shipInnerBlock5", 3775, 2005, 190, 120, this.environmentCollisionHandler),
-	new Collidable("firstDeck1", 875, 2500, 780, 3, this.environmentCollisionHandler),
-	new Collidable("firstDeck2", 2150, 2500, 1315, 3, this.environmentCollisionHandler),
-	new Collidable("secondDeck1", 700, 2000, 795, 3, this.environmentCollisionHandler),
-	new Collidable("secondDeck2", 2320, 2000, 2860, 3, this.environmentCollisionHandler),
-	new Collidable("thirdDeck1", 550, 1500, 2365, 3, this.environmentCollisionHandler),
-	new Collidable("thirdDeck2", 3370, 1500, 1705, 3, this.environmentCollisionHandler),
-	new Collidable("wall1", 1950, 1280, 3, 150, this.environmentCollisionHandler),
-	new Collidable("wall2", 1950, 2000, 3, 335, this.environmentCollisionHandler),
+	new Collidable("firstDeck1", 875, 2500, 780, 10, this.environmentCollisionHandler),
+	new Collidable("firstDeck2", 2150, 2500, 1315, 10, this.environmentCollisionHandler),
+	new Collidable("secondDeck1", 700, 2000, 795, 10, this.environmentCollisionHandler),
+	new Collidable("secondDeck2", 2320, 2000, 2860, 10, this.environmentCollisionHandler),
+	new Collidable("thirdDeck1", 550, 1500, 2365, 10, this.environmentCollisionHandler),
+	new Collidable("thirdDeck2", 3370, 1500, 1705, 10, this.environmentCollisionHandler),
+	new Collidable("wall1", 1950, 1280, 10, 150, this.environmentCollisionHandler),
+	new Collidable("wall2", 1950, 2000, 10, 335, this.environmentCollisionHandler),
 	new Collidable("end", 6400, 0, 55, 370, function(){LevelController.nextLevelCollisionHandler.apply(LevelController, ["WaterLevel"])})
 	];
 	
@@ -111,9 +110,15 @@ function WaterLevel(puppy, LevelController) {
 }
 
 WaterLevel.prototype.setupOctopi = function() {
-	this.octopi[0].sprite.position.x = 935;
-	this.octopi[0].sprite.position.y = 1150;
-	this.fg.addChild(this.octopi[0].sprite);
+	this.octopi[0].setup(1870, 1120);
+	this.octopi[1].setup(1920, 2755);
+	this.octopi[2].setup(2870, 2175);
+	this.octopi[3].setup(3060, 1620);
+	this.octopi[4].setup(3845, 2270);
+	
+	for(var i = 0; i < this.octopi.length; i++){
+		this.fg.addChild(this.octopi[i].sprite);
+	}
 };
 	
 WaterLevel.prototype.setupPuppy = function() {
@@ -126,6 +131,9 @@ WaterLevel.prototype.setupPuppy = function() {
 
 WaterLevel.prototype.update = function(dt, now) {
 	this.puppy.update(dt, now);
+	for(var i = 0; i < this.octopi.length; i++){
+		this.octopi[i].update(dt, now);
+	}
 };
 
 WaterLevel.prototype.loadLevel = function() {
