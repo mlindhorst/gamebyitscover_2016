@@ -5,7 +5,6 @@ function OozingBarrelSprite(x, y) {
 	
 	var oozeSpriteY = y - this.sprite.height - 75;
     this.oozeSprite = new OozeSprite(x, oozeSpriteY);
-	this.sprite.addChild(this.oozeSprite.sprite);
 	
     if(debug) {
     	this.graphics = new PIXI.Graphics();

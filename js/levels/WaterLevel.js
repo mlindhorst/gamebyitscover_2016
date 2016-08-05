@@ -23,16 +23,6 @@ function WaterLevel(puppy, LevelController) {
 	);
 	this.bg.addChild(this.fg);
 	
-	this.setupBarrels();
-	this.setupOctopi();
-	this.setupPuppyTreats();
-	
-	this.puppy = puppy;
-	this.puppyStartX = 260;
-	this.puppyStartY = 2755;
-	
-	this.setupPuppy();
-	
 	var barrel = PIXI.Texture.fromImage("resources/Levels/Water/Barrel.png");
 	var bubble_1 = PIXI.Texture.fromImage("resources/Levels/Water/Bubble_01.png");
 	var bubble_2 = PIXI.Texture.fromImage("resources/Levels/Water/Bubble_02.png");
@@ -83,6 +73,16 @@ function WaterLevel(puppy, LevelController) {
 	new Collidable("end", 6400, 0, 55, 370, function(){LevelController.nextLevelCollisionHandler.apply(LevelController, ["WaterLevel"])})
 	];
 	
+	this.setupBarrels();
+	this.setupOctopi();
+	this.setupPuppyTreats();
+	
+	this.puppy = puppy;
+	this.puppyStartX = 260;
+	this.puppyStartY = 2755;
+	
+	this.setupPuppy();
+	
 	this.puppyStartX = 52;
 	this.puppyStartY = 2800;
 		
@@ -132,6 +132,9 @@ WaterLevel.prototype.setupBarrels = function() {
 	
 	for(var j = 0; j < this.barrels.length; j++){
 		this.fg.addChild(this.barrels[j].sprite);
+		this.fg.addChild(this.barrels[j].oozeSprite.sprite);
+		this.clippableObjects.push(new Collidable("oozingBarrel", this.barrels[j].getX(), this.barrels[j].getY(), 
+											this.barrels[j].getWidth(), this.barrels[j].getHeight(), this.environmentCollisionHandler));
 	}
 };
 
