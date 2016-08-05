@@ -24,6 +24,8 @@ function RatSprite(x, y, distance, startDirection) {
 		this.graphics.lineStyle(1, 0xFF0000);	
 	}
 	this.graphics.drawRect(0, 0, this.sprite.width, this.sprite.height);
+	this.graphics.position.x = x - (this.sprite.width / 2);
+	this.graphics.position.y = y - (this.sprite.height / 2);
 	this.sprite.addChild(this.graphics);
 	this.sprite.anchor.x = .5;
 	this.sprite.anchor.y = .5;
@@ -36,10 +38,12 @@ RatSprite.prototype.update = function(dt, now) {
 	if(this.direction == "right"){
 		this.sprite.scale.x = 1;
 		this.sprite.position.x += 1;
+		this.graphics.position.x++;
 	}
 	else if(this.direction == "left" ) {
 		this.sprite.scale.x = -1;
 		this.sprite.position.x -= 1;
+		this.graphics.position.x--;
 	}
 	var currentDistanceTraveled = Math.abs(this.startX - this.sprite.position.x);
 	if(currentDistanceTraveled <= 0 || currentDistanceTraveled > this.distance)
@@ -79,15 +83,15 @@ RatSprite.prototype.damage = function(damage) {
 }
 
 RatSprite.prototype.getX = function() {
-	return this.sprite.position.x;
+	return this.sprite.position.x - (this.sprite.width / 2);
 };
 
 RatSprite.prototype.setX = function(x) {
-	this.sprite.position.x = x;
+	this.sprite.position.x = x ;
 };
 
 RatSprite.prototype.getY = function() {
-	return this.sprite.position.y;
+	return this.sprite.position.y - (this.sprite.height / 2);
 };
 
 RatSprite.prototype.setY = function(y) {
