@@ -11,7 +11,7 @@ var TILE  = 30,
 	SWIM_FRAMES = 5;
 	MAX_UP_THRUST = -9.8 * 7;
 	MIN_UP_THRUST = -9.8 * 5;
-	PUPPY_X_OFFSET = 30;
+	PUPPY_X_OFFSET = -45.5;
 	PUPPY_Y_OFFSET = 40;
 	INVULNERABLE_TIME = 2000;
 	
@@ -45,6 +45,8 @@ function PuppySprite(sprite) {
 		PIXI.Texture.fromFrame("resources/Puppy Stuff/DogJetPack_02.png")
 	];
 	this.sprite = sprite;
+	this.sprite.anchor.x = .5;
+	PUPPY_X_OFFSET = -(this.getWidth() / 2);
 	
 	this.speed = 3;
 	this.health = 1000;
@@ -52,7 +54,8 @@ function PuppySprite(sprite) {
 	if(debug) {
 		this.graphics = new PIXI.Graphics();
 		this.graphics.lineStyle(1, 0xFF0000);	
-		this.graphics.drawRect(PUPPY_X_OFFSET, PUPPY_Y_OFFSET, this.getWidth(), this.getHeight());
+		
+		this.graphics.drawRect(-(this.getWidth() / 2), PUPPY_Y_OFFSET, this.getWidth(), this.getHeight());
 		this.sprite.addChild(this.graphics);
 	}
 	this.lastUpdate = new Date().getTime();
@@ -345,6 +348,7 @@ PuppySprite.prototype.defaultBehavior = function(dt, now) {
 	
 	if(this.left) {
 		this.facingRight = false;
+		this.sprite.scale.x = -1;
 		this.accX = this.accX - accel; 
 	}
 	else if(wasleft)
@@ -352,6 +356,7 @@ PuppySprite.prototype.defaultBehavior = function(dt, now) {
 	
 	if(this.right){
 		this.facingRight = true;
+		this.sprite.scale.x = 1;
 		this.accX = this.accX + accel; 
 	}
 	else if(wasright)
@@ -505,7 +510,7 @@ PuppySprite.prototype.setY = function(y) {
 }
 
 PuppySprite.prototype.getWidth = function() {
-	return this.sprite.width - 45;
+	return this.sprite.width - 40;
 }
 
 PuppySprite.prototype.getHeight = function() {
@@ -513,7 +518,7 @@ PuppySprite.prototype.getHeight = function() {
 }
 
 PuppySprite.prototype.getCenterX = function() {
-	return this.sprite.position.x + (this.sprite.width / 2);
+	return this.sprite.position.x - 60;
 };
 
 PuppySprite.prototype.getCenterY = function() {
