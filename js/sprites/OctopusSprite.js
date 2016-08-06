@@ -20,6 +20,7 @@ function OctopusSprite(){
 		PIXI.Texture.fromFrame("resources/Enemies/Octopus/OctopusCycle_06.png")
 	];
 	
+	this.destroy = false;
 	this.damage = 10;
 	this.speed = 5;
 	this.lastUpdate = new Date().getTime();
@@ -55,8 +56,14 @@ OctopusSprite.prototype.update = function(dt, now) {
 	}
 };
 
-OctopusSprite.prototype.handleCollision = function(spriteA, spriteB) {
-	spriteA.damage(spriteA);
+OctopusSprite.prototype.collisionHandler = function(spriteA, spriteB) {
+	if(spriteA.type == "Puppy"){
+		spriteA.damage(spriteA);
+	}
+	
+	if(spriteB.type == "puppyLazer" ){
+		this.destroy = true;
+	}
 };
 
 OctopusSprite.prototype.getX = function() {

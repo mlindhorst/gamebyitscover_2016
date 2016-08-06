@@ -141,8 +141,7 @@ Main.prototype.loadSpriteSheet = function() {
 	loader.add('ventSmoke2', 'resources/Levels/Sky/Smoke_02.png');
 	
 	// Level 4 - Water
-	loader.add('waterbg', "resources/Levels/Water/WaterBG_Water.png");
-	loader.add('waterfg', "resources/Levels/Water/WaterBG_Foreground.png");
+	loader.add('waterbg', "resources/Levels/Water/WaterBG_Flattened.png");
 	loader.add('barrel', "resources/Levels/Water/Barrel.png");
 	loader.add('bubble_1', "resources/Levels/Water/Bubble_01.png");
 	loader.add('bubble_2', "resources/Levels/Water/Bubble_02.png");

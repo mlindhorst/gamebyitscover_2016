@@ -1,27 +1,15 @@
 function WaterLevel(puppy, LevelController) {
 	this.LevelController = LevelController;
-	var bgTexture = PIXI.Texture.fromImage("resources/Levels/Water/WaterBG_Water.png");
+	var backgroundTexture = PIXI.Texture.fromImage("resources/Levels/Water/WaterBG_Flattened.png");
 	this.bg = new BackgroundScene(
-		bgTexture,
-		bgTexture.baseTexture.width,
-		bgTexture.baseTexture.height,
+		backgroundTexture,
+		backgroundTexture.baseTexture.width,
+		backgroundTexture.baseTexture.height,
 		0,
 		0,
 		0.09,
 		0.09
 	);
-	
-	var fgTexture = PIXI.Texture.fromImage("resources/Levels/Water/WaterBG_Foreground.png");
-	this.fg = new BackgroundScene(
-		fgTexture,
-		fgTexture.baseTexture.width,
-		fgTexture.baseTexture.height,
-		0,
-		0,
-		0.09,
-		0.09
-	);
-	this.bg.addChild(this.fg);
 	
 	var barrel = PIXI.Texture.fromImage("resources/Levels/Water/Barrel.png");
 	var bubble_1 = PIXI.Texture.fromImage("resources/Levels/Water/Bubble_01.png");
@@ -99,7 +87,6 @@ function WaterLevel(puppy, LevelController) {
 	};
 	
 	this.loadLevel = function() {
-		this.bg.addChild(this.fg);
 		for(var i = 0; i < this.clippableObjects.length; i++) {
 			this.bg.addChild(this.clippableObjects[i].graphics);
 		}
@@ -114,7 +101,7 @@ WaterLevel.prototype.setupPuppyTreats = function() {
 			new PuppyTreat(64310, 2365, this.LevelController)
 			];
 	for(var i = 0; i < this.puppyTreats.length; i++){
-		this.fg.addChild(this.puppyTreats[i].sprite);
+		this.bg.addChild(this.puppyTreats[i].sprite);
 	}
 };
 
@@ -131,8 +118,8 @@ WaterLevel.prototype.setupBarrels = function() {
 		];
 	
 	for(var j = 0; j < this.barrels.length; j++){
-		this.fg.addChild(this.barrels[j].sprite);
-		this.fg.addChild(this.barrels[j].oozeSprite.sprite);
+		this.bg.addChild(this.barrels[j].sprite);
+		this.bg.addChild(this.barrels[j].oozeSprite.sprite);
 		this.clippableObjects.push(new Collidable("oozingBarrel", this.barrels[j].getX(), this.barrels[j].getY(), 
 											this.barrels[j].getWidth(), this.barrels[j].getHeight(), this.environmentCollisionHandler));
 	}
@@ -151,7 +138,8 @@ WaterLevel.prototype.setupOctopi = function() {
 	this.octopi[4].setup(3845, 2270);
 	
 	for(var j = 0; j < this.octopi.length; j++){
-		this.fg.addChild(this.octopi[j].sprite);
+		this.bg.addChild(this.octopi[j].sprite);
+		this.clippableObjects.push(this.octopi[j]);
 	}
 };
 	
@@ -160,14 +148,17 @@ WaterLevel.prototype.setupPuppy = function() {
 	this.puppy.sprite.position.x = this.puppyStartX;
 	this.puppy.sprite.position.y = this.puppyStartY;
 	this.puppy.setBehavior(PuppySprite.SWIMMING);
-	this.fg.addChild(this.puppy.sprite);
+	this.bg.addChild(this.puppy.sprite);
 };
 
 WaterLevel.prototype.update = function(dt, now) {
 	this.puppy.update(dt, now);
 	for(var i = 0; i < this.octopi.length; i++){
+		if(this.octopi[i].destroy){
+			continue;
+		}
 		this.octopi[i].update(dt, now);
-		doCollisionWithHandler(this.puppy, this.octopi[i], this.octopi[i].handleCollision);
+		doCollisionWithHandler(this.puppy, this.octopi[i], this.octopi[i].collisionHandler);
 	}
 	for(var j = 0; j < this.barrels.length; j++){
 		this.barrels[j].update(dt, now);
@@ -176,8 +167,8 @@ WaterLevel.prototype.update = function(dt, now) {
 	
 	for(var k = 0; k < this.puppyTreats.length; k++) {
 		if(doCollisionWithHandler(this.puppy, this.puppyTreats[k], this.puppyTreats[k].collisionHandler)){
-			this.fg.removeChild(this.puppyTreats[k].graphics);
-			this.fg.removeChild(this.puppyTreats[k].sprite);
+			this.bg.removeChild(this.puppyTreats[k].graphics);
+			this.bg.removeChild(this.puppyTreats[k].sprite);
 			this.puppyTreats.splice(k, 1);
 		}
 	}
@@ -196,9 +187,8 @@ WaterLevel.prototype.clearLevel = function() {
 };
 
 WaterLevel.prototype.onRelease = function(containerSprite) {
-	//removes the sprite object from the bg
-	gameController.levelController.currentLevel.bg.removeChild(containerSprite.sprite);
-}
+	this.bg.removeChild(containerSprite.sprite);
+};
 
 WaterLevel.prototype.updateBackgroundAnimations = function() {	
 	this.fanBlades1.rotation += 0.1;
