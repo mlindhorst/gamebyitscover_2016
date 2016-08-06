@@ -56,7 +56,7 @@ function WaterLevel(puppy, LevelController) {
 	new Collidable("shipLeftUpperBorder2", 335, 1115, 160, 890, this.environmentCollisionHandler),
 	new Collidable("shipLeftUpperBorder3", 390, 2000, 300, 90, this.environmentCollisionHandler),
 	new Collidable("shipUpperBorder1", 330, 600, 5265, 430, this.environmentCollisionHandler),
-	new Collidable("shipUpperBorder2", 4075, 115, 1380, 495, this.environmentCollisionHandler),
+	new Collidable("shipUpperBorder2", 4075, 0, 1380, 600, this.environmentCollisionHandler),
 	new Collidable("shipInnerBlock1", 1810, 1435, 240, 565, this.environmentCollisionHandler),
 	new Collidable("shipInnerBlock2", 1835, 2345, 280, 345, this.environmentCollisionHandler),
 	new Collidable("shipInnerBlock3", 3765, 1010, 290, 115, this.environmentCollisionHandler),
