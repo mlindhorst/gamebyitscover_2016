@@ -46,7 +46,7 @@ CannonBallSprite.prototype.getHeight = function() {
 }
 
 CannonBallSprite.prototype.handleCollision = function(cannonBall, puppySprite) {
-	console.log("cannon ball damage");
+	puppySprite.damage(puppySprite);
 }
 
 

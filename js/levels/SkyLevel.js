@@ -57,10 +57,50 @@ function SkyLevel(puppy, LevelController) {
 		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON)
 	];
 	
+	var midSections2 = [
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.NONE),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.SMOKE_STACK),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.VENT),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.SMOKE_STACK),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.NONE),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.VENT),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.NONE),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON)
+	];
+	
+	var midSections3 = [
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.NONE),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.SMOKE_STACK),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.VENT),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.SMOKE_STACK),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.NONE),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.VENT),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.NONE),
+		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON)
+	];
+	
 	this.shipSprites = [
 		new ShipSprite(
 			PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Front.png'),
 			midSections,
+			PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Back.png')
+		),
+		new ShipSprite(
+			PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Front.png'),
+			midSections2,
+			PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Back.png')
+		),
+		new ShipSprite(
+			PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Front.png'),
+			midSections3,
 			PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Back.png')
 		)
 	];
@@ -155,7 +195,7 @@ SkyLevel.prototype.update = function(dt, now) {
 	this.cannonBallPool.update(dt, now);
 	if(now - this.lastBird > BIRD_SPEED) {
 		var bird = this.birdPool.borrow();
-		bird.setup(screenWidth, this.puppy.getY());
+		bird.setup(screenWidth, this.puppy.getY() - 20);
 		this.bg.addChild(bird.sprite);
 		this.lastBird = now;
 	}
@@ -185,6 +225,21 @@ SkyLevel.prototype.doCollision = function() {
 			else if(shipSections[i].type == MidShipSprite.VENT) {
 				doCollisionWithHandler(shipSections[i].vent1, this.puppy, shipSections[i].vent1.handleCollision);
 				doCollisionWithHandler(shipSections[i].vent2, this.puppy, shipSections[i].vent2.handleCollision);
+			}
+		}
+	}
+	var lazers = gameController.levelController.onScreenLazerBeams;
+	for(var i = 0; i < lazers.length; i++) {
+		
+		var lazer = lazers[i];
+		if(lazer.graphics == null) {
+			//skip it if no graphics
+			continue;
+		}
+		for(var j = 0; j < this.birdPool.activeSprites.length; j++) {
+			var bird = this.birdPool.activeSprites[j];
+			if(doCollisionWithHandler(lazer, bird, function() {})) {
+				bird.active = false;
 			}
 		}
 	}

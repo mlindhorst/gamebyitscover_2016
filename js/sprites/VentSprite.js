@@ -43,7 +43,7 @@ VentSprite.prototype.update = function(dt, now) {
 }
 
 VentSprite.prototype.handleCollision = function(vent, puppy) {
-	console.log("I'M ON FIRE AAAAAAHHHHHH");
+	puppy.damage(puppy);
 }
 
 VentSprite.prototype.setup = function(xPos, yPos) {

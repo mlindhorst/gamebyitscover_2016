@@ -16,7 +16,7 @@ function LevelController(stage) {
 	this.onScreenLazerBeams = [];
 	this.setUpLazerBeams();
 	
-	this.setupBG(new FactoryLevel(this.puppy, this));	
+	this.setupBG(new SkyLevel(this.puppy, this));	
 }
 
 LevelController.prototype.setUpLazerBeams = function() {
@@ -97,7 +97,7 @@ LevelController.prototype.updateLevel = function(dt, now) {
 			{
 				var currentLazer = this.onScreenLazerBeams[i];
 				var sprite = this.lazerBeamSpritePool.borrowLazerBeams();		
-				currentLazer.setStartPosition(this.puppy.sprite.position.x + this.puppy.sprite.width - 20, 
+				currentLazer.setStartPosition(this.puppy.sprite.position.x + this.puppy.sprite.width - 80, 
 										   this.puppy.sprite.position.y + (this.puppy.sprite.height / 2) -20, sprite, this.puppy.facingRight);
 				
 				this.currentLevel.bg.addChild(currentLazer.graphics);

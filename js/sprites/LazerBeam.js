@@ -32,6 +32,22 @@ LazerBeam.prototype.update = function(dt, now) {
 		this.removeLazer = true;
 };
 
+LazerBeam.prototype.getX = function() {
+	return this.graphics.position.x;
+}
+
+LazerBeam.prototype.getY = function() {
+	return this.graphics.position.y;
+}
+
+LazerBeam.prototype.getWidth = function() {
+	return this.graphics.width;
+}
+
+LazerBeam.prototype.getHeight = function() {
+	return this.graphics.height;
+}
+
 function LazerBeamSprite() {
 	this.graphics = new PIXI.Graphics();
 	this.graphics.lineStyle(1, 0xFF0000);

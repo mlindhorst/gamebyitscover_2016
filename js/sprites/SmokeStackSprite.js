@@ -31,7 +31,7 @@ SmokeStackSprite.prototype.onStackCollision = function(smokeStack, puppy) {
 
 SmokeStackSprite.prototype.onSmokeCollision = function(smoke, puppy) {
 	if(smoke.type.animationFrame == 0) {
-		console.log("EWW SMOG");
+		//puppy.damage(puppy);
 	}
 }
 

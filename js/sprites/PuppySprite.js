@@ -186,7 +186,7 @@ PuppySprite.prototype.setupJetPack = function() {
 	this.jetPackSprite = PIXI.Sprite.fromFrame('resources/Puppy Stuff/DogJetPack_02.png');
 	
 	this.jetPackSprite.position.y = 70;
-	this.jetPackSprite.position.x = 70;
+	this.jetPackSprite.position.x = 70 + PUPPY_X_OFFSET * 1.4;
 	this.jetPackSprite.anchor.x = 0.7;
 	this.jetPackSprite.anchor.y = 0.5;
 	this.jetPackSprite.rotation = -Math.PI / 2;
