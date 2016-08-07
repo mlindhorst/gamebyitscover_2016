@@ -102,7 +102,10 @@ LevelController.prototype.updateLevel = function(dt, now) {
 			{
 				var currentLazer = this.onScreenLazerBeams[i];
 				var sprite = this.lazerBeamSpritePool.borrowLazerBeams();		
-				currentLazer.setStartPosition(this.puppy.sprite.position.x + this.puppy.sprite.width - 80, 
+				var xAxisAdjust = -this.puppy.getWidth() * 2;
+				if(this.puppy.facingRight)
+					xAxisAdjust = -this.puppy.getWidth();
+				currentLazer.setStartPosition(this.puppy.sprite.position.x + this.puppy.sprite.width + xAxisAdjust, 
 										   this.puppy.sprite.position.y + (this.puppy.sprite.height / 2) -20, sprite, this.puppy.facingRight);
 				
 				this.currentLevel.bg.addChild(currentLazer.graphics);
