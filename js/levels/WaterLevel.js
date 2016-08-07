@@ -68,13 +68,11 @@ function WaterLevel(puppy, LevelController) {
 	this.setupPuppyTreats();
 	
 	this.puppy = puppy;
-	this.puppyStartX = 260;
-	this.puppyStartY = 2755;
-	
-	this.setupPuppy();
 	
 	this.puppyStartX = 52;
 	this.puppyStartY = 2800;
+	this.setupPuppy();
+	
 		
 	this.updateBackgroundAnimations = function() {
 		
