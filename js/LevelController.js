@@ -43,7 +43,8 @@ LevelController.prototype.nextLevelCollisionHandler = function(levelname){
 		this.setupBG(new CityLevel(this.puppy, this));
 	}
 	else if(levelname == "CityLevel"){
-		console.log("end game!!!");	
+		clearTextureCache("city");	
+		this.setupBG(new EndLevel(this.puppy, this));
 	}
 };
 
@@ -155,7 +156,7 @@ LevelController.prototype.updateLevel = function(dt, now) {
 	}
 	
 	this.currentLevel.update(dt, now);
-	this.currentLevel.updateBackgroundAnimations();	
+	//this.currentLevel.updateBackgroundAnimations();	
 };
   
  LevelController.prototype.removeLazer = function(lazer, i) {
