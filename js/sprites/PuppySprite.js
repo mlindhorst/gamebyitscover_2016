@@ -124,13 +124,20 @@ PuppySprite.prototype.swimmingBehavior = function(dt, now){
 	this.accX = 0;
 	this.accY = this.gravity + upThrust;
 	
-	if(this.left)
+	if(this.left){
+		this.facingRight = false;
+		this.sprite.scale.x = -1;
 		this.accX = this.accX - accel; 
+	}
 	else if(wasleft)
 		this.accX = this.accX + friction;
 	
 	if(this.right)
+	{
+		this.facingRight = true;
+		this.sprite.scale.x = 1;
 		this.accX = this.accX + accel; 
+	}
 	else if(wasright)
 		this.accX = this.accX - friction;
 	
