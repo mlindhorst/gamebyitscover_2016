@@ -53,6 +53,18 @@ function CityLevel(puppy, LevelController) {
 		new Collidable("floor", 142, 4000, 3458, 10, this.planeCollisionHandler),
 		new Collidable("floor", 3810, 4000, 6485, 10, this.planeCollisionHandler),
 		new Collidable("floor", 10504, 4000, 1000, 225, this.planeCollisionHandler),
+		// Boxes		
+		new Collidable("floor", 6624, 3760, 3076, 240, this.planeCollisionHandler),
+		new Collidable("floor", 6908, 3420, 2468, 340, this.planeCollisionHandler),
+		new Collidable("floor", 7167, 3078, 1836, 340, this.planeCollisionHandler),
+		new Collidable("floor", 7310, 2735, 1824, 340, this.planeCollisionHandler),
+		new Collidable("floor", 7690, 2390, 1195, 340, this.planeCollisionHandler),
+		new Collidable("floor", 7939, 2042, 587, 340, this.planeCollisionHandler),
+		new Collidable("floor", 8115, 1701, 587, 340, this.planeCollisionHandler),
+		new Collidable("floor", 10077, 2793, 587, 340, this.planeCollisionHandler),
+		// Crane		
+		new Collidable("floor", 8675, 1325, 304, 259, this.planeCollisionHandler),
+		new Collidable("floor", 8960, 1512, 1806, 58, this.planeCollisionHandler),
 		// Sewer Floor & Ledges
 		new Collidable("floor", 3806, 4265, 250, 10, this.planeCollisionHandler),
 		new Collidable("floor", 3400, 4583, 200, 10, this.planeCollisionHandler),
@@ -76,8 +88,11 @@ function CityLevel(puppy, LevelController) {
 		new Collidable("wall", 10100, 4010, 10, 300, this.planeCollisionHandler),
 		new Collidable("wall", 10802, 4695, 10, 370, this.planeCollisionHandler),
 		new Collidable("wall", 10067, 4477, 10, 315, this.planeCollisionHandler),
+		// Tower
+		new Collidable("wall", 11009, 1500, 800, 2500, this.planeCollisionHandler),
 		// End Level
-		new Collidable("end", 11270, 3500, 10, 500, function() {LevelController.nextLevelCollisionHandler.apply(LevelController, ["CityLevel"])})
+		new Collidable("end", 11008, 3540, 10, 460, function() {LevelController.nextLevelCollisionHandler.apply(LevelController, ["CityLevel"])}),
+		new Collidable("end", 11409, 1499, 400, 10, function() {LevelController.nextLevelCollisionHandler.apply(LevelController, ["CityLevel"])})
 	];
 };
 
