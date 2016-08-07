@@ -1,5 +1,5 @@
 //use debug to run in debug mode (draw collision rectangles, etc...)
-var debug = true;
+var debug = false;
 var moveViewPort = true;
 
 var CANVAS_WIDTH = 500;

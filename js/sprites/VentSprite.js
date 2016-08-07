@@ -18,12 +18,13 @@ function VentSprite() {
 	this.fire.position.x = (this.vent.width - this.fire.width) / 2;
 	this.fire.position.y = 10;
 	
+	this.fireBox = new PIXI.Graphics();
 	if(debug) {
-		this.fireBox = new PIXI.Graphics();
 		this.fireBox.lineStyle(1, 0xFF0000);
-		this.fireBox.drawRect(this.vent.position.x, this.fire.position.y, this.getWidth(), this.getHeight());
-		this.container.addChild(this.fireBox);
 	}
+	this.fireBox.drawRect(this.vent.position.x, this.fire.position.y, this.getWidth(), this.getHeight());
+	this.container.addChild(this.fireBox);
+	
 }
 
 VentSprite.prototype.update = function(dt, now) {
