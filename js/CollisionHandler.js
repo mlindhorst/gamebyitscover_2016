@@ -4,6 +4,8 @@
  * collisionHandler must take the parameters spriteA and spriteB, and it should know how the handle the collision between objects.
  */
 function doCollision(spriteA, spriteB) {
+	if((spriteA.type == "end" && spriteB.type == "puppyLazer") || (spriteB.type == "end" && spriteA.type == "puppyLazer"))
+		return;
 	if(checkIntersection(spriteA, spriteB)) {
 		spriteA.collisionHandler(spriteA, spriteB);
 		spriteB.collisionHandler(spriteA, spriteB);
