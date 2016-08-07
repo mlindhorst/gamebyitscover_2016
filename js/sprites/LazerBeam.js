@@ -28,8 +28,6 @@ LazerBeam.prototype.update = function(dt, now) {
 		this.graphics.position.x+=10;
 	else
 		this.graphics.position.x-=10;
-	if(this.graphics.position.x > this.startX + 100)
-		this.removeLazer = true;
 };
 
 LazerBeam.prototype.getX = function() {
