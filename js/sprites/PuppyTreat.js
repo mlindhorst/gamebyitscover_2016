@@ -13,6 +13,7 @@ function PuppyTreat(xPos, yPos, controller){
 	this.graphics.drawRect(0, 0, this.sprite.width, this.sprite.height);
 	this.graphics.position.x = xPos;
 	this.graphics.position.y = yPos;
+	this.sprite.addChild(this.graphics);
 }
 
 PuppyTreat.prototype.collisionHandler = function(spriteA, spriteB) {
@@ -20,17 +21,17 @@ PuppyTreat.prototype.collisionHandler = function(spriteA, spriteB) {
 }
 
 PuppyTreat.prototype.getX = function() {
-	return this.graphics.position.x;
+	return this.sprite.position.x;
 }
 
 PuppyTreat.prototype.getY = function() {
-	return this.graphics.position.y;
+	return this.sprite.position.y;
 }
 
 PuppyTreat.prototype.getWidth = function() {
-	return this.graphics.width;
+	return this.sprite.width;
 }
 
 PuppyTreat.prototype.getHeight = function() {
-	return this.graphics.height;
+	return this.sprite.height;
 }

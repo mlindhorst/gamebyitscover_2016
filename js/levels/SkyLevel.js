@@ -2,7 +2,8 @@ var SHIP1_SECTION_COUNT = 10;
 var MAX_CANNON_BALLS = 10;
 var MAX_BIRDS = 10;
 var BIRD_SPEED = 3000;
-var SHIP_INTERVAL_SPEED = 1000;
+var SHIP_INTERVAL_SPEED = 10000;
+var BETWEEN_SHIP_DELAY = 10000;
 
 function SkyLevel(puppy, LevelController) {
 	
@@ -21,6 +22,7 @@ function SkyLevel(puppy, LevelController) {
 	}
 	this.birdPool = new SpritePool(birds, this.onRelease);
 	this.lastBird = new Date().getTime();
+	this.endLevel = false;
 	
 	var bgTexture = PIXI.Texture.fromImage("resources/Levels/Sky/AirBG_Sky.png");
 	this.bg = new BackgroundScene(
@@ -35,6 +37,8 @@ function SkyLevel(puppy, LevelController) {
 	this.puppyStartY = 200;
 	this.puppy = puppy
 	this.setupPuppy();
+	this.puppyTreat = new PuppyTreat(800, 200, LevelController);
+	this.activeTreat = null;
 	
 	this.cloudSprites = [
 		new CloudSprite(PIXI.Sprite.fromFrame("resources/Levels/Mountains/Cloud_01.png"), -200, 1),
@@ -72,21 +76,6 @@ function SkyLevel(puppy, LevelController) {
 		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON)
 	];
 	
-	var midSections3 = [
-		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON),
-		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON),
-		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.NONE),
-		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.SMOKE_STACK),
-		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.VENT),
-		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.SMOKE_STACK),
-		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.NONE),
-		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON),
-		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON),
-		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.VENT),
-		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.NONE),
-		new MidShipSprite(PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Mid.png'), MidShipSprite.CANNON)
-	];
-	
 	this.shipSprites = [
 		new ShipSprite(
 			PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Front.png'),
@@ -96,11 +85,6 @@ function SkyLevel(puppy, LevelController) {
 		new ShipSprite(
 			PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Front.png'),
 			midSections2,
-			PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Back.png')
-		),
-		new ShipSprite(
-			PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Front.png'),
-			midSections3,
 			PIXI.Sprite.fromFrame('resources/Levels/Sky/Ship_Back.png')
 		)
 	];
@@ -179,6 +163,9 @@ SkyLevel.prototype.update = function(dt, now) {
 	if(this.activeShip >= 0 && this.shipSprites[this.activeShip] != null) {
 		if(this.shipSprites[this.activeShip].destroy) {
 			this.destroyShip();
+			this.activeTreat = this.puppyTreat;
+			this.activeTreat.sprite.position.x = 800;
+			this.bg.addChild(this.activeTreat.sprite);
 		}
 		else {
 			this.shipSprites[this.activeShip].update(dt, now);
@@ -189,7 +176,10 @@ SkyLevel.prototype.update = function(dt, now) {
 		this.setupShip();
 	}
 	else if(now - this.lastShipDestroyed > SHIP_INTERVAL_SPEED && this.activeShip >= this.shipSprites.length - 1) {
-		doCollision(this.puppy, this.endLevelCollider, this.endLevelCollider.handleCollision);
+		if(!this.endLevel) {
+			this.endLevel = true;
+			this.endLevelTimer = now;
+		}
 	}
 	
 	this.cannonBallPool.update(dt, now);
@@ -204,6 +194,18 @@ SkyLevel.prototype.update = function(dt, now) {
 	
 	//time to check collision
 	this.doCollision();
+	
+	if(this.activeTreat) {
+		this.activeTreat.sprite.position.x--;
+		if(this.activeTreat.sprite.position.x <= -this.activeTreat.getWidth()) {
+			this.bg.removeChild(this.activeTreat.sprite);
+			this.activeTreat = null;
+		}
+	}
+	if(this.endLevel && now - this.endLevelTimer > BETWEEN_SHIP_DELAY) {
+		doCollision(this.puppy, this.endLevelCollider, this.endLevelCollider.handleCollision);
+	}
+	
 }
 
 SkyLevel.prototype.doCollision = function() {
@@ -242,6 +244,10 @@ SkyLevel.prototype.doCollision = function() {
 				bird.active = false;
 			}
 		}
+	}
+	if(this.activeTreat && doCollisionWithHandler(this.puppy, this.activeTreat, this.activeTreat.collisionHandler)) {
+		this.bg.removeChild(this.activeTreat.sprite);
+		this.activeTreat = null;
 	}
 }
 

@@ -1,5 +1,6 @@
 var CANNON_FIRE_SPEED = 3000;
-var CANNON_ROTATION_SPEED = .015;
+var CANNON_FIRE_DELAY = 500;
+var CANNON_ROTATION_SPEED = .01;
 
 function MidShipSprite(sprite, type) {
 	this.sprite = sprite;
@@ -39,6 +40,12 @@ MidShipSprite.prototype.update = function(dt, now) {
 }
 
 MidShipSprite.prototype.updateCannon = function(dt, now) {
+	
+	if(now - this.lastFire < CANNON_FIRE_DELAY) {
+		//skip the update if cannon just fired
+		return;
+	}
+	
 	var puppyX = gameController.levelController.puppy.getCenterX();
 	var puppyY = gameController.levelController.puppy.getCenterY();
 	var xPos = this.getX() + this.cannon.position.x;
