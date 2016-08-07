@@ -5,7 +5,7 @@ var moveViewPort = true;
 var CANVAS_WIDTH = 500;
 var CANVAS_HEIGHT = 500;
 var YAXISADJUST = 250;
-var XAXISADJUST = -100;
+var XAXISADJUST = -350;
 
 function GameController(stage) {	
 	this.stage = stage;	
