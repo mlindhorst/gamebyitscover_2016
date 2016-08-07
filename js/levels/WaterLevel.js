@@ -193,3 +193,11 @@ WaterLevel.prototype.updateBackgroundAnimations = function() {
 	this.fanBlades1.rotation += 0.1;
 	this.fanBlades2.rotation -= 0.1;
 };
+
+WaterLevel.prototype.clearLevel = function() {
+	for(var i = 0; i < this.clippableObjects.length; i++) {
+		this.bg.removeChild(this.clippableObjects[i].graphics);
+	}
+	
+	this.puppy.setBehavior(this.puppy.DEFAULT_BEHAVIOR);
+};

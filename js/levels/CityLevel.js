@@ -97,7 +97,7 @@ CityLevel.prototype.setupPuppy = function() {
 	this.puppy.ddx = 0;
 	this.puppy.sprite.position.x = this.puppyStartX;
 	this.puppy.sprite.position.y = this.puppyStartY;	
-	
+	this.puppy.setBehavior(this.puppy.DEFAULT_BEHAVIOR);
 	this.bg.addChild(this.puppy.sprite);
 };
 
