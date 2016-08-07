@@ -118,6 +118,7 @@ LevelController.prototype.updateLevel = function(dt, now) {
 	
 	for(var i = 0; i < this.onScreenLazerBeams.length; i++)
 	{
+		var lazerCollided = false;
 		var currentLazer = this.onScreenLazerBeams[i];
 		currentLazer.update();
 		if(currentLazer.removeLazer) {				
@@ -126,7 +127,8 @@ LevelController.prototype.updateLevel = function(dt, now) {
 		if(currentLazer.sprite != null) {
 			for(var j = 0; j < this.currentLevel.clippableObjects.length; j++) {
 				var clippable = this.currentLevel.clippableObjects[j];
-				doCollision(clippable, currentLazer.sprite);
+				if(doCollision(clippable, currentLazer.sprite))
+					lazerCollided = true;
 				if(clippable.destroy){
 					this.currentLevel.bg.removeChild(clippable.graphics);
 					this.currentLevel.bg.removeChild(clippable.sprite);
@@ -134,6 +136,8 @@ LevelController.prototype.updateLevel = function(dt, now) {
 				}
 			}
 		}
+		if(lazerCollided)
+			this.removeLazer(currentLazer, i);
 	}
 	
 	if(this.lazerBeamSpritePool.lazerBeams.length  == 0){
