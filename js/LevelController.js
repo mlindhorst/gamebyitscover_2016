@@ -16,7 +16,7 @@ function LevelController(stage) {
 	this.onScreenLazerBeams = [];
 	this.setUpLazerBeams();
 	
-	this.setupBG(new SkyLevel(this.puppy, this));	
+	this.setupBG(new FactoryLevel(this.puppy, this));	
 }
 
 LevelController.prototype.setUpLazerBeams = function() {
@@ -27,15 +27,19 @@ LevelController.prototype.setUpLazerBeams = function() {
 	
 LevelController.prototype.nextLevelCollisionHandler = function(levelname){
 	if(levelname == "FactoryLevel"){
+		clearTextureCache("factory");
 		this.setupBG(new MountainLevel(this.puppy, this));
 	}
 	else if(levelname == "MountainLevel"){
+		clearTextureCache("mountain");
 		this.setupBG(new SkyLevel(this.puppy, this));
 	}
 	else if(levelname == "SkyLevel"){
+		clearTextureCache("sky");
 		this.setupBG(new WaterLevel(this.puppy, this));
 	}
-	else if(levelname == "WaterLevel"){		
+	else if(levelname == "WaterLevel"){	
+		clearTextureCache("water");	
 		this.setupBG(new CityLevel(this.puppy, this));
 	}
 	else if(levelname == "CityLevel"){
