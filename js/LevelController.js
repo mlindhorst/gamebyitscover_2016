@@ -139,7 +139,7 @@ LevelController.prototype.updateLevel = function(dt, now) {
 	}
 	
 	// Handle treat increase/decrease
-	if(TREATS != this.previousTreatNumber)	{
+	if(TREATS != 0 && TREATS != this.previousTreatNumber)	{
 		this.stage.removeChild(this.treatSprite);
 		this.stage.removeChild(this.accent);
 		this.stage.removeChild(this.treatNumber);
@@ -147,8 +147,12 @@ LevelController.prototype.updateLevel = function(dt, now) {
 	}
 	
 	// Handle puppy death D:
-	if(TREATS <= 0)
-		this.restartGame();
+	if(TREATS <= 0) {		
+		this.stage.removeChild(this.treatSprite);
+		this.stage.removeChild(this.accent);
+		this.stage.removeChild(this.treatNumber);
+		this.gameOver();
+	}
 	
 	this.currentLevel.update(dt, now);
 	this.currentLevel.updateBackgroundAnimations();	
@@ -193,11 +197,16 @@ LevelController.prototype.checkCollision = function(dt) {
 	}*/
 };
 
-LevelController.prototype.restartGame = function(){
-	TREATS = 3;
+LevelController.prototype.gameOver = function(){
 	this.currentLevel.clearLevel();
 	this.clearStage();
-	this.setupBG(new FactoryLevel(this.puppy, this));
+	
+	renderer.backgroundColor = 0xdd0000;
+	var description = 'The Brave Little Puppy continues to be brave up in puppy heaven...\r\n \r\n' 
+	+ 'Try again?\r\n'
+	+ 'Refresh - or - F5 Key';
+	var descriptionText = new PIXI.Text(description,{font : '24px Courier', fill : 0x000000, align : 'center', wordWrap : 'true', wordWrapWidth : '800'});
+	this.stage.addChild(descriptionText);
 }
 
 LevelController.prototype.addTreat = function() {
