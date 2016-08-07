@@ -3,7 +3,7 @@ function OozingBarrelSprite(x, y) {
     this.sprite.position.x = x;
 	this.sprite.position.y = y;
 	
-	var oozeSpriteY = y - this.sprite.height - 75;
+	var oozeSpriteY = y - this.sprite.height - 50;
     this.oozeSprite = new OozeSprite(x, oozeSpriteY);
 	
     if(debug) {
@@ -16,6 +16,10 @@ function OozingBarrelSprite(x, y) {
 
 OozingBarrelSprite.prototype.update = function(dt, now) {
 	this.oozeSprite.update(dt, now);
+};
+
+OozingBarrelSprite.prototype.collisionHandler = function(){
+	
 };
 
 OozingBarrelSprite.prototype.getX = function() {

@@ -117,11 +117,10 @@ WaterLevel.prototype.setupBarrels = function() {
 		new OozingBarrelSprite(4705, 1885)
 		];
 	
-	for(var j = 0; j < this.barrels.length; j++){
-		this.bg.addChild(this.barrels[j].sprite);
-		this.bg.addChild(this.barrels[j].oozeSprite.sprite);
-		this.clippableObjects.push(new Collidable("oozingBarrel", this.barrels[j].getX(), this.barrels[j].getY(), 
-											this.barrels[j].getWidth(), this.barrels[j].getHeight(), this.environmentCollisionHandler));
+	for(var i = 0; i < this.barrels.length; i++){
+		this.bg.addChild(this.barrels[i].sprite);
+		this.bg.addChild(this.barrels[i].oozeSprite.sprite);
+		this.clippableObjects.push(this.barrels[i]);
 	}
 };
 

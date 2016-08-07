@@ -1,9 +1,11 @@
-var OOZE_FRAMES = 2;
+var OOZE_FRAMES = 2,
+    Y_RANGE = 150;
 
 function OozeSprite(x, y){
     this.sprite = PIXI.Sprite.fromFrame("resources/Levels/Water/Ooze_01.png");
     this.sprite.position.x = x;
     this.sprite.position.y = y;
+    this.originalYPos = y;
     
     this.oozeFrames = [
     	PIXI.Texture.fromFrame("resources/Levels/Water/Ooze_01.png"),
@@ -18,12 +20,28 @@ function OozeSprite(x, y){
     }
     
     this.lastUpdate = new Date().getTime();
-    this.animationSpeed = 500;
+    this.oozeSpeed = 350;
+    this.oozeAnimationSpeed = 750;
     this.frame = 0;
 }
 
+var moveUp = true;
 OozeSprite.prototype.update = function(dt, now) {
-	if(now - this.lastUpdate > this.animationSpeed) {
+    if(now - this.lastUpdate > this.oozeSpeed) {
+        if(this.sprite.position.y == (this.originalYPos - Y_RANGE)){
+		moveUp = false;
+    	}
+    	else if(this.sprite.position.y == this.originalYPos){
+    		moveUp = true;
+    	}
+    	if(moveUp){
+    		this.sprite.position.y--;
+    	}
+    	else{
+    		this.sprite.position.y = this.originalYPos;
+    	}
+    }
+	if(now - this.lastUpdate > this.oozeAnimationSpeed) {
 		this.frame = (this.frame + 1) % OOZE_FRAMES;
 		this.sprite.texture = this.oozeFrames[this.frame];
 		this.lastUpdate = now;
