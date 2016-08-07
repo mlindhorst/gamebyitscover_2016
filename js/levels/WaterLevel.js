@@ -58,7 +58,9 @@ function WaterLevel(puppy, LevelController) {
 	new Collidable("thirdDeck2", 3370, 1500, 1705, 10, this.environmentCollisionHandler),
 	new Collidable("wall1", 1950, 1280, 10, 150, this.environmentCollisionHandler),
 	new Collidable("wall2", 1950, 2000, 10, 335, this.environmentCollisionHandler),
-	new Collidable("end", 6400, 0, 55, 370, function(){LevelController.nextLevelCollisionHandler.apply(LevelController, ["WaterLevel"])})
+	new Collidable("end", 6400, 0, 55, 370, function(){
+		gameController.levelController.currentLevel.clearLevel();
+		LevelController.nextLevelCollisionHandler.apply(LevelController, ["WaterLevel"])})
 	];
 	
 	this.setupBarrels();
