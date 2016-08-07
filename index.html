@@ -39,12 +39,35 @@
 	</head>
 	
 	<body onload="init();">
-		<canvas id="game-canvas" width="800" height="600" style="border:1px solid #000000;"></canvas>
+		<div id="game-container">
+			<canvas id="game-canvas" width="800" height="600" style="border:1px solid #000000;"></canvas>
+		</div>
 	
 		<script>
 			function init() {
+				if(inIframe()){
+					document.getElementById('game-container').addEventListener('mousedown', handleMouseDown, false); 
+				}
+				
 				var main = new Main();	
 			}
+			
+			function handleMouseDown(evt) {  
+				window.focus();   
+				evt.preventDefault();  
+				evt.stopPropagation();  
+				evt.target.style.cursor = 'default';  
+			} 
+			
+			// http://stackoverflow.com/questions/326069/how-to-identify-if-a-webpage-is-being-loaded-inside-an-iframe-or-directly-into-t
+			function inIframe () {
+				try {
+					return window.self !== window.top;
+				} 
+				catch (e) {
+					return true;
+				}
+			}    
 		</script>
 	</body>
 </html>
